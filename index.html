@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ja"><head><meta charset="utf-8">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192-v2.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-v2.png">
-<link rel="manifest" href="manifest.json?v=2">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="仮設計画">
@@ -142,7 +142,7 @@ setInterval(chk,300000);document.addEventListener('visibilitychange',()=>{if(!do
 </div></details>
 <details class="sec" data-k="pal" open><summary>② 仮設物を追加</summary><div class="sb"><div class="small">車両・重機は提供CAD図の実形状。クリックで図面中央に配置→ドラッグで移動。</div>
 <div id="pal" class="pal"></div>
-<div id="coneBox" class="small" style="margin-top:6px"><div class="row">コーン間隔<input id="csp" type="number" value="2000" step="100" min="300">mm<button id="coneOk">確定</button><button id="coneUndo">1点戻す</button></div><div id="coneInfo" style="color:var(--ac)"></div><details class="hp"><summary>コーン配置の使い方</summary><div class="small">「カラーコーン」を押す→基点をクリック→線を引きたい位置を順にクリック。クリックした点(折れ点)には必ずコーンを置き、各区間を2000mm程度で等分に自動配置します(赤の二点鎖線で連結)。ダブルクリック/Enter/「確定」で終了、Escで中止、Shiftで水平・垂直に固定。既存のコーンをクリックするとそこから連続でき、基点に戻ると閉じます。配置後のコーンは選択してドラッグで移動できます(線も追従)。</div></details></div>
+<div id="coneBox" class="small" style="margin-top:6px"><div class="row">コーン間隔<input id="csp" type="number" value="2000" step="100" min="300">mm<button id="coneOk">確定</button><button id="coneUndo">1点戻す</button></div><div id="coneInfo" style="color:var(--ac)"></div><details class="hp"><summary>コーン配置の使い方</summary><div class="small">「カラーコーン」を押す→基点をクリック→線を引きたい位置を順にクリック。クリックした点(折れ点)には必ずコーンを置き、各区間を2000mm程度で等分に自動配置します(赤の二点鎖線で連結)。左クリックで位置を決め、右クリック(またはEnter/「確定」)で表示完了、Escで中止、Shiftで水平・垂直に固定。既存のコーンをクリックするとそこから連続でき、基点に戻ると閉じます。配置後のコーンは1個ずつ選択してドラッグで移動できます。また、列(基点〜折れ点、折れ点〜折れ点、折れ点〜終点)の赤い線をドラッグすると、その列のコーンをまとめて移動できます(隣の列は直線のまま等間隔に追従)。</div></details></div>
 </div></details>
 <details class="sec" data-k="scaf"><summary>③ 外部足場(自動レイアウト)</summary><div class="sb">
 <div class="row">離隔<input id="sgap" type="number" step="0.05" value="0.3">m 幅<select id="swid"><option value="0.61">610</option><option value="0.914" selected>914</option><option value="1.219">1219</option></select>mm</div>
@@ -361,12 +361,12 @@ function mode(){sv.classList.toggle('cross',S.mode!='sel');$('#scafBtn').classLi
 const pt=e=>{const r=sv.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*S.W,y:(e.clientY-r.top)/r.height*S.H}};
 sv.addEventListener('pointerdown',e=>{const p=pt(e);if(e.pointerType=='touch'&&e.isPrimary)S.ts.clear();if(e.pointerType=='touch'){if(S.ts.size){S.ts.add(e.pointerId);S.drag=null;if(S.mode=='scaf'&&Date.now()-(S.la||0)<700){S.pts.pop();draw()}if(S.mode=='cone'&&Date.now()-(S.la||0)<700)coneUndo();return}S.ts.add(e.pointerId)}
 if(S.mode=='scaf'){if(S.pts.length>=3&&Math.hypot(p.x-S.pts[0].x,p.y-S.pts[0].y)<9){fin();return}S.pts.push(p);S.la=Date.now();draw();return}
-if(S.mode=='cone'){conePt(e,p);return}if(S.mode=='meas'){if(e.shiftKey)ortho(p,S.mp);if(!S.mp)S.mp=p;else{S.meas.push({a:S.mp,b:p});S.mp=null;S.hv=null}draw();return}
+if(S.mode=='cone'){if(e.pointerType=='mouse'&&e.button==2){coneEnd();return}if(e.pointerType=='mouse'&&e.button!=0)return;conePt(e,p);return}if(S.mode=='meas'){if(e.shiftKey)ortho(p,S.mp);if(!S.mp)S.mp=p;else{S.meas.push({a:S.mp,b:p});S.mp=null;S.hv=null}draw();return}
 if(S.mode=='cal'){if(S.cal.length>=2)S.cal=[];S.cal.push(p);if(S.cal.length==2)$('#calBox').style.display='';draw();return}
 if(S.mode=='ann'){annDown(e,p);return}if(S.mode=='trk'&&!e.target.closest('[data-h]')){trkPt(p);return}
-if(S.mode=='piv'){const i0=S.items.find(i=>i.id==S.sel);if(i0)i0.pv=toLoc(i0,p);S.mode='sel';mode();props();return}const hd=e.target.closest('[data-h]'),g0=e.target.closest('[data-id]');if(hd&&g0){const i1=S.items.find(i=>i.id==g0.dataset.id);if(i1){if(S.sel!=i1.id){S.sel=i1.id;draw();props()}S.drag={it:i1,h:hd.dataset.h,s0:{x:i1.x,y:i1.y,w:i1.w,h:i1.h},g0:annSnap(i1),p0:p};sv.setPointerCapture(e.pointerId);return}}const g=e.target.closest('[data-id]');if(g){const it=S.items.find(i=>i.id==g.dataset.id);S.sel=it.id;S.drag=it.k=='n'?{it,h:'an:mv',g0:annSnap(it),p0:p}:{it,dx:p.x-it.x,dy:p.y-it.y};sv.setPointerCapture(e.pointerId)}else S.sel=null;draw();props()});
+if(S.mode=='piv'){const i0=S.items.find(i=>i.id==S.sel);if(i0)i0.pv=toLoc(i0,p);S.mode='sel';mode();props();return}const hd=e.target.closest('[data-h]'),g0=e.target.closest('[data-id]');if(hd&&g0){const i1=S.items.find(i=>i.id==g0.dataset.id);if(i1){if(S.sel!=i1.id){S.sel=i1.id;draw();props()}S.drag={it:i1,h:hd.dataset.h,s0:{x:i1.x,y:i1.y,w:i1.w,h:i1.h},g0:annSnap(i1),p0:p};sv.setPointerCapture(e.pointerId);return}}const g=e.target.closest('[data-id]');S.ss=null;if(g){const it=S.items.find(i=>i.id==g.dataset.id);S.sel=it.id;S.drag=it.k=='n'?{it,h:'an:mv',g0:annSnap(it),p0:p}:{it,dx:p.x-it.x,dy:p.y-it.y};sv.setPointerCapture(e.pointerId)}else{const sg=e.target.closest&&e.target.closest('[data-seg]');if(sg){coneSegDown(sg.dataset.seg,p,e);return}S.sel=null}draw();props()});
 let _raf=0;const drawRaf=()=>{if(_raf)return;_raf=requestAnimationFrame(()=>{_raf=0;draw()})};
-sv.addEventListener('pointermove',e=>{if(S.mode=='meas'&&S.mp){S.hv=ortho(pt(e),e.shiftKey?S.mp:null);draw()}if(S.mode=='cone'&&S.cl){const a=conePos(S.cl.ids[S.cl.ids.length-1]);S.cv=ortho(pt(e),e.shiftKey&&a?a:null);draw();coneInfo()}const d=S.drag;if(!d)return;if(e.pointerType=='mouse'&&e.buttons==0){S.drag=null;return}const p=pt(e),it=d.it;
+sv.addEventListener('pointermove',e=>{if(S.mode=='meas'&&S.mp){S.hv=ortho(pt(e),e.shiftKey?S.mp:null);draw()}if(S.mode=='cone'&&S.cl){const a=conePos(S.cl.ids[S.cl.ids.length-1]);S.cv=ortho(pt(e),e.shiftKey&&a?a:null);draw();coneInfo()}const d=S.drag;if(!d)return;if(e.pointerType=='mouse'&&e.buttons==0){S.drag=null;return}const p=pt(e);if(d.sg){coneSegMove(d,p);return}const it=d.it;
 if(d.h=='rot'){let a=Math.atan2(p.y-it.y,p.x-it.x)*180/Math.PI+90;a=((a%360)+360)%360;if(e.shiftKey)a=Math.round(a/15)*15%360;else{const q=Math.round(a/90)*90;if(Math.abs(a-q)<3)a=q%360}it.a=Math.round(a*10)/10;const ai=document.querySelector('#props input[data-k=a]');if(ai)ai.value=it.a}else if(d.h&&d.h.startsWith('an:'))annDrag(it,d,p,e);else if(d.h=='new')annNew(d,p,e);else if(d.h=='p')it.pv=toLoc(it,p);
 else if(d.h&&d.h.startsWith('tp')){it.tr.pts[+d.h.slice(2)]=toLoc(it,p).map(v=>Math.round(v*10)/10)}
 else if(d.h&&d.h.startsWith('sz'))imgResize(it,d,p,e.shiftKey);
@@ -376,7 +376,8 @@ else{it.x=p.x-d.dx;it.y=p.y-d.dy}drawRaf()});
 sv.addEventListener('lostpointercapture',e=>{S.ts.delete(e.pointerId)});
 ['touchend','touchcancel'].forEach(t=>document.addEventListener(t,e=>{if(!e.touches.length)S.ts.clear()},{passive:true}));
 window.addEventListener('blur',()=>{S.drag=null;S.ts.clear()});
-sv.addEventListener('dblclick',e=>{if(S.mode=='scaf'){S.pts.pop();fin()}if(S.mode=='cone')coneEnd();if(S.mode=='trk')trkEnd();annDbl(e)});
+sv.addEventListener('dblclick',e=>{if(S.mode=='scaf'){S.pts.pop();fin()}if(S.mode=='trk')trkEnd();annDbl(e)});
+sv.addEventListener('contextmenu',e=>{if(S.mode=='cone')e.preventDefault()});
 function fin(){const q=[];for(const p of S.pts)if(!q.length||Math.hypot(p.x-q[q.length-1].x,p.y-q[q.length-1].y)>4)q.push(p);while(q.length>1&&Math.hypot(q[0].x-q[q.length-1].x,q[0].y-q[q.length-1].y)<=4)q.pop();S.pts=q;if(S.pts.length>=3){const it={id:S.uid++,k:'s',name:'外部足場',pts:S.pts,x:0,y:0,gap:+$('#sgap').value,wid:+$('#swid').value,lift:+$('#slift').value,h:+$('#sh').value,sp:$('#ssp').value.split(',').map(Number).filter(n=>n>0)};S.items.push(it);S.sel=it.id}
 S.pts=[];S.mode='sel';mode();props()}
 $('#scafBtn').onclick=()=>{S.mode='scaf';S.pts=[];mode()};$('#scafOk').onclick=fin;$('#scafNg').onclick=()=>{S.pts=[];S.mode='sel';mode()};
@@ -393,18 +394,27 @@ const CDASH='10 3 2 3 2 3';
 const coneLy=it=>{const y=SYM.cone,hh=it.w/S.mpp,sy=hh/y.h;return -(CB-y.h/2)*sy-hh/4};
 function coneLines(){const mp=new Map(S.items.map(i=>[i.id,i]));S.lines=S.lines.filter(l=>l.ids.some(id=>mp.has(id)));let s='';
 for(const l of S.lines){const ps=l.ids.map(id=>mp.get(id)).filter(Boolean);if(ps.length<2)continue;
-s+=`<polyline points="${ps.map(p=>p.x+','+(p.y+coneLy(p))).join(' ')}" fill="none" stroke="#e11d1d" stroke-width="1.2" stroke-dasharray="${CDASH}" stroke-linejoin="round" pointer-events="none"/>`}
+s+=`<polyline points="${ps.map(p=>p.x+','+(p.y+coneLy(p))).join(' ')}" fill="none" stroke="#e11d1d" stroke-width="1.2" stroke-dasharray="${CDASH}" stroke-linejoin="round" pointer-events="none"/>`;
+const bp=coneBp(l);for(let i=0;i<bp.length-1;i++){const q=l.ids.slice(bp[i],bp[i+1]+1).map(id=>mp.get(id)).filter(Boolean);if(q.length<2)continue;const pts=q.map(p=>p.x+','+(p.y+coneLy(p))).join(' ');
+if(S.ss&&S.ss.l==l.id&&S.ss.i==i)s+=`<polyline points="${pts}" fill="none" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" opacity=".7" pointer-events="none"/>`;
+if(S.mode=='sel')s+=`<polyline data-seg="${l.id}:${i}" points="${pts}" fill="none" stroke="transparent" stroke-width="9" pointer-events="stroke" style="cursor:move"/>`}}
 return s}
+function coneBp(l){if(l.bp&&l.bp.length>1)return l.bp;const P=l.ids.map(conePos),r=[0];for(let i=1;i<P.length-1;i++){if(!P[i-1]||!P[i]||!P[i+1])continue;const a=Math.atan2(P[i].y-P[i-1].y,P[i].x-P[i-1].x),b=Math.atan2(P[i+1].y-P[i].y,P[i+1].x-P[i].x);let d=Math.abs(a-b);d=Math.min(d,2*Math.PI-d);if(d>.05)r.push(i)}r.push(P.length-1);return r}
+function coneSegDown(key,p,e){const[lid,i]=key.split(':'),l=S.lines.find(x=>x.id==+lid);if(!l)return;const s0={};l.ids.forEach(id=>{const c=conePos(id);if(c)s0[id]=c});S.ss={l:l.id,i:+i};S.sel=null;S.drag={sg:1,lid:l.id,i:+i,p0:p,s0};sv.setPointerCapture(e.pointerId);draw();props()}
+function coneSegMove(d,p){const l=S.lines.find(x=>x.id==d.lid);if(!l)return;const bp=coneBp(l),n=bp.length-1,dx=p.x-d.p0.x,dy=p.y-d.p0.y,get=id=>S.items.find(i=>i.id==id);
+ for(let k=bp[d.i];k<=bp[d.i+1];k++){const c=get(l.ids[k]),o=d.s0[l.ids[k]];if(c&&o){c.x=o.x+dx;c.y=o.y+dy}}
+ const closed=l.ids.length>2&&l.ids[0]==l.ids.at(-1),adj=[];if(d.i>0)adj.push(d.i-1);else if(closed&&n>1)adj.push(n-1);if(d.i<n-1)adj.push(d.i+1);else if(closed&&n>1)adj.push(0);
+ adj.forEach(j=>{const a=get(l.ids[bp[j]]),b=get(l.ids[bp[j+1]]),m=bp[j+1]-bp[j];if(!a||!b||m<2)return;for(let k=1;k<m;k++){const c=get(l.ids[bp[j]+k]);if(c){c.x=a.x+(b.x-a.x)*k/m;c.y=a.y+(b.y-a.y)*k/m}}});drawRaf()}
 function conePrev(sel){if(!sel||S.mode!='cone'||!S.cl||!S.cv)return'';const a=conePos(S.cl.ids[S.cl.ids.length-1]);if(!a)return'';
 const lo=coneLy(S.items.find(i=>i.t=='cone')||{w:SYM.cone.W});return `<g pointer-events="none" opacity=".55"><line x1="${a.x}" y1="${a.y+lo}" x2="${S.cv.x}" y2="${S.cv.y+lo}" stroke="#e11d1d" stroke-width="1.2" stroke-dasharray="${CDASH}"/>`+segPts(a,S.cv).map(r=>`<circle cx="${r.x}" cy="${r.y}" r="3" fill="#e11d1d"/>`).join('')+`</g>`}
 function conePt(e,p){const g=e.target.closest&&e.target.closest('[data-id]'),ex=g&&S.items.find(i=>i.id==g.dataset.id&&i.t=='cone'),cl=S.cl,last=cl?conePos(cl.ids[cl.ids.length-1]):null;
 if(ex)p={x:ex.x,y:ex.y};else if(last&&e.shiftKey)ortho(p,last);
-if(!cl){const c=ex||mkCone(p),nl={id:S.uid++,ids:[c.id]};S.lines.push(nl);S.cl=nl;S.cs.push({n:ex?[]:[c.id],k:1,nl})}
+if(!cl){const c=ex||mkCone(p),nl={id:S.uid++,ids:[c.id],bp:[0]};S.lines.push(nl);S.cl=nl;S.cs.push({n:ex?[]:[c.id],k:1,nl})}
 else{if(!last||Math.hypot(p.x-last.x,p.y-last.y)<3)return;const q=segPts(last,p),ids=[],made=[];
 q.forEach((r,i)=>{if(i==q.length-1&&ex)ids.push(ex.id);else{const c=mkCone(r);ids.push(c.id);made.push(c.id)}});
-cl.ids.push(...ids);S.cs.push({n:made,k:ids.length,nl:null})}
+cl.ids.push(...ids);(cl.bp=cl.bp||[0]).push(cl.ids.length-1);S.cs.push({n:made,k:ids.length,nl:null})}
 S.la=Date.now();S.cv=null;draw();coneInfo()}
-function coneUndo(){const u=S.cs.pop();if(!u)return;S.items=S.items.filter(i=>!u.n.includes(i.id));if(u.nl){S.lines=S.lines.filter(l=>l!==u.nl);S.cl=null}else if(S.cl)S.cl.ids.length-=u.k;S.cv=null;S.sel=null;draw();coneInfo();props()}
+function coneUndo(){const u=S.cs.pop();if(!u)return;S.items=S.items.filter(i=>!u.n.includes(i.id));if(u.nl){S.lines=S.lines.filter(l=>l!==u.nl);S.cl=null}else if(S.cl){S.cl.ids.length-=u.k;if(S.cl.bp&&S.cl.bp.length>1)S.cl.bp.pop()}S.cv=null;S.sel=null;draw();coneInfo();props()}
 function coneEnd(){S.cl=null;S.cs=[];S.cv=null;S.mode='sel';mode();props()}
 function coneToggle(){if(S.mode=='cone'){coneEnd();return}S.pts=[];S.mp=null;S.hv=null;S.sel=null;S.mode='cone';S.cl=null;S.cs=[];S.cv=null;mode();props()}
 function coneMode(){const on=S.mode=='cone';if(!on){S.cl=null;S.cs=[];S.cv=null}const ci=T.findIndex(t=>t[1]=='cone'),b=document.querySelector('#pal button[data-t="'+ci+'"]');if(b)b.classList.toggle('on',on);coneInfo()}
