@@ -1218,6 +1218,18 @@ function wSet(k,v){const c=cur();if(!c.ty)return;c.o[k]=v;if(c.it){draw();}windo
 #rdform label{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}#rdform input[type=checkbox]{width:auto;padding:0}
 #rdguide{display:none;position:absolute;z-index:4;border:2px dashed #1f6feb;background:rgba(31,111,235,.06);pointer-events:none;box-sizing:border-box}
 #rdguide span{position:absolute;left:-2px;top:-22px;background:#1f6feb;color:#fff;font-size:12px;padding:1px 7px;border-radius:4px 4px 0 0;white-space:nowrap}
+#rdlm{position:relative}
+#rdlmD{position:relative}
+#rdlmD summary{cursor:pointer;height:30px;display:inline-flex;align-items:center;padding:0 10px;border:1px solid var(--bd);border-radius:6px;background:var(--pn);white-space:nowrap;list-style:none}
+#rdlmD summary::-webkit-details-marker{display:none}
+#rdlmD[open] summary{background:var(--ac);color:#fff;border-color:var(--ac)}
+#rdlmP{position:absolute;top:34px;left:0;z-index:40;background:var(--pn);border:1px solid var(--bd);border-radius:8px;padding:8px 10px;display:grid;gap:5px;white-space:nowrap;box-shadow:0 4px 14px #0004}
+#rdlmP label{display:flex;align-items:center;gap:6px}
+#rdlmP input{width:auto;padding:0}
+#rdlmSt{color:var(--tx);opacity:.75;white-space:nowrap}
+.lmk{overflow:visible}
+.lmd{position:absolute;left:-10px;top:-10px;width:20px;height:20px;box-sizing:border-box;border:2px solid;border-radius:50%;background:#fff;font-size:11px;line-height:16px;text-align:center;box-shadow:0 1px 3px #0006;cursor:pointer}
+.lml{position:absolute;left:11px;top:-8px;white-space:nowrap;font:700 11px/16px "Yu Gothic","Hiragino Sans",Meiryo,sans-serif;color:#111;paint-order:stroke fill;-webkit-text-stroke:3px #fff;text-shadow:0 0 2px #fff;pointer-events:none}
 @media print{#rdm{display:none!important}}
 </style>
 <div id="rdm">
@@ -1225,6 +1237,7 @@ function wSet(k,v){const c=cur();if(!c.ty)return;c.o[k]=v;if(c.it){draw();}windo
   <b>道路使用許可 図面作成</b>
   <span class="rdg"><button id="rdtabP" class="tab">位置図(付近見取図)</button><button id="rdtabR" class="tab">道路使用図(規制図)の下図</button></span>
   <span class="rdg" id="rdsrch"><input id="rdq" placeholder="住所・地名で検索"><button id="rdgo">検索</button></span>
+  <span class="rdg" id="rdlm"><label title="地図上に、近くの駅・店・事務所・公共施設などの名前を表示します(要ネット接続・拡大表示で有効)"><input type="checkbox" id="rdlmOn">🏷 目印を表示</label><details id="rdlmD"><summary>目印の種類 ▾</summary><div id="rdlmP"></div></details><span id="rdlmSt"></span></span>
   <span class="rdg" id="rdp1">
    <button id="rdsecB" title="地図上の2点をクリックして、道路を使用する区間を赤線で示します">区間を指定</button>
    <button id="rdstmB" title="申請地を示す★を地図上に置きます">「申請地」スタンプを配置</button>
@@ -1296,12 +1309,13 @@ function initMap(){
  const std=tl('std','png'),pale=tl('pale','png'),photo=tl('seamlessphoto','jpg');
  map=L.map(q('#rdmap'),{center:[v.lat,v.lng],zoom:v.z,zoomSnap:.5,zoomDelta:.5,maxZoom:20});
  std.addTo(map);L.control.layers({'標準地図':std,'淡色地図':pale,'航空写真':photo}).addTo(map);
- map.on('moveend',()=>{const c=map.getCenter();try{localStorage.setItem('kasetsu.gmview',JSON.stringify({lat:c.lat,lng:c.lng,z:map.getZoom()}))}catch(e){}});
+ map.on('moveend',()=>{const c=map.getCenter();try{localStorage.setItem('kasetsu.gmview',JSON.stringify({lat:c.lat,lng:c.lng,z:map.getZoom()}))}catch(e){}lmSched()});
+ map.attributionControl.addAttribution('目印:© OpenStreetMap contributors');
  setMode(md)}
 function guideBox(){const b=q('#rdbody'),W=b.clientWidth,H=b.clientHeight;let w=W*.72,h=w*FHD/FW;if(h>H*.8){h=H*.8;w=h*FW/FHD}return{x:(W-w)/2,y:(H-h)/2,w,h}}
 function ui(){const R_=md==='R',P_=md==='P';
  q('#rdtabP').classList.toggle('on',P_);q('#rdtabR').classList.toggle('on',R_);
- q('#rdsrch').hidden=stg!=1;q('#rdv1').hidden=!(R_&&stg==1);q('#rdp1').hidden=!(P_&&stg==1);q('#rdv2').hidden=!(R_&&stg==2);q('#rdp2').hidden=!(P_&&stg==2);
+ q('#rdsrch').hidden=stg!=1;q('#rdlm').hidden=stg!=1;q('#rdv1').hidden=!(R_&&stg==1);q('#rdp1').hidden=!(P_&&stg==1);q('#rdv2').hidden=!(R_&&stg==2);q('#rdp2').hidden=!(P_&&stg==2);
  q('#rdform').hidden=!P_;q('#rdpv').hidden=stg!=2;q('#rdmap').style.visibility=stg==1?'visible':'hidden';
  const g=guideBox(),e=q('#rdguide');Object.assign(e.style,{left:g.x+'px',top:g.y+'px',width:g.w+'px',height:g.h+'px',display:(P_&&stg==1)?'block':'none'})}
 function view(n){stg=n;ui()}
@@ -1311,7 +1325,7 @@ async function openDlg(m){
  q('#rdm').style.display='flex';stopSel();stopP();setMode(m||md);
  st('地図を読み込み中…');
  try{await loadMapLib()}catch(e){st('地図を読み込めません。ネットワーク接続を確認してください。','err');return}
- initMap();ui()}
+ initMap();ui();lmSched()}
 function closeDlg(){stopSel();stopP();q('#rdm').style.display='none'}
 // ---- 範囲指定
 const px2u=(x,y)=>{const ll=map.containerPointToLatLng([x,y]);return{mx:rad(ll.lng),my:myU(ll.lat)}};
@@ -1536,6 +1550,85 @@ function jpegToPdf(jpg,w,h){const enc=s=>new TextEncoder().encode(s),parts=[],of
  const out=new Uint8Array(len);let p=0;for(const b of parts){out.set(b,p);p+=b.length}return out}
 function outJpg(){const c=getSheet(3);if(!c)return;c.toBlob(b=>dl(b,'位置図_'+ymd()+'.jpg'),'image/jpeg',.93)}
 function outPdf(){const c=getSheet(3);if(!c)return;c.toBlob(async b=>{const u=new Uint8Array(await b.arrayBuffer());dl(new Blob([jpegToPdf(u,c.width,c.height)],{type:'application/pdf'}),'位置図_'+ymd()+'.pdf')},'image/jpeg',.93)}
+// ---- 目印表示(近隣の駅・店・事務所・公共施設・ランドマーク / OpenStreetMap)
+const LMC={
+ lm:{n:'ランドマーク(駅・寺社・公園・観光・GS)',i:'⛩',c:'#d97706',p:0},
+ pub:{n:'公共施設・学校・病院',i:'🏛',c:'#2563eb',p:1},
+ bank:{n:'銀行・郵便局',i:'🏦',c:'#0f766e',p:2},
+ shop:{n:'コンビニ・スーパー',i:'🏪',c:'#16a34a',p:3},
+ off:{n:'事務所・会社',i:'🏢',c:'#7c3aed',p:4},
+ food:{n:'飲食店',i:'🍴',c:'#dc2626',p:5},
+ shop2:{n:'その他の店',i:'🛍',c:'#db2777',p:6},
+ bld:{n:'名前付きの建物(件数多め)',i:'🏠',c:'#64748b',p:7}};
+const LM_AM={lm:'place_of_worship|fuel',pub:'townhall|police|fire_station|school|kindergarten|college|university|hospital|clinic|doctors|library|community_centre|courthouse|social_facility|childcare',bank:'bank|post_office',food:'restaurant|cafe|fast_food|bar|pub|food_court|ice_cream',shop2:'pharmacy|marketplace'};
+const LM_AMRE=Object.values(LM_AM).join('|');
+const LM_RE=(k,v)=>new RegExp('^('+v+')$').test(k||'');
+function lmCat(t){
+ if(/^(station|halt)$/.test(t.railway||'')||t.public_transport==='station')return 'lm';
+ if(LM_RE(t.amenity,LM_AM.lm)||t.historic||LM_RE(t.leisure,'park|stadium|sports_centre|golf_course')||LM_RE(t.man_made,'tower|chimney')||LM_RE(t.tourism,'attraction|museum|hotel|gallery|viewpoint|theme_park|zoo'))return 'lm';
+ if(LM_RE(t.amenity,LM_AM.pub)||t.office==='government')return 'pub';
+ if(LM_RE(t.amenity,LM_AM.bank))return 'bank';
+ if(LM_RE(t.shop,'convenience|supermarket|department_store|mall|variety_store'))return 'shop';
+ if(LM_RE(t.amenity,LM_AM.food))return 'food';
+ if(t.office&&t.office!=='no')return 'off';
+ if((t.shop&&!/^(vacant|no)$/.test(t.shop))||LM_RE(t.amenity,LM_AM.shop2))return 'shop2';
+ if(t.building&&t.name)return 'bld';
+ return null}
+let lmOn=true,lmSel=new Set(Object.keys(LMC).filter(k=>k!=='bld')),lmData=[],lmBB=null,lmBld=false,lmGrp=null,lmTm=0,lmSeq=0,lmZ=null;
+try{const o=JSON.parse(localStorage.getItem('kasetsu.lm')||'null');if(o){lmOn=!!o.on;if(Array.isArray(o.cats))lmSel=new Set(o.cats.filter(k=>LMC[k]))}}catch(e){}
+const lmEsc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const lmSt=t=>{q('#rdlmSt').textContent=t||''};
+const lmSave=()=>{try{localStorage.setItem('kasetsu.lm',JSON.stringify({on:lmOn,cats:[...lmSel]}))}catch(e){}};
+const lmQ=(bb,bld)=>'[out:json][timeout:30];('+['shop','office','tourism','historic'].map(k=>`nwr["name"]["${k}"](${bb});`).join('')
+ +`nwr["name"]["amenity"~"^(${LM_AMRE})$"](${bb});nwr["name"]["leisure"~"^(park|stadium|sports_centre|golf_course)$"](${bb});nwr["name"]["railway"~"^(station|halt)$"](${bb});nwr["name"]["man_made"~"^(tower|chimney)$"](${bb});`
+ +(bld?`way["name"]["building"](${bb});`:'')+');out center tags 2000;';
+async function lmFetch(qq){
+ const ac=EP.map(()=>new AbortController()),
+  one=(u,i)=>new Promise(r=>setTimeout(r,i*2500)).then(()=>{if(ac[i].signal.aborted)throw new Error('中断');return fetch(u,{method:'POST',body:'data='+encodeURIComponent(qq),headers:{'Content-Type':'application/x-www-form-urlencoded'},signal:ac[i].signal})}).then(async r=>{if(!r.ok)throw new Error('HTTP '+r.status);const j=await r.json();if(!j.elements)throw new Error('データなし');return j.elements}),
+  tm=setTimeout(()=>ac.forEach(x=>x.abort()),40000);
+ try{const el=await Promise.any(EP.map(one));ac.forEach(x=>x.abort());return el}
+ catch(er){throw (er.errors&&er.errors[0])||er}finally{clearTimeout(tm)}}
+function lmParse(el){const seen=new Set(),out=[];
+ for(const e of el){const t=e.tags||{},nm=t.name;if(!nm)continue;
+  const la=e.lat!=null?e.lat:e.center&&e.center.lat,lo=e.lon!=null?e.lon:e.center&&e.center.lon;if(la==null||lo==null)continue;
+  const c=lmCat(t);if(!c)continue;
+  const k=nm+'|'+Math.round(la*3000)+'|'+Math.round(lo*3000);if(seen.has(k))continue;seen.add(k);
+  out.push({la,lo,nm,c})}
+ return out}
+const lmTw=s=>{let w=0;for(const ch of s)w+=ch.charCodeAt(0)>255?11:6;return w+4};
+function lmDraw(){
+ if(!map)return;if(!lmGrp)lmGrp=L.layerGroup().addTo(map);lmGrp.clearLayers();lmZ=null;
+ if(!lmOn){lmSt('');return}
+ if(map.getZoom()<16){lmSt('もう少し拡大すると表示');return}
+ const list=lmData.filter(d=>lmSel.has(d.c)).sort((a,c)=>LMC[a.c].p-LMC[c.c].p).slice(0,600);
+ const pts=list.map(d=>map.latLngToContainerPoint([d.la,d.lo])),ib=pts.map(p=>[p.x-10,p.y-10,p.x+10,p.y+10]),lb=[],
+  ov=(a,c)=>a[0]<c[2]&&a[2]>c[0]&&a[1]<c[3]&&a[3]>c[1];
+ let nl=0;lmZ=map.getZoom();
+ list.forEach((d,i)=>{const p=pts[i],bx=[p.x+11,p.y-8,p.x+11+lmTw(d.nm),p.y+8];
+  let ok=!lb.some(o=>ov(bx,o));if(ok)for(let j=0;j<ib.length;j++)if(j!==i&&ov(bx,ib[j])){ok=false;break}
+  if(ok){lb.push(bx);nl++}
+  const v=LMC[d.c];
+  L.marker([d.la,d.lo],{keyboard:false,title:d.nm,icon:L.divIcon({className:'lmk',iconSize:[0,0],html:`<div class="lmd" style="border-color:${v.c}">${v.i}</div>`+(ok?`<span class="lml">${lmEsc(d.nm)}</span>`:'')})})
+   .bindPopup(`<b>${lmEsc(d.nm)}</b><br><small>${v.n}</small>`).addTo(lmGrp)});
+ lmSt(list.length+'件'+(nl<list.length?'(拡大すると名前が増えます)':''))}
+async function lmLoad(){
+ if(!map||!lmOn||q('#rdm').style.display!=='flex'||stg!=1)return;
+ if(map.getZoom()<16){lmDraw();return}
+ const b=map.getBounds(),need=lmSel.has('bld');
+ if(lmBB&&lmBB.contains(b)&&(lmBld||!need)){if(map.getZoom()!==lmZ)lmDraw();return}
+ const seq=++lmSeq,pb=b.pad(.4),bb=[pb.getSouth(),pb.getWest(),pb.getNorth(),pb.getEast()].map(v=>v.toFixed(6)).join(',');
+ lmSt('目印を取得中…');
+ try{const el=await lmFetch(lmQ(bb,need));if(seq!==lmSeq)return;lmData=lmParse(el);lmBB=pb;lmBld=need;lmDraw()}
+ catch(e){if(seq!==lmSeq)return;lmSt('目印を取得できませんでした(地図を少し動かすと再取得します)')}}
+function lmSched(){clearTimeout(lmTm);if(!map||!lmOn)return;lmTm=setTimeout(lmLoad,600)}
+(function(){
+ q('#rdlmOn').checked=lmOn;
+ q('#rdlmP').innerHTML=Object.entries(LMC).map(([k,v])=>`<label><input type="checkbox" data-k="${k}"${lmSel.has(k)?' checked':''}>${v.i} ${v.n}</label>`).join('');
+ q('#rdlmOn').onchange=e=>{lmOn=e.target.checked;lmSave();if(lmOn)lmLoad();else lmDraw()};
+ q('#rdlmP').onchange=e=>{const k=e.target.dataset.k;if(!k)return;e.target.checked?lmSel.add(k):lmSel.delete(k);lmSave();
+  if(k==='bld'&&e.target.checked&&!lmBld)lmLoad();else lmDraw()};
+ document.addEventListener('click',e=>{const d=q('#rdlmD');if(d.open&&!d.contains(e.target))d.open=false});
+})();
 // ---- イベント
 q('#rdOpen').onclick=()=>openDlg('R');q('#rdOpenP').onclick=()=>openDlg('P');q('#rdOpenQ').onclick=()=>openDlg();
 q('#rdtabP').onclick=()=>setMode('P');q('#rdtabR').onclick=()=>setMode('R');
