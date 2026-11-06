@@ -90,6 +90,9 @@ details.hp{margin:4px 0}details.hp>summary{cursor:pointer;color:var(--mu);font-s
 #ahint{flex-basis:100%;color:var(--mu);font-size:11px}
 @media(max-width:760px){#qbar{flex-wrap:nowrap;overflow-x:auto}#qbar .tg{flex:none}#qsite{display:none}}
 @media print{#abar,#annTa{display:none!important}}
+input[type=color]{width:38px;height:24px;padding:1px;cursor:pointer}
+#fenceBox .row input[type=number]{width:62px}
+#fenceBox button.on{background:var(--ac);color:#fff}
 </style></head><body>
 <div id="authGate" style="position:fixed;inset:0;z-index:99999;background:#eef2f6;display:flex;align-items:center;justify-content:center;font-family:system-ui,-apple-system,'Hiragino Sans','Yu Gothic',sans-serif">
 <div style="background:#fff;border-radius:12px;box-shadow:0 4px 24px #0002;padding:28px 24px;width:min(360px,92vw)">
@@ -142,7 +145,8 @@ setInterval(chk,300000);document.addEventListener('visibilitychange',()=>{if(!do
 </div></details>
 <details class="sec" data-k="pal" open><summary>② 仮設物を追加</summary><div class="sb"><div class="small">車両・重機は提供CAD図の実形状。クリックで図面中央に配置→ドラッグで移動。</div>
 <div id="pal" class="pal"></div>
-<div id="coneBox" class="small" style="margin-top:6px"><div class="row">コーン間隔<input id="csp" type="number" value="2000" step="100" min="300">mm<button id="coneOk">確定</button><button id="coneUndo">1点戻す</button></div><div id="coneInfo" style="color:var(--ac)"></div><details class="hp"><summary>コーン配置の使い方</summary><div class="small">「カラーコーン」を押す→基点をクリック→線を引きたい位置を順にクリック。クリックした点(折れ点)には必ずコーンを置き、各区間を2000mm程度で等分に自動配置します(赤の二点鎖線で連結)。左クリックで位置を決め、右クリック/左ダブルクリック/Enter/「確定」(iPadは終点で長押し)で表示完了、Escで中止、Shiftで水平・垂直に固定。既存のコーンをクリックするとそこから連続でき、基点に戻ると閉じます。配置後のコーンは1個ずつ選択してドラッグで移動できます。折れ点(基点・終点を含む)のコーンを動かすと、両隣の折れ点は動かさず、その間のコーンは直線上に設定間隔で並び直り、距離に応じて個数が増減します。また、列(基点〜折れ点、折れ点〜折れ点、折れ点〜終点)の赤い線をドラッグすると、その列のコーンをまとめて移動できます(隣の列は直線のまま等間隔に追従)。</div></details></div>
+<div id="coneBox" class="small" style="margin-top:6px"><div class="row">コーン間隔<input id="csp" type="number" value="2000" step="100" min="300">mm<button id="coneOk">確定</button><button id="coneUndo">1点戻す</button></div><div id="coneInfo" style="color:var(--ac)"></div><details class="hp"><summary>コーン配置の使い方</summary><div class="small">「カラーコーン」を押す→基点をクリック→線を引きたい位置を順にクリック。クリックした点(折れ点)には必ずコーンを置き、各区間を2000mm程度で等分に自動配置します(赤の二点鎖線で連結)。左クリックで位置を決め、右クリック/左ダブルクリック/Enter/「確定」(iPadは終点で長押し)で表示完了、Escで中止、Shiftで水平・垂直に固定。既存のコーンをクリックするとそこから連続でき、基点に戻ると閉じます。配置後のコーンは1個ずつ選択してドラッグで移動できます。折れ点(基点・終点を含む)のコーンを動かすと、両隣の折れ点は動かさず、その間のコーンは直線上に設定間隔で並び直り、距離に応じて個数が増減します。また、列(基点〜折れ点、折れ点〜折れ点、折れ点〜終点)の赤い線をドラッグすると、その列のコーンをまとめて移動できます(隣の列は直線のまま等間隔に追従)。</div></details></div><div id="fenceBox" class="small" style="margin-top:8px"><div style="margin-top:8px;font-weight:700;font-size:13px;color:var(--tx)">仮囲い</div><div class="small">種別を押して図面上を順にクリック(端部・コーナー・折れ点に必ず●)。Enter/ダブルクリック/右クリック/確定で終了、始点クリックで閉合。Shift=水平垂直。</div><div class="row"><button data-fb="orange"><span class="sw" style="background:#f97316"></span>オレンジネット</button>＠<input id="fp_orange" type="number" value="2000" step="100" min="100">mm<input type="color" id="fc_orange" value="#f97316" title="色"></div><div class="row"><button data-fb="tube"><span class="sw" style="background:#16a34a"></span>単管メッシュ</button>＠<input id="fp_tube" type="number" value="1800" step="100" min="100">mm<input type="color" id="fc_tube" value="#16a34a" title="色"></div><div class="row"><button data-fb="plagate"><span class="sw" style="background:#2563eb"></span>プラゲート</button>＠<input id="fp_plagate" type="number" value="1500" step="100" min="100">mm<input type="color" id="fc_plagate" value="#2563eb" title="色"></div><div class="row"><button data-fb="adflat"><span class="sw" style="background:#475569"></span>アドフラット(鋼板)</button>＠<input id="fp_adflat" type="number" value="2000" step="100" min="100">mm<input type="color" id="fc_adflat" value="#475569" title="色"></div>
+<div class="row"><button id="fenceOk">確定</button><button id="fenceUndo">1点戻す</button></div><div id="fenceInfo" style="color:var(--ac)"></div><details class="hp"><summary>仮囲いの使い方</summary><div class="small">・オレンジネット:●＠2000(既定)の間を破線。<br>・単管メッシュ:敷地側=一点鎖線、外部側=波線の2本線に、それぞれ●＠1800(既定)。敷地側は選択後に「進行方向の右/左」で切替(閉合時は内側が敷地側)。<br>・プラゲート:端部と●＠1500(既定)の間を破線。<br>・アドフラット(鋼板):端部・折れ点と●＠2000(既定)の間を長めの破線。<br>・ピッチ・色はここで次に描く分の既定値を変更(選択中の同種仮囲いにも反映)。個別の変更は図面で仮囲いを選択→右上の窓で。<br>・種別名は10mに1か所自動表示、ドラッグで自由に移動できます。<br>・●の数は描画中・選択時・下の「集計」に表示。</div></details></div>
 </div></details>
 <details class="sec" data-k="scaf"><summary>③ 外部足場(自動レイアウト)</summary><div class="sb">
 <div class="row">離隔<input id="sgap" type="number" step="0.05" value="0.3">m 幅<select id="swid"><option value="0.61">610</option><option value="0.914" selected>914</option><option value="1.219">1219</option></select>mm</div>
@@ -173,7 +177,7 @@ setInterval(chk,300000);document.addEventListener('visibilitychange',()=>{if(!do
 <details class="hp"><summary>使い方・説明</summary><div class="small">選択すると上部にオレンジの回転ハンドル(ドラッグで回転、Shiftで15°刻み、0/90°付近は吸着) / キー: R=90°回転 / Delete=削除 / 矢印=微調整 / Esc=取消</div></details>
 </div></details>
 </aside>
-<div id="main"><div id="qbar"><div class="tg"><span class="tl">操作</span><div class="tb"><button data-q="sel" title="選択モード(Esc)">↖ 選択</button></div></div><div class="tg"><span class="tl">測る・作る</span><div class="tb"><button data-q="meas" title="2点間の距離を測定">📏 測定</button><button data-q="cal" title="図面寸法から縮尺を校正">🎯 校正</button><button data-q="scaf" title="外部足場を自動レイアウト">🏗 足場</button><button data-q="cone" title="カラーコーンを線上に自動配置">🔺 コーン</button></div></div><div class="tg"><span class="tl">注釈</span><div class="tb"><button data-q="a-text" title="文字を入れる"><svg viewBox="0 0 20 20"><path d="M4 5V3.5h12V5M10 3.5V16M7 16h6"/></svg>文字</button><button data-q="a-arrow" title="矢印を描く"><svg viewBox="0 0 20 20"><path d="M3.5 16.5L16 4M9 4h7v7"/></svg>矢印</button><button data-q="a-call" title="引出線の上に文字を入れる"><svg viewBox="0 0 20 20"><path d="M3.5 16.5L8 9h8.5M10 5.5h5"/></svg>引出線</button><button data-q="a-cloud" title="雲形で囲む"><svg viewBox="0 0 20 20"><path d="M6 15.5a3.3 3.3 0 0 1-.4-6.5 4.4 4.4 0 0 1 8.3-1.2 3.4 3.4 0 0 1 .3 7.7z"/></svg>雲形</button></div></div><div class="tg"><span class="tl">編集</span><div class="tb"><button data-q="rot" title="選択物を90°回転(R)">⟳ 90°</button><button data-q="dup" title="選択物を複製">⧉ 複製</button><button data-q="del" class="dg" title="選択物を削除(Delete)">🗑 削除</button></div></div><div class="tg"><span class="tl">表示</span><div class="tb"><button data-q="zo" title="縮小">－</button><button data-q="z1" title="等倍">100%</button><button data-q="zi" title="拡大">＋</button><button data-q="fit" title="用紙全体を表示">全体</button></div></div><div class="tg"><span class="tl">出力</span><div class="tb"><button data-q="png">🖼 画像</button><button data-q="prt">🖨 印刷/PDF</button></div></div><span id="qsite" class="small"></span></div><div id="abar"><span id="atype" class="atag"></span><div class="ag"><span class="agl">色</span><button class="cs" data-c="#e11d1d" style="--c:#e11d1d" title="赤"></button><button class="cs" data-c="#1d4ed8" style="--c:#1d4ed8" title="青"></button><button class="cs" data-c="#16a34a" style="--c:#16a34a" title="緑"></button><button class="cs" data-c="#facc15" style="--c:#facc15" title="黄"></button><button class="cs" data-c="#ffffff" style="--c:#ffffff" title="白"></button><input type="color" id="acol" value="#e11d1d" title="好きな色を選ぶ"></div><div class="ag"><span class="agl">線</span><input id="asw" type="range" min="0.5" max="20" step="0.5" style="width:90px;vertical-align:middle"><span id="aswv" style="min-width:26px;font-size:11px;display:inline-block">3.5</span><button class="chip" data-tg="ds" title="破線にする">破線</button></div><div class="ag" data-for="text call cloud"><span class="agl">文字</span><input id="afs" type="number" min="4" max="300" step="1" style="width:56px"><button class="chip" data-tg="bo" title="太字"><b>B</b></button><button class="chip" data-tg="af" data-sel title="枠の大きさに文字サイズを自動で合わせる">自動調整</button></div><div class="ag" data-for="arrow call" data-sel><span class="agl">矢じり</span><select id="ahd"></select></div><div class="ag" data-for="text call cloud" data-sel><button class="chip" data-tg="bd">枠線</button><button class="chip" data-tg="fl">塗り</button></div><div class="ag"><button class="chip" data-tg="lock" title="描いたあとも同じツールのまま続けて作図">連続作図</button></div><div class="ag" data-for="text call cloud" data-sel><span class="agl">角度</span><input id="arot" type="number" step="5" style="width:56px">°</div><div class="ag"><button data-a="edit" data-for="text call cloud" data-sel>✎ 文字入力</button><button data-a="rot90" data-sel title="選択物を90°回転(R)">⟳ 90°</button><button data-a="straight" data-sel id="astr">直線に戻す</button><button data-a="dup" data-sel>⧉ 複製</button><button data-a="del" data-sel class="dg">🗑 削除</button></div><span id="ahint"></span></div>
+<div id="main"><div id="qbar"><div class="tg"><span class="tl">操作</span><div class="tb"><button data-q="sel" title="選択モード(Esc)">↖ 選択</button></div></div><div class="tg"><span class="tl">測る・作る</span><div class="tb"><button data-q="meas" title="2点間の距離を測定">📏 測定</button><button data-q="cal" title="図面寸法から縮尺を校正">🎯 校正</button><button data-q="scaf" title="外部足場を自動レイアウト">🏗 足場</button><button data-q="cone" title="カラーコーンを線上に自動配置">🔺 コーン</button><button data-q="fence" title="仮囲い(オレンジネット/単管メッシュ/プラゲート)を描く">🚧 仮囲い</button></div></div><div class="tg"><span class="tl">注釈</span><div class="tb"><button data-q="a-text" title="文字を入れる"><svg viewBox="0 0 20 20"><path d="M4 5V3.5h12V5M10 3.5V16M7 16h6"/></svg>文字</button><button data-q="a-arrow" title="矢印を描く"><svg viewBox="0 0 20 20"><path d="M3.5 16.5L16 4M9 4h7v7"/></svg>矢印</button><button data-q="a-call" title="引出線の上に文字を入れる"><svg viewBox="0 0 20 20"><path d="M3.5 16.5L8 9h8.5M10 5.5h5"/></svg>引出線</button><button data-q="a-cloud" title="雲形で囲む"><svg viewBox="0 0 20 20"><path d="M6 15.5a3.3 3.3 0 0 1-.4-6.5 4.4 4.4 0 0 1 8.3-1.2 3.4 3.4 0 0 1 .3 7.7z"/></svg>雲形</button></div></div><div class="tg"><span class="tl">編集</span><div class="tb"><button data-q="rot" title="選択物を90°回転(R)">⟳ 90°</button><button data-q="dup" title="選択物を複製">⧉ 複製</button><button data-q="del" class="dg" title="選択物を削除(Delete)">🗑 削除</button></div></div><div class="tg"><span class="tl">表示</span><div class="tb"><button data-q="zo" title="縮小">－</button><button data-q="z1" title="等倍">100%</button><button data-q="zi" title="拡大">＋</button><button data-q="fit" title="用紙全体を表示">全体</button></div></div><div class="tg"><span class="tl">出力</span><div class="tb"><button data-q="png">🖼 画像</button><button data-q="prt">🖨 印刷/PDF</button></div></div><span id="qsite" class="small"></span></div><div id="abar"><span id="atype" class="atag"></span><div class="ag"><span class="agl">色</span><button class="cs" data-c="#e11d1d" style="--c:#e11d1d" title="赤"></button><button class="cs" data-c="#1d4ed8" style="--c:#1d4ed8" title="青"></button><button class="cs" data-c="#16a34a" style="--c:#16a34a" title="緑"></button><button class="cs" data-c="#facc15" style="--c:#facc15" title="黄"></button><button class="cs" data-c="#ffffff" style="--c:#ffffff" title="白"></button><input type="color" id="acol" value="#e11d1d" title="好きな色を選ぶ"></div><div class="ag"><span class="agl">線</span><input id="asw" type="range" min="0.5" max="20" step="0.5" style="width:90px;vertical-align:middle"><span id="aswv" style="min-width:26px;font-size:11px;display:inline-block">3.5</span><button class="chip" data-tg="ds" title="破線にする">破線</button></div><div class="ag" data-for="text call cloud"><span class="agl">文字</span><input id="afs" type="number" min="4" max="300" step="1" style="width:56px"><button class="chip" data-tg="bo" title="太字"><b>B</b></button><button class="chip" data-tg="af" data-sel title="枠の大きさに文字サイズを自動で合わせる">自動調整</button></div><div class="ag" data-for="arrow call" data-sel><span class="agl">矢じり</span><select id="ahd"></select></div><div class="ag" data-for="text call cloud" data-sel><button class="chip" data-tg="bd">枠線</button><button class="chip" data-tg="fl">塗り</button></div><div class="ag"><button class="chip" data-tg="lock" title="描いたあとも同じツールのまま続けて作図">連続作図</button></div><div class="ag" data-for="text call cloud" data-sel><span class="agl">角度</span><input id="arot" type="number" step="5" style="width:56px">°</div><div class="ag"><button data-a="edit" data-for="text call cloud" data-sel>✎ 文字入力</button><button data-a="rot90" data-sel title="選択物を90°回転(R)">⟳ 90°</button><button data-a="straight" data-sel id="astr">直線に戻す</button><button data-a="dup" data-sel>⧉ 複製</button><button data-a="del" data-sel class="dg">🗑 削除</button></div><span id="ahint"></span></div>
 <div id="wrap"><div id="stage"><canvas id="cv"></canvas><svg id="sv" xmlns="http://www.w3.org/2000/svg"></svg></div></div></div>
 </div>
 <div id="crm"><div id="crctl"></div><div id="crmain"><div class="row"><b>ラフター揚程図検討(側方吊り・断面)</b><button id="crClose" style="margin-left:auto">閉じる</button></div><svg id="crsv" xmlns="http://www.w3.org/2000/svg"></svg><div id="crout"></div></div></div>
@@ -255,7 +259,7 @@ $('#pdf').onchange=async e=>{const f=e.target.files[0];if(!f)return;if(!window.p
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 const _ab=await f.arrayBuffer();S.pdfBytes=_ab.slice(0);S.pdfName=f.name;S.pdf=await pdfjsLib.getDocument({data:_ab}).promise;$('#pg').value=1;loadPage()};
 $('#pg').onchange=loadPage;$('#blank').onclick=blank;$('#scApply').onclick=()=>setN(+$('#sc').value||200);
-S.ts=new Set();S.meas=[];S.mp=null;S.hv=null;S.lines=[];S.cl=null;S.cs=[];S.cv=null;
+S.fp=null;S.fv=null;S.ft='orange';S.ts=new Set();S.meas=[];S.mp=null;S.hv=null;S.lines=[];S.cl=null;S.cs=[];S.cv=null;
 const mfmt=(a,b)=>{const mm=Math.hypot(a.x-b.x,a.y-b.y)*S.mpp*1000;return Math.round(mm).toLocaleString()+' mm'+(mm>=1000?' ('+(mm/1000).toFixed(3)+' m)':'')};
 function measSvg(){const ln=(a,b,live)=>{const c=live?'#0891b2':'#0e7490',mx=(a.x+b.x)/2,my=(a.y+b.y)/2;let g=Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI;if(g>90||g<-90)g+=180;
 return `<g pointer-events="none"><line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${c}" stroke-width="1.3" ${live?'stroke-dasharray="4 2"':''}/><circle cx="${a.x}" cy="${a.y}" r="2.6" fill="${c}"/><circle cx="${b.x}" cy="${b.y}" r="2.6" fill="${c}"/><text transform="translate(${mx} ${my}) rotate(${g})" y="-3.5" text-anchor="middle" font-size="8" font-weight="bold" fill="${c}" paint-order="stroke" stroke="#fff" stroke-width="2.2">${mfmt(a,b)}</text></g>`};
@@ -346,27 +350,28 @@ case'tl':return R(0,0,1,1,c,1)+Ln(.1,.1,.9,.9,'#0004')+Ln(.9,.1,.1,.9,'#0004')+R
 case'ct':{let r='';for(let k=1;k<9;k++)r+=Ln(k/9,.08,k/9,.92);return R(0,0,1,1,c,1)+R(.04,.08,.92,.84,'#0003',0,'none')+r}
 }return R(0,0,1,1,c)}
 // ---- 描画
-function draw(sel=true){let h='',hc='',hb='',hf='',ht='',htr='',hn='';const m=S.mpp;
+function draw(sel=true){let h='',hc='',hb='',hf='',ht='',htr='',hn='',hfe='';const m=S.mpp;
 for(const it of S.items){const on=sel&&it.id==S.sel;
 if(it.k=='n'){hn+=annSvg(it,on);if(on)ht+=annHdl(it);continue}
 if(it.k=='i'){if(it.front)hf+=imgSvg(it,on);else hb+=imgSvg(it,on);if(on)ht+=imgHdl(it);continue}
 if(it.k=='s'){h+=`<g class="it" data-id="${it.id}" transform="translate(${it.x} ${it.y})">${scafSvg(it)}${on?`<path d="M${it.pts.map(p=>p.x+' '+p.y).join('L')}Z" fill="none" stroke="#f59e0b" stroke-width="2.5" opacity=".7"/>`:''}</g>`;continue}
-if(it.t=='cone'){hc+=coneSvg(it,on);continue}if(it.tr&&it.tr.pts.length){htr+=trkSvg(it);if(on)ht+=trkHdl(it)}const w=it.l/m,hh=it.w/m;let o='';
+if(it.k=='f'){hfe+=fenceSvg(it,on);if(on)ht+=fenceHdl(it);continue}if(it.t=='cone'){hc+=coneSvg(it,on);continue}if(it.tr&&it.tr.pts.length){htr+=trkSvg(it);if(on)ht+=trkHdl(it)}const w=it.l/m,hh=it.w/m;let o='';
 if(it.o){const ow=it.o[0]/m,oh=it.o[1]/m;o=`<rect x="${-ow/2}" y="${-oh/2}" width="${ow}" height="${oh}" fill="none" stroke="${it.c}" stroke-dasharray="4 2" stroke-width="1"/>`}
 h+=`<g class="it" data-id="${it.id}" transform="translate(${it.x} ${it.y}) rotate(${it.a})">${SYM[it.t]?`<rect x="${-w/2}" y="${-hh/2}" width="${w}" height="${hh}" fill="transparent"/>`:''}${o}${SYM[it.t]?symSvg(it,w,hh,on):'<g transform="scale(-1 1)">'+shape(it,w,hh,on)+'</g>'}<text transform="rotate(${-it.a})" font-size="8" text-anchor="middle" y="${SYM[it.t]?-hh/2-3:2.2}" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="1.6">${it.name}</text>${radSvg(it,on)}${on?rotH(it,hh):''}</g>`}
-h=hb+htr+h+hf+coneLines()+hc+conePrev(sel)+hn;if(S.mode=='scaf'&&S.pts.length)h+=`<polyline points="${S.pts.map(p=>p.x+','+p.y).join(' ')}" fill="none" stroke="#f59e0b" stroke-width="1.5"/>`+S.pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="2.5" fill="#f59e0b"/>`).join('')+(S.pts.length>=3?`<circle cx="${S.pts[0].x}" cy="${S.pts[0].y}" r="9" fill="none" stroke="#f59e0b" stroke-dasharray="2 2"/>`:'');
+h=hb+htr+h+hf+hfe+coneLines()+hc+conePrev(sel)+fencePrev(sel)+hn;if(S.mode=='scaf'&&S.pts.length)h+=`<polyline points="${S.pts.map(p=>p.x+','+p.y).join(' ')}" fill="none" stroke="#f59e0b" stroke-width="1.5"/>`+S.pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="2.5" fill="#f59e0b"/>`).join('')+(S.pts.length>=3?`<circle cx="${S.pts[0].x}" cy="${S.pts[0].y}" r="9" fill="none" stroke="#f59e0b" stroke-dasharray="2 2"/>`:'');
 if(S.mode=='cal')h+=S.cal.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="3" fill="#e11d48"/>`).join('')+(S.cal.length==2?`<line x1="${S.cal[0].x}" y1="${S.cal[0].y}" x2="${S.cal[1].x}" y2="${S.cal[1].y}" stroke="#e11d48" stroke-width="1.5"/>`:'');
 h+=ht+measSvg();sv.innerHTML=h;sumup()}
-function mode(){sv.classList.toggle('cross',S.mode!='sel');$('#scafBtn').classList.toggle('on',S.mode=='scaf');$('#calBtn').classList.toggle('on',S.mode=='cal');$('#measBtn').classList.toggle('on',S.mode=='meas');coneMode();draw()}
+function mode(){sv.classList.toggle('cross',S.mode!='sel');$('#scafBtn').classList.toggle('on',S.mode=='scaf');$('#calBtn').classList.toggle('on',S.mode=='cal');$('#measBtn').classList.toggle('on',S.mode=='meas');coneMode();fenceMode();draw()}
 const pt=e=>{const r=sv.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*S.W,y:(e.clientY-r.top)/r.height*S.H}};
-sv.addEventListener('pointerdown',e=>{const p=pt(e);if(e.pointerType=='touch'&&e.isPrimary)S.ts.clear();if(e.pointerType=='touch'){if(S.ts.size){S.ts.add(e.pointerId);S.drag=null;if(S.mode=='scaf'&&Date.now()-(S.la||0)<700){S.pts.pop();draw()}if(S.mode=='cone'&&Date.now()-(S.la||0)<700)coneUndo();return}S.ts.add(e.pointerId)}
+sv.addEventListener('pointerdown',e=>{const p=pt(e);if(e.pointerType=='touch'&&e.isPrimary)S.ts.clear();if(e.pointerType=='touch'){if(S.ts.size){S.ts.add(e.pointerId);S.drag=null;if(S.mode=='scaf'&&Date.now()-(S.la||0)<700){S.pts.pop();draw()}if(S.mode=='cone'&&Date.now()-(S.la||0)<700)coneUndo();if(S.mode=='fence'&&Date.now()-(S.la||0)<700)fenceUndo();return}S.ts.add(e.pointerId)}
 if(S.mode=='scaf'){if(S.pts.length>=3&&Math.hypot(p.x-S.pts[0].x,p.y-S.pts[0].y)<9){fin();return}S.pts.push(p);S.la=Date.now();draw();return}
+if(S.mode=='fence'){if(e.pointerType=='mouse'&&e.button!=0)return;fencePt(e,p);if(e.pointerType!='mouse'){clearTimeout(S.lpT);S.lpOn=1;S.lp0={x:e.clientX,y:e.clientY};S.lpT=setTimeout(()=>{if(S.lpOn&&S.mode=='fence'){S.lpOn=0;if(navigator.vibrate)navigator.vibrate(20);fenceEnd()}},650)}return}
 if(S.mode=='cone'){if(e.pointerType=='mouse'&&e.button==2)return;if(e.pointerType=='mouse'&&e.button!=0)return;conePt(e,p);if(e.pointerType!='mouse'){clearTimeout(S.lpT);S.lpOn=1;S.lp0={x:e.clientX,y:e.clientY};S.lpT=setTimeout(()=>{if(S.lpOn&&S.mode=='cone'){S.lpOn=0;if(navigator.vibrate)navigator.vibrate(20);coneEnd()}},650)}return}if(S.mode=='meas'){if(e.shiftKey)ortho(p,S.mp);if(!S.mp)S.mp=p;else{S.meas.push({a:S.mp,b:p});S.mp=null;S.hv=null}draw();return}
 if(S.mode=='cal'){if(S.cal.length>=2)S.cal=[];S.cal.push(p);if(S.cal.length==2)$('#calBox').style.display='';draw();return}
 if(S.mode=='ann'){annDown(e,p);return}if(S.mode=='trk'&&!e.target.closest('[data-h]')){trkPt(p);return}
 if(S.mode=='piv'){const i0=S.items.find(i=>i.id==S.sel);if(i0)i0.pv=toLoc(i0,p);S.mode='sel';mode();props();return}const hd=e.target.closest('[data-h]'),g0=e.target.closest('[data-id]');if(hd&&g0){const i1=S.items.find(i=>i.id==g0.dataset.id);if(i1){if(S.sel!=i1.id){S.sel=i1.id;draw();props()}S.drag={it:i1,h:hd.dataset.h,s0:{x:i1.x,y:i1.y,w:i1.w,h:i1.h},g0:annSnap(i1),p0:p};sv.setPointerCapture(e.pointerId);return}}const g=e.target.closest('[data-id]');S.ss=null;if(g){const it=S.items.find(i=>i.id==g.dataset.id);S.sel=it.id;S.drag=it.k=='n'?{it,h:'an:mv',g0:annSnap(it),p0:p}:{it,dx:p.x-it.x,dy:p.y-it.y};sv.setPointerCapture(e.pointerId)}else{const sg=e.target.closest&&e.target.closest('[data-seg]');if(sg){coneSegDown(sg.dataset.seg,p,e);return}S.sel=null}draw();props()});
 let _raf=0;const drawRaf=()=>{if(_raf)return;_raf=requestAnimationFrame(()=>{_raf=0;draw()})};
-sv.addEventListener('pointermove',e=>{if(S.mode=='meas'&&S.mp){S.hv=ortho(pt(e),e.shiftKey?S.mp:null);draw()}if(S.mode=='cone'&&S.cl){const a=conePos(S.cl.ids[S.cl.ids.length-1]);S.cv=ortho(pt(e),e.shiftKey&&a?a:null);draw();coneInfo()}const d=S.drag;if(!d)return;if(e.pointerType=='mouse'&&e.buttons==0){S.drag=null;return}const p=pt(e);if(d.sg){coneSegMove(d,p);return}const it=d.it;
+sv.addEventListener('pointermove',e=>{if(S.mode=='meas'&&S.mp){S.hv=ortho(pt(e),e.shiftKey?S.mp:null);draw()}if(S.mode=='fence'&&S.fp&&S.fp.pts.length){const a=S.fp.pts[S.fp.pts.length-1];S.fv=ortho(pt(e),e.shiftKey?a:null);drawRaf();fenceInfo()}if(S.mode=='cone'&&S.cl){const a=conePos(S.cl.ids[S.cl.ids.length-1]);S.cv=ortho(pt(e),e.shiftKey&&a?a:null);draw();coneInfo()}const d=S.drag;if(!d)return;if(e.pointerType=='mouse'&&e.buttons==0){S.drag=null;return}const p=pt(e);if(d.sg){coneSegMove(d,p);return}const it=d.it;if(it.k=='f'&&d.h&&/^f[vl]\d/.test(d.h)){fenceDrag(it,d,p);drawRaf();return}
 if(d.h=='rot'){let a=Math.atan2(p.y-it.y,p.x-it.x)*180/Math.PI+90;a=((a%360)+360)%360;if(e.shiftKey)a=Math.round(a/15)*15%360;else{const q=Math.round(a/90)*90;if(Math.abs(a-q)<3)a=q%360}it.a=Math.round(a*10)/10;const ai=document.querySelector('#props input[data-k=a]');if(ai)ai.value=it.a}else if(d.h&&d.h.startsWith('an:'))annDrag(it,d,p,e);else if(d.h=='new')annNew(d,p,e);else if(d.h=='p')it.pv=toLoc(it,p);
 else if(d.h&&d.h.startsWith('tp')){it.tr.pts[+d.h.slice(2)]=toLoc(it,p).map(v=>Math.round(v*10)/10)}
 else if(d.h&&d.h.startsWith('sz'))imgResize(it,d,p,e.shiftKey);
@@ -376,11 +381,11 @@ else{it.x=p.x-d.dx;it.y=p.y-d.dy;if(it.t=='cone')coneBend(it)}drawRaf()});
 sv.addEventListener('lostpointercapture',e=>{S.ts.delete(e.pointerId)});
 ['touchend','touchcancel'].forEach(t=>document.addEventListener(t,e=>{if(!e.touches.length)S.ts.clear()},{passive:true}));
 window.addEventListener('blur',()=>{S.drag=null;S.ts.clear()});
-sv.addEventListener('dblclick',e=>{if(S.mode=='scaf'){S.pts.pop();fin()}if(S.mode=='cone')coneEnd();if(S.mode=='trk')trkEnd();annDbl(e)});
+sv.addEventListener('dblclick',e=>{if(S.mode=='scaf'){S.pts.pop();fin()}if(S.mode=='cone')coneEnd();if(S.mode=='trk')trkEnd();if(S.mode=='fence')fenceEnd();else if(S.mode=='sel')fenceDbl(e);annDbl(e)});
 ['pointerup','pointercancel'].forEach(t=>window.addEventListener(t,()=>{S.lpOn=0;clearTimeout(S.lpT)}));
 window.addEventListener('pointermove',e=>{if(S.lpOn&&S.lp0&&Math.hypot(e.clientX-S.lp0.x,e.clientY-S.lp0.y)>12){S.lpOn=0;clearTimeout(S.lpT)}});
-sv.addEventListener('contextmenu',e=>{e.preventDefault();if(S.mode=='cone'){S.rcT=Date.now();coneEnd()}});
-window.addEventListener('contextmenu',e=>{if(S.mode=='cone'||Date.now()-(S.rcT||0)<1000)e.preventDefault()},true);
+sv.addEventListener('contextmenu',e=>{e.preventDefault();if(S.mode=='cone'){S.rcT=Date.now();coneEnd()}if(S.mode=='fence'){S.rcT=Date.now();fenceEnd()}});
+window.addEventListener('contextmenu',e=>{if(S.mode=='cone'||S.mode=='fence'||Date.now()-(S.rcT||0)<1000)e.preventDefault()},true);
 function fin(){const q=[];for(const p of S.pts)if(!q.length||Math.hypot(p.x-q[q.length-1].x,p.y-q[q.length-1].y)>4)q.push(p);while(q.length>1&&Math.hypot(q[0].x-q[q.length-1].x,q[0].y-q[q.length-1].y)<=4)q.pop();S.pts=q;if(S.pts.length>=3){const it={id:S.uid++,k:'s',name:'外部足場',pts:S.pts,x:0,y:0,gap:+$('#sgap').value,wid:+$('#swid').value,lift:+$('#slift').value,h:+$('#sh').value,sp:$('#ssp').value.split(',').map(Number).filter(n=>n>0)};S.items.push(it);S.sel=it.id}
 S.pts=[];S.mode='sel';mode();props()}
 $('#scafBtn').onclick=()=>{S.mode='scaf';S.pts=[];mode()};$('#scafOk').onclick=fin;$('#scafNg').onclick=()=>{S.pts=[];S.mode='sel';mode()};
@@ -435,8 +440,133 @@ if(S.cv&&ps.length){const a=ps[ps.length-1],d=Math.hypot(S.cv.x-a.x,S.cv.y-a.y)*
 el.textContent=t}
 function coneDelLine(){const it=S.items.find(i=>i.id==S.sel);if(!it)return;const L=S.lines.filter(l=>l.ids.includes(it.id)),ids=new Set(L.flatMap(l=>l.ids));S.items=S.items.filter(i=>!ids.has(i.id));S.lines=S.lines.filter(l=>!L.includes(l));S.sel=null;draw();props()}
 $('#coneOk').onclick=coneEnd;$('#coneUndo').onclick=coneUndo;
+// ---- 仮囲い(オレンジネット/単管メッシュ/プラゲート)
+const FT={orange:{n:'オレンジネット',c:'#f97316',p:2000,ds:'5 3'},tube:{n:'単管メッシュ',c:'#16a34a',p:1800},plagate:{n:'プラゲート',c:'#2563eb',p:1500,ds:'10 3'},adflat:{n:'アドフラット(鋼板)',c:'#475569',p:2000,ds:'20 4'}};
+const fRN=(a,b)=>{const L=Math.hypot(b.x-a.x,b.y-a.y)||1;return{x:-(b.y-a.y)/L,y:(b.x-a.x)/L}};
+// 折れ線を進行方向の右へ D だけオフセット(角はマイター)
+function fOff(P,closed,D){const n=P.length,out=[];
+ for(let i=0;i<n;i++){const pv=i>0?P[i-1]:(closed&&n>2?P[n-1]:null),nx=i<n-1?P[i+1]:(closed&&n>2?P[0]:null),r1=pv?fRN(pv,P[i]):null,r2=nx?fRN(P[i],nx):null;let v;
+  if(r1&&r2){const dn=1+r1.x*r2.x+r1.y*r2.y;if(dn<.15)v={x:r2.x*D,y:r2.y*D};else{v={x:(r1.x+r2.x)*D/dn,y:(r1.y+r2.y)*D/dn};const m=Math.hypot(v.x,v.y),lm=Math.abs(D)*2.5;if(m>lm){v.x*=lm/m;v.y*=lm/m}}}
+  else{const r=r1||r2||{x:0,y:0};v={x:r.x*D,y:r.y*D}}
+  out.push({x:P[i].x+v.x,y:P[i].y+v.y})}return out}
+// ●位置:各直線の始点から pu ごと+端部・折れ点は必ず
+function fDots(P,closed,pu,mg){if(P.length==1)return[{x:P[0].x,y:P[0].y}];const Q=closed?[...P,P[0]]:P,D=[];
+ for(let i=0;i<Q.length-1;i++){const a=Q[i],b=Q[i+1],L=Math.hypot(b.x-a.x,b.y-a.y);if(L<1e-6)continue;const ux=(b.x-a.x)/L,uy=(b.y-a.y)/L;
+  if(!D.length)D.push({x:a.x,y:a.y});
+  for(let t=pu;t<L-mg;t+=pu)D.push({x:a.x+ux*t,y:a.y+uy*t});
+  if(!(closed&&i==Q.length-2))D.push({x:b.x,y:b.y})}
+ return D}
+function fWave(P,closed,A,lam){const Q=closed?[...P,P[0]]:P;let d='';
+ for(let i=0;i<Q.length-1;i++){const a=Q[i],b=Q[i+1],L=Math.hypot(b.x-a.x,b.y-a.y);if(L<1e-6)continue;const ux=(b.x-a.x)/L,uy=(b.y-a.y)/L,n=Math.max(1,Math.round(L/lam)),st=n*12;
+  for(let k=(d?1:0);k<=st;k++){const t=L*k/st,w=A*Math.sin(2*Math.PI*n*k/st);d+=(d?'L':'M')+(a.x+ux*t-uy*w).toFixed(2)+' '+(a.y+uy*t+ux*w).toFixed(2)}}
+ return d}
+function fSegs(it){const Q=it.closed&&it.pts.length>2?[...it.pts,it.pts[0]]:it.pts,segs=[];let acc=0;
+ for(let i=0;i<Q.length-1;i++){const a=Q[i],b=Q[i+1],L=Math.hypot(b.x-a.x,b.y-a.y);if(L<1e-6)continue;segs.push({a,b,L,u:{x:(b.x-a.x)/L,y:(b.y-a.y)/L},s0:acc,vi:i});acc+=L}
+ return{segs,total:acc}}
+function fAt(it,u){const g=fSegs(it);if(!g.segs.length)return null;const s=Math.max(0,Math.min(1,u))*g.total;let q=g.segs[g.segs.length-1];
+ for(const sg of g.segs){if(s<=sg.s0+sg.L+1e-9){q=sg;break}}
+ const t=Math.max(0,Math.min(q.L,s-q.s0));return{x:q.a.x+q.u.x*t,y:q.a.y+q.u.y*t,ang:Math.atan2(q.u.y,q.u.x)}}
+function fNear(it,q){const g=fSegs(it);let best=null;
+ for(const sg of g.segs){const t=Math.max(0,Math.min(sg.L,(q.x-sg.a.x)*sg.u.x+(q.y-sg.a.y)*sg.u.y)),x=sg.a.x+sg.u.x*t,y=sg.a.y+sg.u.y*t,d=Math.hypot(q.x-x,q.y-y);
+  if(!best||d<best.d)best={d,x,y,u:g.total?(sg.s0+t)/g.total:0,i:sg.vi}}
+ return best}
+function fGeo(it){const mp=S.mpp,L=fSegs(it).total;let pu=Math.max(1,(it.pitch||2000)/1000/mp);if(L/pu>4000)pu=L/4000;const mg=it.ds*2.4,o={len:L*mp};
+ if(it.pts.length<2){o.D=it.pts.slice(0,1);o.P=[];o.A=o.D;o.B=[];o.PA=[];o.PB=[];o.n=o.D.length;o.d=0;return o}
+ if(it.ft=='tube'){const d=Math.max(0,(it.gap||0)/1000/mp/2);o.d=d;o.PA=fOff(it.pts,it.closed,d*it.sn);o.PB=fOff(it.pts,it.closed,-d*it.sn);o.A=fDots(o.PA,it.closed,pu,mg);o.B=fDots(o.PB,it.closed,pu,mg);o.n=o.A.length+o.B.length}
+ else{o.d=0;o.P=it.pts;o.D=fDots(it.pts,it.closed,pu,mg);o.n=o.D.length}
+ return o}
+function fenceMk(ft,pts){const D=FT[ft],pe=document.getElementById('fp_'+ft),ce=document.getElementById('fc_'+ft);
+ return{id:null,k:'f',ft,name:D.n,x:0,y:0,pts,closed:false,c:(ce&&ce.value)||D.c,pitch:Math.max(100,+(pe&&pe.value)||D.p),ds:1.6,lw:1.1,gap:500,sn:1,lbOn:true,lbSp:10,lbFs:7,lb:[]}}
+function fenceLabels(it){const L=fSegs(it).total*S.mpp;if(L<=0){it.lb=[];return}const n=Math.max(1,Math.round(L/Math.max(1,it.lbSp||10)));it.lb=Array.from({length:n},(_,i)=>({u:(i+.5)/n,ox:0,oy:0}))}
+// 種別ラベルの中心位置(線の少し上・文字が読める向き)
+function fLabPos(it,l){const b=fAt(it,l.u);if(!b)return null;let a=b.ang;if(a>Math.PI/2)a-=Math.PI;else if(a<-Math.PI/2)a+=Math.PI;
+ const sh=(it.ft=='tube'?(it.gap||0)/1000/S.mpp/2:0)+it.ds+it.lbFs*.5+.8,sx=sh*Math.sin(a),sy=-sh*Math.cos(a);
+ return{b,a,sx,sy,x:b.x+(l.ox||0)+sx,y:b.y+(l.oy||0)+sy}}
+function fenceSvg(it,on){const G=fGeo(it),c=it.c,r=it.ds,lw=it.lw,N=p=>p.x.toFixed(2)+' '+p.y.toFixed(2),
+ pd=P=>P.length<2?'':'M'+P.map(N).join('L')+(it.closed&&P.length>2?'Z':''),
+ dot=D=>D.map(p=>`<circle cx="${p.x.toFixed(2)}" cy="${p.y.toFixed(2)}" r="${r}" fill="${c}" stroke="#fff" stroke-width=".35"/>`).join(''),
+ hw=Math.max(10,G.d*2+8);let s='';
+ if(on)s+=`<path d="${pd(it.pts)}" fill="none" stroke="#f59e0b" stroke-width="${G.d*2+5}" stroke-linejoin="round" opacity=".3" pointer-events="none"/>`;
+ if(it.ft=='tube'){
+  s+=`<path d="${pd(G.PA)}" fill="none" stroke="${c}" stroke-width="${lw}" stroke-dasharray="9 2.5 1.2 2.5" stroke-linejoin="round"/>`;
+  s+=`<path d="${fWave(G.PB,it.closed&&it.pts.length>2,1.8,8)}" fill="none" stroke="${c}" stroke-width="${lw}" stroke-linejoin="round"/>`;
+  s+=dot(G.A)+dot(G.B)}
+ else{s+=`<path d="${pd(G.P)}" fill="none" stroke="${c}" stroke-width="${lw}" stroke-dasharray="${FT[it.ft].ds}" stroke-linejoin="round"/>`+dot(G.D)}
+ if(it.id)s+=`<path d="${pd(it.pts)}" fill="none" stroke="transparent" stroke-width="${hw}" stroke-linejoin="round" pointer-events="stroke"/>`;
+ if(it.lbOn!==false&&it.lb)it.lb.forEach((l,k)=>{const q=fLabPos(it,l);if(!q)return;const fs=it.lbFs,w=it.name.length*fs+4,h=fs+3;
+  s+=`<g data-h="fl${k}" transform="translate(${q.x.toFixed(2)} ${q.y.toFixed(2)}) rotate(${(q.a*180/Math.PI).toFixed(2)})" style="cursor:move"><rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" fill="transparent"/><text text-anchor="middle" y="${(fs*.35).toFixed(2)}" font-size="${fs}" font-weight="bold" fill="${c}" paint-order="stroke" stroke="#fff" stroke-width="2.2" stroke-linejoin="round">${it.name}</text></g>`});
+ return `<g class="it" data-id="${it.id}" transform="translate(${it.x} ${it.y})">${s}</g>`}
+function fenceHdl(it){return `<g data-id="${it.id}" transform="translate(${it.x} ${it.y})">`+it.pts.map((p,i)=>`<g data-h="fv${i}" style="cursor:move"><circle cx="${p.x}" cy="${p.y}" r="10" fill="transparent"/><circle cx="${p.x}" cy="${p.y}" r="4.2" fill="#fff" stroke="#f59e0b" stroke-width="1.6"/></g>`).join('')+`</g>`}
+function fencePrev(sel){const F=S.fp;if(!F||!sel||S.mode!='fence'||!F.pts.length)return'';
+ const t=fenceMk(F.ft,F.pts.concat(S.fv?[S.fv]:[]));t.id=0;t.lbOn=false;
+ return `<g pointer-events="none" opacity=".8">${fenceSvg(t,false)}</g>`+(F.pts.length>=3?`<circle cx="${F.pts[0].x}" cy="${F.pts[0].y}" r="9" fill="none" stroke="#f59e0b" stroke-dasharray="2 2" pointer-events="none"/>`:'')}
+function fenceInfo(){const el=$('#fenceInfo');if(!el)return;if(S.mode!='fence'||!S.fp){el.textContent='';return}
+ const F=S.fp,pts=F.pts.concat(S.fv&&F.pts.length?[S.fv]:[]);if(!pts.length){el.textContent=FT[F.ft].n+':図面上をクリックして始点を指定';return}
+ const g=fGeo(fenceMk(F.ft,pts));el.innerHTML=`${FT[F.ft].n}:点${F.pts.length} / 延長 <b>${g.len.toFixed(2)}</b>m / ●<b>${g.n}</b>個`}
+function fenceCommit(F,closed){const P=[];F.pts.forEach(p=>{const q=P[P.length-1];if(!q||Math.hypot(p.x-q.x,p.y-q.y)>.5)P.push({x:p.x,y:p.y})});
+ if(closed&&P.length>2&&Math.hypot(P[0].x-P[P.length-1].x,P[0].y-P[P.length-1].y)<=.5)P.pop();if(P.length<2)return null;
+ const it=fenceMk(F.ft,P);it.id=S.uid++;it.closed=!!closed&&P.length>=3;
+ if(it.closed){let A=0;P.forEach((a,i)=>{const b=P[(i+1)%P.length];A+=a.x*b.y-b.x*a.y});it.sn=A>0?1:-1}
+ fenceLabels(it);S.items.push(it);S.sel=it.id;return it}
+function fenceStart(ft){const was=S.mode=='fence';if(was&&S.ft==ft){fenceEnd();return}
+ if(was&&S.fp){const F=S.fp;S.fp=null;if(F.pts.length>=2)fenceCommit(F,false)}
+ S.pts=[];S.mp=null;S.hv=null;S.sel=null;S.ft=ft;S.fp={ft,pts:[]};S.fv=null;S.mode='fence';mode();props()}
+function fenceEnd(closed){const F=S.fp;S.fp=null;S.fv=null;if(F&&F.pts.length>=2)fenceCommit(F,!!closed);S.mode='sel';mode();props()}
+function fenceMode(){const on=S.mode=='fence';
+ if(!on&&S.fp){const F=S.fp;S.fp=null;S.fv=null;if(F.pts.length>=2){fenceCommit(F,false);props()}}
+ document.querySelectorAll('#fenceBox [data-fb]').forEach(b=>b.classList.toggle('on',on&&b.dataset.fb==S.ft));fenceInfo()}
+function fenceUndo(){if(S.fp&&S.fp.pts.length){S.fp.pts.pop();S.fv=null;draw();fenceInfo()}}
+function fencePt(e,p){const F=S.fp||(S.fp={ft:S.ft||'orange',pts:[]}),L=F.pts[F.pts.length-1];
+ if(e.shiftKey&&L)ortho(p,L);
+ if(F.pts.length>=3&&Math.hypot(p.x-F.pts[0].x,p.y-F.pts[0].y)<9){fenceEnd(true);return}
+ if(L&&Math.hypot(p.x-L.x,p.y-L.y)<4/(S.zoom||1))return;
+ F.pts.push({x:p.x,y:p.y});S.la=Date.now();S.fv=null;draw();fenceInfo()}
+function fenceDrag(it,d,p){const q={x:p.x-it.x,y:p.y-it.y},k=+d.h.slice(2);
+ if(d.h[1]=='v'){if(it.pts[k]){it.pts[k]={x:q.x,y:q.y}}}
+ else{const l=it.lb[k];if(!l)return;const n=fNear(it,q);if(!n)return;l.u=n.u;l.ox=0;l.oy=0;const c=fLabPos(it,l);if(c){l.ox=q.x-c.x;l.oy=q.y-c.y}}
+ fenceCnt(it)}
+function fenceDbl(e){const it=S.items.find(i=>i.id==S.sel);if(!it||it.k!='f')return;const p=pt(e),q={x:p.x-it.x,y:p.y-it.y},tol=8/(S.zoom||1);
+ const vi=it.pts.findIndex(v=>Math.hypot(v.x-q.x,v.y-q.y)<tol);
+ if(vi>=0){if(it.pts.length>(it.closed?3:2)){it.pts.splice(vi,1);draw();props()}return}
+ const n=fNear(it,q);if(n&&n.d<tol){it.pts.splice(n.i+1,0,{x:n.x,y:n.y});draw();props()}}
+function fenceCnt(it){const el=$('#fcnt');if(!el)return;const g=fGeo(it);
+ el.innerHTML=`延長 <b>${g.len.toFixed(2)}</b> m ／ ● <b>${g.n}</b> 個`+(it.ft=='tube'?`<br>(敷地側 ${g.A.length} ／ 外部側 ${g.B.length})`:'')+`<br>頂点(端部・折れ点) ${it.pts.length}点 ／ ラベル ${it.lbOn!==false?it.lb.length:0}か所`}
+function fenceSum(){const F=S.items.filter(i=>i.k=='f');if(!F.length)return'';const A={};
+ F.forEach(it=>{const g=fGeo(it),a=A[it.ft]||(A[it.ft]={n:0,len:0,dots:0,a:0,b:0});a.n++;a.len+=g.len;a.dots+=g.n;if(it.ft=='tube'){a.a+=g.A.length;a.b+=g.B.length}});
+ let h='<div style="margin-top:6px"><b>仮囲い</b></div><table>';
+ Object.keys(FT).forEach(k=>{const a=A[k];if(!a)return;h+=`<tr><td>${FT[k].n}</td><td>${a.n}列 ${a.len.toFixed(1)}m</td><td>●${a.dots}個</td></tr>`+(k=='tube'?`<tr><td colspan="3" style="color:var(--mu)">　敷地側●${a.a} / 外部側●${a.b}</td></tr>`:'')});
+ return h+'</table>'}
+function propsFence(it,P){const tube=it.ft=='tube',f=(k,l,st,mn,mx)=>`${l}<input type="number" data-fk="${k}" step="${st}" min="${mn}"${mx?` max="${mx}"`:''} value="${it[k]}">`;
+ P.innerHTML=`<b>仮囲い:${it.name}</b>`
+ +`<div class="row">${f('pitch','●ピッチ','100',100)}mm</div>`
+ +`<div class="row">色<input type="color" id="fcc" value="${it.c}"> ${f('ds','●半径','0.1',0.3,8)}</div>`
+ +`<div class="row">${f('lw','線幅','0.1',0.2,6)}</div>`
+ +(tube?`<div class="row">${f('gap','線間隔','50',0)}mm</div><div class="row">敷地側<select id="fsn"><option value="1">進行方向の右</option><option value="-1">進行方向の左</option></select><button id="fflip">⇄反転</button></div>`:'')
+ +`<div class="row"><label><input type="checkbox" id="flo" style="width:auto"${it.lbOn!==false?' checked':''}> 種別ラベル</label>${f('lbSp','間隔','1',1)}m</div>`
+ +`<div class="row">${f('lbFs','文字','1',3,30)}<button id="flre">ラベル再配置</button></div>`
+ +`<div class="row"><label><input type="checkbox" id="fcl" style="width:auto"${it.closed?' checked':''}> 閉合(始点につなぐ)</label></div>`
+ +`<div id="fcnt" class="small" style="color:var(--ac)"></div>`
+ +`<div class="small">頂点●をドラッグで移動／線上ダブルクリックで頂点追加／頂点ダブルクリックで削除／種別ラベルはドラッグで自由に移動／線をドラッグで全体移動。</div>`
+ +`<div class="row"><button id="fall">同種の仮囲いに反映</button><button id="bdup">複製</button><button id="bdel">削除</button></div>`;
+ if(tube)$('#fsn').value=String(it.sn);
+ P.querySelectorAll('input[data-fk]').forEach(i=>i.onchange=()=>{const k=i.dataset.fk;let v=+i.value;const mn=+i.min;if(!isFinite(v)||v<mn){v=Math.max(mn,it[k]);i.value=v}it[k]=v;if(k=='lbSp')fenceLabels(it);if(k=='lbFs'||k=='lbSp'||k=='pitch'||k=='ds'||k=='gap'||k=='lw'){}draw();fenceCnt(it)});
+ $('#fcc').oninput=e=>{it.c=e.target.value;draw()};
+ if(tube){$('#fsn').onchange=e=>{it.sn=+e.target.value;draw()};$('#fflip').onclick=()=>{it.sn=-it.sn;$('#fsn').value=String(it.sn);draw()}}
+ $('#flo').onchange=e=>{it.lbOn=e.target.checked;if(it.lbOn&&!it.lb.length)fenceLabels(it);draw();fenceCnt(it)};
+ $('#flre').onclick=()=>{it.lbOn=true;fenceLabels(it);draw();props()};
+ $('#fcl').onchange=e=>{if(e.target.checked&&it.pts.length<3){e.target.checked=false;return}it.closed=e.target.checked;draw();fenceCnt(it)};
+ $('#fall').onclick=()=>{S.items.forEach(o=>{if(o.k=='f'&&o.ft==it.ft){o.pitch=it.pitch;o.c=it.c;o.ds=it.ds;o.lw=it.lw;o.gap=it.gap;o.lbFs=it.lbFs}});draw()};
+ $('#bdup').onclick=()=>{const c=JSON.parse(JSON.stringify(it));c.id=S.uid++;c.x+=15;c.y+=15;S.items.push(c);S.sel=c.id;draw();props()};
+ $('#bdel').onclick=del;fenceCnt(it)}
+// 左メニュー(種別ボタン・ピッチ・色)
+document.querySelectorAll('#fenceBox [data-fb]').forEach(b=>b.onclick=()=>fenceStart(b.dataset.fb));
+$('#fenceOk').onclick=()=>fenceEnd();$('#fenceUndo').onclick=fenceUndo;
+Object.keys(FT).forEach(ft=>{const pe=$('#fp_'+ft),ce=$('#fc_'+ft);
+ const ap=()=>{const it=S.items.find(i=>i.id==S.sel);if(it&&it.k=='f'&&it.ft==ft){it.pitch=Math.max(100,+pe.value||it.pitch);it.c=ce.value;draw();props()}else{draw();fenceInfo()}};
+ pe.onchange=ap;ce.oninput=ap});
+
 // ---- プロパティ・集計
-function props(){const it=S.items.find(i=>i.id==S.sel),P=$('#props');$('#pbox').style.display=it&&it.k!='n'?'block':'none';annUI();if(!it||it.k=='n')return;if(it.k=='i'){propsImg(it,P);return}
+function props(){const it=S.items.find(i=>i.id==S.sel),P=$('#props');$('#pbox').style.display=it&&it.k!='n'?'block':'none';annUI();if(!it||it.k=='n')return;if(it.k=='i'){propsImg(it,P);return}if(it.k=='f'){propsFence(it,P);return}
 const inp=(k,l,st='any')=>`${l}<input type="number" step="${st}" data-k="${k}" value="${it[k]}">`;
 P.innerHTML=`<b>${it.name}</b><div class="row">`+(it.k=='s'?inp('gap','離隔','0.05')+inp('wid','幅','0.05')+inp('lift','段高','0.1')+inp('h','高さ','0.5'):inp('l','長さm','0.1')+inp('w','幅m','0.1')+(it.t=='cone'?'':inp('a','角度°','5')))+`</div>`+(PIV.has(it.t)&&it.pv?`<div class="row">作業半径<input id="rad" type="number" step="0.5" min="0" data-k="rad" value="${it.rad}" max="${RMAX[it.t]||''}" placeholder="${DR[it.t]}">m<button id="bpv" ${it.pvEdit?'':'hidden'}>旋回軸を指定</button></div><div class="row"><label><input type="checkbox" id="pvedit" style="width:auto" ${it.pvEdit?'checked':''}> 旋回軸の位置を調整する(通常は車両に固定)</label></div><div class="small">半径を入力(${RMAX[it.t]?'最大'+RMAX[it.t]+'m':'目安'+DR[it.t]+'m'})→円を表示。円は車両に固定され、車両の移動・回転に追従します。円の線(縁)をドラッグすると半径が伸び縮みします(ポンプ車は灰色の点線=最大半径まで)。旋回軸の位置を直すときだけ下のチェックを入れてください。赤丸のドラッグで半径変更(0で非表示)。</div>`:'')+`<div class="row"><button id="b90"${it.t=='cone'?' hidden':''}>90°回転</button><button id="bdup">複製</button><button id="bdel">削除</button>${S.lines.some(l=>l.ids.length>1&&l.ids.includes(it.id))?'<button id="bline">この列を全削除</button>':''}</div>`;
 P.querySelectorAll('input').forEach(i=>i.onchange=()=>{let v=+i.value;if(it.pv&&(i.dataset.k=='l'||i.dataset.k=='w')&&it[i.dataset.k]>0&&v>0){it.pv[i.dataset.k=='l'?0:1]*=v/it[i.dataset.k]}if(i.dataset.k=='rad'&&RMAX[it.t]&&v>RMAX[it.t]){v=RMAX[it.t];i.value=v}it[i.dataset.k]=v;draw()});
@@ -447,9 +577,9 @@ function sumup(){const c={};let h='';S.items.forEach(i=>{if(i.k=='o')c[i.name]=(
 h='<table>'+Object.entries(c).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('')+'</table>';
 S.items.filter(i=>i.k=='s').forEach((it,n)=>{const l=lay(it),lf=Math.max(1,Math.ceil(it.h/it.lift)),hs=Object.entries(l.hist).sort((a,b)=>b[0]-a[0]);
 h+=`<div style="margin-top:6px"><b>足場${n+1}</b> 幅${Math.round(it.wid*1000)}mm / ${lf}段(高さ${it.h}m)<br>周長 ${l.E.reduce((a,e)=>a+e.L,0).toFixed(1)}m<br>布材(内外2列×${lf}段):<br>`+hs.map(([s,v])=>`JR${s}: ${v*2*lf}本`).join('<br>')+`<br>妻側布材: ${l.tot*lf}本 / 建地: ${l.tot*2}列`+(l.adj.length?`<br><span style="color:#e11d48">端数吸収: `+l.adj.map(a=>`辺${a[0]}+${a[1]}mm`).join(' ')+`</span>`:'')+(l.bad?`<br><span style="color:#e11d48">短すぎる辺${l.bad}本は省略</span>`:'')+`</div>`});
-$('#sum').innerHTML=h||'なし'}
+h+=fenceSum();$('#sum').innerHTML=h||'なし'}
 document.addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;const it=S.items.find(i=>i.id==S.sel);
-if(e.key=='Escape'){S.pts=[];S.cal=[];S.mp=null;S.hv=null;S.mode='sel';mode();return}if(S.mode=='trk'){const t=S.items.find(i=>i.id==S.sel);if(e.key=='Enter'){trkEnd();e.preventDefault()}else if(e.key=='Backspace'&&t&&t.tr){t.tr.pts.pop();draw();props();e.preventDefault()}return}if(S.mode=='cone'){if(e.key=='Enter'){coneEnd();e.preventDefault()}else if(e.key=='Backspace'){coneUndo();e.preventDefault()}return}if(!it)return;
+if(e.key=='Escape'){S.pts=[];S.cal=[];S.mp=null;S.hv=null;S.mode='sel';mode();return}if(S.mode=='trk'){const t=S.items.find(i=>i.id==S.sel);if(e.key=='Enter'){trkEnd();e.preventDefault()}else if(e.key=='Backspace'&&t&&t.tr){t.tr.pts.pop();draw();props();e.preventDefault()}return}if(S.mode=='fence'){if(e.key=='Enter'){fenceEnd();e.preventDefault()}else if(e.key=='Backspace'){fenceUndo();e.preventDefault()}return}if(S.mode=='cone'){if(e.key=='Enter'){coneEnd();e.preventDefault()}else if(e.key=='Backspace'){coneUndo();e.preventDefault()}return}if(!it)return;
 if(it.k=='n'&&(e.key=='Enter'||e.key=='F2')){annEdit(it);e.preventDefault();return}if(it.k=='n'&&(e.key=='r'||e.key=='R')){annRot(it,90);draw();annUI();e.preventDefault();return}if(e.key=='Delete'||e.key=='Backspace'){del();e.preventDefault()}else if(e.key=='r'||e.key=='R'){$('#b90')&&$('#b90').click()}
 else if(e.key.startsWith('Arrow')){const d={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];if(it.k=='n')annMove(it,d[0],d[1]);else{it.x+=d[0];it.y+=d[1]}draw();e.preventDefault()}});
 // ---- 画像貼り付け(移動・伸縮・回転)
@@ -787,7 +917,7 @@ const dbDel=k=>db().then(d=>new Promise(res=>{const t=d.transaction(ST,'readwrit
 const say=(t,c)=>{st.textContent=t;st.className='small '+(c||'')};
 const nid=()=>'s'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
 const fmtT=t=>{const d=new Date(t);return (d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
-const FLD=['sgap','swid','slift','sh','ssp','csp'];
+const FLD=['sgap','swid','slift','sh','ssp','csp','fp_orange','fc_orange','fp_tube','fc_tube','fp_plagate','fc_plagate','fp_adflat','fc_adflat'];
 
 function snap(){return{v:1,saved:Date.now(),items:S.items,lines:S.lines,meas:S.meas,uid:S.uid,N:S.N,mpp:S.mpp,W:S.W,H:S.H,zoom:S.zoom,
  mode:S.pdfBytes?'pdf':'blank',pg:+g('pg').value||1,pdfName:S.pdfName||'',fld:Object.fromEntries(FLD.map(k=>[k,g(k).value]))}}
@@ -808,7 +938,7 @@ function fill(){sel.innerHTML=idx.list.map(m=>`<option value="${m.id}">${label(m
 async function apply(data,pdfBytes){
  loading=true;
  try{
-  S.items=[];S.lines=[];S.meas=[];S.sel=null;S.mode='sel';S.pts=[];S.cal=[];S.cl=null;S.cs=[];S.cv=null;S.mp=null;S.hv=null;
+  S.fp=null;S.fv=null;S.items=[];S.lines=[];S.meas=[];S.sel=null;S.mode='sel';S.pts=[];S.cal=[];S.cl=null;S.cs=[];S.cv=null;S.mp=null;S.hv=null;
   if(data&&data.fld)FLD.forEach(k=>{if(data.fld[k]!=null)g(k).value=data.fld[k]});
   S.N=data&&data.N||200;
   if(data&&data.mode=='pdf'&&pdfBytes&&window.pdfjsLib){
@@ -870,7 +1000,7 @@ const dupAny=()=>{const it=S.items.find(i=>i.id==S.sel);if(!it)return;if(it.k=='
 const Q={sel:()=>document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true})),
  meas:()=>g('measBtn').click(),cal:()=>g('calBtn').click(),scaf:()=>{document.querySelector('details[data-k=scaf]').open=true;g('scafBtn').click()},
  cone:()=>{const ci=T.findIndex(t=>t[1]=='cone'),b=document.querySelector('#pal button[data-t="'+ci+'"]');b&&b.click()},
- 'a-text':()=>annTool('text'),'a-arrow':()=>annTool('arrow'),'a-call':()=>annTool('call'),'a-cloud':()=>annTool('cloud'),
+ fence:()=>{document.querySelector('details[data-k=pal]').open=true;fenceStart(S.ft||'orange')},'a-text':()=>annTool('text'),'a-arrow':()=>annTool('arrow'),'a-call':()=>annTool('call'),'a-cloud':()=>annTool('cloud'),
  rot:()=>{if(S.sel!=null)document.dispatchEvent(new KeyboardEvent('keydown',{key:'r',bubbles:true}))},
  dup:dupAny,del:()=>{if(S.sel!=null)del()},
  zo:()=>zc(S.zoom/1.25),zi:()=>zc(S.zoom*1.25),z1:()=>zc(1),
@@ -879,7 +1009,7 @@ const Q={sel:()=>document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape
 function zc(z){const r=wrap.getBoundingClientRect();zoomAt(z,r.left+r.width/2,r.top+r.height/2)}
 g('qbar').onclick=e=>{const b=e.target.closest('button[data-q]');if(b)Q[b.dataset.q]()};
 const _m=mode;mode=function(){_m();document.querySelectorAll('#qbar [data-q]').forEach(b=>{const k=b.dataset.q;
- if(['sel','meas','cal','scaf','cone'].includes(k))b.classList.toggle('on',S.mode==k);
+ if(['sel','meas','cal','scaf','cone','fence'].includes(k))b.classList.toggle('on',S.mode==k);
  else if(k.startsWith('a-'))b.classList.toggle('on',S.mode=='ann'&&S.ann==k.slice(2))});
  document.querySelectorAll('[data-ann]').forEach(b=>b.classList.toggle('on',S.mode=='ann'&&S.ann==b.dataset.ann));annUI()};
 // 折りたたみ状態の記憶
