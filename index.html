@@ -1657,7 +1657,7 @@ const G={tool:null,cur:null,pm:null,clip:null,po:0,mp:null},z=()=>S.zoom||1,N=v=
 const GD={fill:true,fc:'#3b82f6',fo:.35,bd:true,sc:'#1d4ed8',lw:2};
 const sel=()=>{const i=S.items.find(i=>i.id==S.sel);return i&&i.k=='g'?i:null};
 const toast=t=>{let h=document.getElementById('ghint');if(!h){h=document.createElement('div');h.id='ghint';h.style.cssText='position:fixed;left:50%;transform:translateX(-50%);top:calc(70px + env(safe-area-inset-top,0px));z-index:8;background:#000b;color:#fff;padding:5px 12px;border-radius:999px;font-size:12px;pointer-events:none';document.body.appendChild(h)}h.textContent=t||'';h.style.display=t?'':'none'};
-const HT={rect:'ドラッグで四角形を描く',poly:'クリックで頂点を追加。始点クリック/ダブルクリック/Enterで確定(Backspaceで1点戻る)',sig:'クリックで信号を配置',era:'消したい線の交差部分を、手書きのように丸で囲む',road:'クリックで道路の中心線を引く(幅員は右上で設定)。ダブルクリック/Enterで確定',cross:'道路を横切る向き(渡る向き)にドラッグ',dim:'ドラッグで寸法線(長さを自動表示)',sign:'クリックで標識を配置'};
+const HT={rect:'ドラッグで四角形を描く',poly:'クリックで頂点を追加。始点クリック/ダブルクリック/Enterで確定(Backspaceで1点戻る)',sig:'クリックで信号を配置',era:'道路が交わる所を丸で囲む(横切る線は残り、道路を横切られる線だけが、道路の幅の分で切れます)',road:'クリックで道路の中心線を引く(幅員は右上で設定)。ダブルクリック/Enterで確定',cross:'道路を横切る向き(渡る向き)にドラッグ',dim:'ドラッグで寸法線(長さを自動表示)',sign:'クリックで標識を配置'};
 function ui(){document.querySelectorAll('#qbar [data-g]').forEach(b=>b.classList.toggle('on',b.dataset.g==G.tool));toast(G.tool?HT[G.tool]:G.pm?(G.pm=='add'?'線上をクリックでポイント追加':'ポイントをクリックで削除'):'')}
 function stop(){G.tool=null;G.cur=null;G.pm=null;pv();ui()}
 function start(t){const same=G.tool==t;stop();if(same)return;S.mode='sel';mode();S.sel=null;draw();props();G.tool=t;sv.classList.add('cross');ui()}
@@ -1724,7 +1724,32 @@ function cutLine(P,Z){const out=[];let cu=[],cut=false;const lp=(a,b,t)=>({x:a.x
  for(let i=0;i<P.length-1;i++){const a=P[i],b=P[i+1],ts=[0,1];for(let k=0;k<Z.length;k++){const t=segT(a,b,Z[k],Z[(k+1)%Z.length]);if(t!=null)ts.push(t)}ts.sort((x,y)=>x-y);
   for(let k=0;k<ts.length-1;k++){if(ts[k+1]-ts[k]<1e-9)continue;const pa=lp(a,b,ts[k]),pb=lp(a,b,ts[k+1]);if(pip(lp(a,b,(ts[k]+ts[k+1])/2),Z)){cut=true;if(cu.length>1)out.push(cu);cu=[]}else{push(pa);push(pb)}}}
  if(cu.length>1)out.push(cu);return{out,cut}}
-function erase(Z){if(Z.length<4)return;let n=0;const res=[];
+// ---- 交差部の自動整形: 囲んだ範囲で「2本以上の線と交わる線」を、最初と最後の交点の間だけ切る(横切られる側の線は残す)
+function xExt(P,tol){const Q=P.map(p=>({x:p.x,y:p.y})),n=Q.length;if(n<2)return Q;
+ const f=(a,b)=>{const L=Math.hypot(b.x-a.x,b.y-a.y)||1;return{x:a.x+(a.x-b.x)/L*tol,y:a.y+(a.y-b.y)/L*tol}};
+ const a=f(Q[0],Q[1]),b=f(Q[n-1],Q[n-2]);Q[0]=a;Q[n-1]=b;return Q}
+function xPlan(items,Z,tol){
+ const W=items.filter(it=>it.k=='w'),WP=W.map(it=>it.pts.map(p=>({x:p.x+it.x,y:p.y+it.y}))),plan=new Map();
+ W.forEach((it,ia)=>{const A=WP[ia];if(A.length<2)return;const cum=[0];for(let i=1;i<A.length;i++)cum.push(cum[i-1]+Math.hypot(A[i].x-A[i-1].x,A[i].y-A[i-1].y));
+  const ss=[];
+  W.forEach((b,ib)=>{if(ib==ia||WP[ib].length<2)return;const B=xExt(WP[ib],tol);
+   for(let j=0;j<B.length-1;j++)for(let i=0;i<A.length-1;i++){const t=segT(A[i],A[i+1],B[j],B[j+1]);if(t==null)continue;
+    const x=A[i].x+(A[i+1].x-A[i].x)*t,y=A[i].y+(A[i+1].y-A[i].y)*t;if(pip({x,y},Z))ss.push(cum[i]+(cum[i+1]-cum[i])*t)}});
+  ss.sort((a,b)=>a-b);if(ss.length>=2&&ss[ss.length-1]-ss[0]>1)plan.set(it.id,{s1:ss[0],s2:ss[ss.length-1],P:A})});
+ return plan}
+function xCut(P,s1,s2){const cum=[0];for(let i=1;i<P.length;i++)cum.push(cum[i-1]+Math.hypot(P[i].x-P[i-1].x,P[i].y-P[i-1].y));
+ const at=s=>{for(let i=1;i<P.length;i++)if(s<=cum[i]||i==P.length-1){const L=cum[i]-cum[i-1]||1,t=Math.max(0,Math.min(1,(s-cum[i-1])/L));return{x:P[i-1].x+(P[i].x-P[i-1].x)*t,y:P[i-1].y+(P[i].y-P[i-1].y)*t}}};
+ const c=p=>({x:p.x,y:p.y}),pre=[],post=[];
+ for(let i=0;i<P.length;i++)if(cum[i]<s1-1e-6)pre.push(c(P[i]));pre.push(at(s1));
+ post.push(at(s2));for(let i=0;i<P.length;i++)if(cum[i]>s2+1e-6)post.push(c(P[i]));
+ return[pre,post]}
+function erase(Z){if(Z.length<4)return;
+ const plan=xPlan(S.items,Z,8/z());if(!plan.size){eraseLoop(Z);return}
+ let n=0;const res=[],len=c=>c.reduce((s,p,i)=>i?s+Math.hypot(p.x-c[i-1].x,p.y-c[i-1].y):0,0);
+ for(const it of S.items){const pl=plan.get(it.id);if(!pl){res.push(it);continue}n++;
+  xCut(pl.P,pl.s1,pl.s2).filter(c=>c.length>1&&len(c)>2).forEach((c,i)=>{const o=i?JSON.parse(JSON.stringify(it)):it;if(i){o.id=S.uid++;o.txt='';o.tOn=false}o.x=0;o.y=0;o.tp=null;o.pts=c;res.push(o)})}
+ S.items=res;if(!S.items.some(i=>i.id==S.sel))S.sel=null;draw();props();toast('交差部を整えました('+n+'本の線を切断)');setTimeout(ui,1400)}
+function eraseLoop(Z){if(Z.length<4)return;let n=0;const res=[];
  for(const it of S.items){if(it.k!='w'){res.push(it);continue}const P=it.pts.map(p=>({x:p.x+it.x,y:p.y+it.y})),r=cutLine(P,Z);if(!r.cut){res.push(it);continue}n++;
   r.out.filter(c=>c.reduce((s,p,i)=>i?s+Math.hypot(p.x-c[i-1].x,p.y-c[i-1].y):0,0)>2).forEach((c,i)=>{const o=i?JSON.parse(JSON.stringify(it)):it;if(i){o.id=S.uid++;o.txt='';o.tOn=false}o.x=0;o.y=0;o.tp=null;o.pts=c;res.push(o)})}
  S.items=res;if(!S.items.some(i=>i.id==S.sel))S.sel=null;draw();props();toast(n?'線を切りました('+n+'本)':'囲んだ範囲に線がありません');setTimeout(ui,1400)}
