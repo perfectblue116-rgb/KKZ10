@@ -146,7 +146,7 @@ setInterval(chk,300000);document.addEventListener('visibilitychange',()=>{if(!do
 <details class="sec" data-k="pal" open><summary>② 仮設物を追加</summary><div class="sb"><div class="small">車両・重機は提供CAD図の実形状。クリックで図面中央に配置→ドラッグで移動。</div>
 <div id="pal" class="pal"></div>
 <div id="coneBox" class="small" style="margin-top:6px"><div class="row">コーン間隔<input id="csp" type="number" value="2000" step="100" min="300">mm<button id="coneOk">確定</button><button id="coneUndo">1点戻す</button></div><div id="coneInfo" style="color:var(--ac)"></div><details class="hp"><summary>コーン配置の使い方</summary><div class="small">「カラーコーン」を押す→基点をクリック→線を引きたい位置を順にクリック。クリックした点(折れ点)には必ずコーンを置き、各区間を2000mm程度で等分に自動配置します(赤の二点鎖線で連結)。左クリックで位置を決め、右クリック/左ダブルクリック/Enter/「確定」(iPadは終点で長押し)で表示完了、Escで中止、Shiftで水平・垂直に固定。既存のコーンをクリックするとそこから連続でき、基点に戻ると閉じます。配置後のコーンは1個ずつ選択してドラッグで移動できます。折れ点(基点・終点を含む)のコーンを動かすと、両隣の折れ点は動かさず、その間のコーンは直線上に設定間隔で並び直り、距離に応じて個数が増減します。また、列(基点〜折れ点、折れ点〜折れ点、折れ点〜終点)の赤い線をドラッグすると、その列のコーンをまとめて移動できます(隣の列は直線のまま等間隔に追従)。</div></details></div><div id="fenceBox" class="small" style="margin-top:8px"><div style="margin-top:8px;font-weight:700;font-size:13px;color:var(--tx)">仮囲い</div><div class="small">種別を押して図面上を順にクリック(端部・コーナー・折れ点に必ず●)。Enter/ダブルクリック/右クリック/確定で終了、始点クリックで閉合。Shift=水平垂直。</div><div class="row"><button data-fb="orange"><span class="sw" style="background:#f97316"></span>オレンジネット</button>＠<input id="fp_orange" type="number" value="2000" step="100" min="100">mm<input type="color" id="fc_orange" value="#f97316" title="色"></div><div class="row"><button data-fb="tube"><span class="sw" style="background:#16a34a"></span>単管メッシュ</button>＠<input id="fp_tube" type="number" value="1800" step="100" min="100">mm<input type="color" id="fc_tube" value="#16a34a" title="色"></div><div class="row"><button data-fb="plagate"><span class="sw" style="background:#2563eb"></span>プラゲート</button>＠<input id="fp_plagate" type="number" value="1500" step="100" min="100">mm<input type="color" id="fc_plagate" value="#2563eb" title="色"></div><div class="row"><button data-fb="adflat"><span class="sw" style="background:#475569"></span>アドフラット(鋼板)</button>＠<input id="fp_adflat" type="number" value="2000" step="100" min="100">mm<input type="color" id="fc_adflat" value="#475569" title="色"></div>
-<div class="row"><button id="fenceOk">確定</button><button id="fenceUndo">1点戻す</button></div><div id="fenceInfo" style="color:var(--ac)"></div><details class="hp"><summary>仮囲いの使い方</summary><div class="small">・オレンジネット:●＠2000(既定)の間を破線。<br>・単管メッシュ:敷地側=一点鎖線、外部側=波線の2本線に、それぞれ●＠1800(既定)。敷地側は選択後に「進行方向の右/左」で切替(閉合時は内側が敷地側)。<br>・プラゲート:端部と●＠1500(既定)の間を破線。<br>・アドフラット(鋼板):端部・折れ点と●＠2000(既定)の間を長めの破線。<br>・ピッチ・色はここで次に描く分の既定値を変更(選択中の同種仮囲いにも反映)。個別の変更は図面で仮囲いを選択→右上の窓で。<br>・種別名は10mに1か所自動表示、ドラッグで自由に移動できます。<br>・●の数は描画中・選択時・下の「集計」に表示。</div></details></div>
+<div class="row"><button id="fenceOk">確定</button><button id="fenceUndo">1点戻す</button></div><div id="fenceInfo" style="color:var(--ac)"></div><details class="hp"><summary>仮囲いの使い方</summary><div class="small">・オレンジネット:●＠2000(既定)の間を破線。<br>・単管メッシュ:波線のみ(1本線)に●＠1800(既定)。<br>・プラゲート:端部と●＠1500(既定)の間を破線。<br>・アドフラット(鋼板):端部・折れ点と●＠2000(既定)の間を長めの破線。<br>・ピッチ・色はここで次に描く分の既定値を変更(選択中の同種仮囲いにも反映)。個別の変更は図面で仮囲いを選択→右上の窓で。<br>・種別名は10mに1か所自動表示、ドラッグで自由に移動できます。<br>・●の数は描画中・選択時・下の「集計」に表示。</div></details></div>
 </div></details>
 <details class="sec" data-k="scaf"><summary>③ 外部足場(自動レイアウト)</summary><div class="sb">
 <div class="row">離隔<input id="sgap" type="number" step="0.05" value="0.3">m 幅<select id="swid"><option value="0.61">610</option><option value="0.914" selected>914</option><option value="1.219">1219</option></select>mm</div>
@@ -477,7 +477,7 @@ function fNear(it,q){const g=fSegs(it);let best=null;
  return best}
 function fGeo(it){const mp=S.mpp,L=fSegs(it).total;let pu=Math.max(1,(it.pitch||2000)/1000/mp);if(L/pu>4000)pu=L/4000;const mg=it.ds*2.4,o={len:L*mp};
  if(it.pts.length<2){o.D=it.pts.slice(0,1);o.P=[];o.A=o.D;o.B=[];o.PA=[];o.PB=[];o.n=o.D.length;o.d=0;return o}
- if(it.ft=='tube'){const d=Math.max(0,(it.gap||0)/1000/mp/2);o.d=d;o.PA=fOff(it.pts,it.closed,d*it.sn);o.PB=fOff(it.pts,it.closed,-d*it.sn);o.A=fDots(o.PA,it.closed,pu,mg);o.B=fDots(o.PB,it.closed,pu,mg);o.n=o.A.length+o.B.length}
+ if(it.ft=='tube'){o.d=0;o.PA=[];o.PB=it.pts;o.A=[];o.B=fDots(it.pts,it.closed,pu,mg);o.n=o.B.length}
  else{o.d=0;o.P=it.pts;o.D=fDots(it.pts,it.closed,pu,mg);o.n=o.D.length}
  return o}
 function fenceMk(ft,pts){const D=FT[ft],pe=document.getElementById('fp_'+ft),ce=document.getElementById('fc_'+ft);
@@ -485,7 +485,7 @@ function fenceMk(ft,pts){const D=FT[ft],pe=document.getElementById('fp_'+ft),ce=
 function fenceLabels(it){const L=fSegs(it).total*S.mpp;if(L<=0){it.lb=[];return}const n=Math.max(1,Math.round(L/Math.max(1,it.lbSp||10)));it.lb=Array.from({length:n},(_,i)=>({u:(i+.5)/n,ox:0,oy:0}))}
 // 種別ラベルの中心位置(線の少し上・文字が読める向き)
 function fLabPos(it,l){const b=fAt(it,l.u);if(!b)return null;let a=b.ang;if(a>Math.PI/2)a-=Math.PI;else if(a<-Math.PI/2)a+=Math.PI;
- const sh=(it.ft=='tube'?(it.gap||0)/1000/S.mpp/2:0)+it.ds+it.lbFs*.5+.8,sx=sh*Math.sin(a),sy=-sh*Math.cos(a);
+ const sh=it.ds+it.lbFs*.5+.8,sx=sh*Math.sin(a),sy=-sh*Math.cos(a);
  return{b,a,sx,sy,x:b.x+(l.ox||0)+sx,y:b.y+(l.oy||0)+sy}}
 function fenceSvg(it,on){const G=fGeo(it),c=it.c,r=it.ds,lw=it.lw,N=p=>p.x.toFixed(2)+' '+p.y.toFixed(2),
  pd=P=>P.length<2?'':'M'+P.map(N).join('L')+(it.closed&&P.length>2?'Z':''),
@@ -493,9 +493,8 @@ function fenceSvg(it,on){const G=fGeo(it),c=it.c,r=it.ds,lw=it.lw,N=p=>p.x.toFix
  hw=Math.max(10,G.d*2+8);let s='';
  if(on)s+=`<path d="${pd(it.pts)}" fill="none" stroke="#f59e0b" stroke-width="${G.d*2+5}" stroke-linejoin="round" opacity=".3" pointer-events="none"/>`;
  if(it.ft=='tube'){
-  s+=`<path d="${pd(G.PA)}" fill="none" stroke="${c}" stroke-width="${lw}" stroke-dasharray="9 2.5 1.2 2.5" stroke-linejoin="round"/>`;
   s+=`<path d="${fWave(G.PB,it.closed&&it.pts.length>2,1.8,8)}" fill="none" stroke="${c}" stroke-width="${lw}" stroke-linejoin="round"/>`;
-  s+=dot(G.A)+dot(G.B)}
+  s+=dot(G.B)}
  else{s+=`<path d="${pd(G.P)}" fill="none" stroke="${c}" stroke-width="${lw}" stroke-dasharray="${FT[it.ft].ds}" stroke-linejoin="round"/>`+dot(G.D)}
  if(it.id)s+=`<path d="${pd(it.pts)}" fill="none" stroke="transparent" stroke-width="${hw}" stroke-linejoin="round" pointer-events="stroke"/>`;
  if(it.lbOn!==false&&it.lb)it.lb.forEach((l,k)=>{const q=fLabPos(it,l);if(!q)return;const fs=it.lbFs,w=it.name.length*fs+4,h=fs+3;
@@ -535,28 +534,27 @@ function fenceDbl(e){const it=S.items.find(i=>i.id==S.sel);if(!it||it.k!='f')ret
  if(vi>=0){if(it.pts.length>(it.closed?3:2)){it.pts.splice(vi,1);draw();props()}return}
  const n=fNear(it,q);if(n&&n.d<tol){it.pts.splice(n.i+1,0,{x:n.x,y:n.y});draw();props()}}
 function fenceCnt(it){const el=$('#fcnt');if(!el)return;const g=fGeo(it);
- el.innerHTML=`延長 <b>${g.len.toFixed(2)}</b> m ／ ● <b>${g.n}</b> 個`+(it.ft=='tube'?`<br>(敷地側 ${g.A.length} ／ 外部側 ${g.B.length})`:'')+`<br>頂点(端部・折れ点) ${it.pts.length}点 ／ ラベル ${it.lbOn!==false?it.lb.length:0}か所`}
+ el.innerHTML=`延長 <b>${g.len.toFixed(2)}</b> m ／ ● <b>${g.n}</b> 個`+`<br>頂点(端部・折れ点) ${it.pts.length}点 ／ ラベル ${it.lbOn!==false?it.lb.length:0}か所`}
 function fenceSum(){const F=S.items.filter(i=>i.k=='f');if(!F.length)return'';const A={};
  F.forEach(it=>{const g=fGeo(it),a=A[it.ft]||(A[it.ft]={n:0,len:0,dots:0,a:0,b:0});a.n++;a.len+=g.len;a.dots+=g.n;if(it.ft=='tube'){a.a+=g.A.length;a.b+=g.B.length}});
  let h='<div style="margin-top:6px"><b>仮囲い</b></div><table>';
- Object.keys(FT).forEach(k=>{const a=A[k];if(!a)return;h+=`<tr><td>${FT[k].n}</td><td>${a.n}列 ${a.len.toFixed(1)}m</td><td>●${a.dots}個</td></tr>`+(k=='tube'?`<tr><td colspan="3" style="color:var(--mu)">　敷地側●${a.a} / 外部側●${a.b}</td></tr>`:'')});
+ Object.keys(FT).forEach(k=>{const a=A[k];if(!a)return;h+=`<tr><td>${FT[k].n}</td><td>${a.n}列 ${a.len.toFixed(1)}m</td><td>●${a.dots}個</td></tr>`});
  return h+'</table>'}
 function propsFence(it,P){const tube=it.ft=='tube',f=(k,l,st,mn,mx)=>`${l}<input type="number" data-fk="${k}" step="${st}" min="${mn}"${mx?` max="${mx}"`:''} value="${it[k]}">`;
  P.innerHTML=`<b>仮囲い:${it.name}</b>`
  +`<div class="row">${f('pitch','●ピッチ','100',100)}mm</div>`
  +`<div class="row">色<input type="color" id="fcc" value="${it.c}"> ${f('ds','●半径','0.1',0.3,8)}</div>`
  +`<div class="row">${f('lw','線幅','0.1',0.2,6)}</div>`
- +(tube?`<div class="row">${f('gap','線間隔','50',0)}mm</div><div class="row">敷地側<select id="fsn"><option value="1">進行方向の右</option><option value="-1">進行方向の左</option></select><button id="fflip">⇄反転</button></div>`:'')
+ +''
  +`<div class="row"><label><input type="checkbox" id="flo" style="width:auto"${it.lbOn!==false?' checked':''}> 種別ラベル</label>${f('lbSp','間隔','1',1)}m</div>`
  +`<div class="row">${f('lbFs','文字','1',3,30)}<button id="flre">ラベル再配置</button></div>`
  +`<div class="row"><label><input type="checkbox" id="fcl" style="width:auto"${it.closed?' checked':''}> 閉合(始点につなぐ)</label></div>`
  +`<div id="fcnt" class="small" style="color:var(--ac)"></div>`
  +`<div class="small">頂点●をドラッグで移動／線上ダブルクリックで頂点追加／頂点ダブルクリックで削除／種別ラベルはドラッグで自由に移動／線をドラッグで全体移動。</div>`
  +`<div class="row"><button id="fall">同種の仮囲いに反映</button><button id="bdup">複製</button><button id="bdel">削除</button></div>`;
- if(tube)$('#fsn').value=String(it.sn);
  P.querySelectorAll('input[data-fk]').forEach(i=>i.onchange=()=>{const k=i.dataset.fk;let v=+i.value;const mn=+i.min;if(!isFinite(v)||v<mn){v=Math.max(mn,it[k]);i.value=v}it[k]=v;if(k=='lbSp')fenceLabels(it);if(k=='lbFs'||k=='lbSp'||k=='pitch'||k=='ds'||k=='gap'||k=='lw'){}draw();fenceCnt(it)});
  $('#fcc').oninput=e=>{it.c=e.target.value;draw()};
- if(tube){$('#fsn').onchange=e=>{it.sn=+e.target.value;draw()};$('#fflip').onclick=()=>{it.sn=-it.sn;$('#fsn').value=String(it.sn);draw()}}
+ 
  $('#flo').onchange=e=>{it.lbOn=e.target.checked;if(it.lbOn&&!it.lb.length)fenceLabels(it);draw();fenceCnt(it)};
  $('#flre').onclick=()=>{it.lbOn=true;fenceLabels(it);draw();props()};
  $('#fcl').onchange=e=>{if(e.target.checked&&it.pts.length<3){e.target.checked=false;return}it.closed=e.target.checked;draw();fenceCnt(it)};
