@@ -361,7 +361,7 @@ if(it.k=='i'){if(it.front)hf+=imgSvg(it,on);else hb+=imgSvg(it,on);if(on)ht+=img
 if(it.k=='s'){h+=`<g class="it" data-id="${it.id}" transform="translate(${it.x} ${it.y})">${scafSvg(it)}${on?`<path d="M${it.pts.map(p=>p.x+' '+p.y).join('L')}Z" fill="none" stroke="#f59e0b" stroke-width="2.5" opacity=".7"/>`:''}</g>`;continue}
 if(it.k=='f'){hfe+=fenceSvg(it,on);if(on)ht+=fenceHdl(it);continue}if(it.k=='w'){hfe+=flowSvg(it,on);if(on)ht+=flowHdl(it);continue}if(it.t=='cone'){hc+=coneSvg(it,on);continue}if(it.tr&&it.tr.pts.length){htr+=trkSvg(it);if(on)ht+=trkHdl(it)}const w=it.l/m,hh=it.w/m;let o='';
 if(it.o){const ow=it.o[0]/m,oh=it.o[1]/m;o=`<rect x="${-ow/2}" y="${-oh/2}" width="${ow}" height="${oh}" fill="none" stroke="${it.c}" stroke-dasharray="4 2" stroke-width="1"/>`}
-h+=`<g class="it" data-id="${it.id}" transform="translate(${it.x} ${it.y}) rotate(${it.a})">${SYM[it.t]?`<rect x="${-w/2}" y="${-hh/2}" width="${w}" height="${hh}" fill="transparent"/>`:''}${o}${SYM[it.t]?symSvg(it,w,hh,on):'<g transform="scale(-1 1)">'+shape(it,w,hh,on)+'</g>'}<text transform="rotate(${-it.a})" font-size="8" text-anchor="middle" y="${SYM[it.t]?-hh/2-3:2.2}" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="1.6">${it.name}</text>${radSvg(it,on)}${on?rotH(it,hh):''}</g>`}
+h+=`<g class="it" data-id="${it.id}" transform="translate(${it.x} ${it.y}) rotate(${it.a})">${SYM[it.t]?`<rect x="${-w/2}" y="${-hh/2}" width="${w}" height="${hh}" fill="transparent"/>`:''}${o}${SYM[it.t]?symSvg(it,w,hh,on):'<g transform="scale(-1 1)">'+shape(it,w,hh,on)+'</g>'}${objLab(it,on,hh)}${radSvg(it,on)}${on?rotH(it,hh):''}</g>`}
 h=hb+htr+h+hf+hfe+coneLines()+hc+conePrev(sel)+fencePrev(sel)+flowPrev(sel)+hn;if(S.mode=='scaf'&&S.pts.length)h+=`<polyline points="${S.pts.map(p=>p.x+','+p.y).join(' ')}" fill="none" stroke="#f59e0b" stroke-width="1.5"/>`+S.pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="2.5" fill="#f59e0b"/>`).join('')+(S.pts.length>=3?`<circle cx="${S.pts[0].x}" cy="${S.pts[0].y}" r="9" fill="none" stroke="#f59e0b" stroke-dasharray="2 2"/>`:'');
 if(S.mode=='cal')h+=S.cal.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="3" fill="#e11d48"/>`).join('')+(S.cal.length==2?`<line x1="${S.cal[0].x}" y1="${S.cal[0].y}" x2="${S.cal[1].x}" y2="${S.cal[1].y}" stroke="#e11d48" stroke-width="1.5"/>`:'');
 h+=ht+measSvg();sv.innerHTML=h;sumup()}
@@ -374,8 +374,16 @@ if(S.mode=='flow'){if(e.pointerType=='mouse'&&e.button!=0)return;if(flowFreeOn()
 if(S.mode=='cal'){if(S.cal.length>=2)S.cal=[];S.cal.push(p);if(S.cal.length==2)$('#calBox').style.display='';draw();return}
 if(S.mode=='ann'){annDown(e,p);return}if(S.mode=='trk'&&!e.target.closest('[data-h]')){trkPt(p);return}
 if(S.mode=='piv'){const i0=S.items.find(i=>i.id==S.sel);if(i0)i0.pv=toLoc(i0,p);S.mode='sel';mode();props();return}const hd=e.target.closest('[data-h]'),g0=e.target.closest('[data-id]');if(hd&&g0){const i1=S.items.find(i=>i.id==g0.dataset.id);if(i1){if(S.sel!=i1.id){S.sel=i1.id;draw();props()}S.drag={it:i1,h:hd.dataset.h,s0:{x:i1.x,y:i1.y,w:i1.w,h:i1.h},g0:annSnap(i1),p0:p};sv.setPointerCapture(e.pointerId);return}}const g=e.target.closest('[data-id]');S.ss=null;if(g){const it=S.items.find(i=>i.id==g.dataset.id);S.sel=it.id;S.drag=it.k=='n'?{it,h:'an:mv',g0:annSnap(it),p0:p}:{it,dx:p.x-it.x,dy:p.y-it.y};sv.setPointerCapture(e.pointerId)}else{const sg=e.target.closest&&e.target.closest('[data-seg]');if(sg){coneSegDown(sg.dataset.seg,p,e);return}S.sel=null}draw();props()});
+function objLab(it,on,hh){const fs=it.lfs||8,ox=it.lox||0,oy=it.loy||0,y=SYM[it.t]?-hh/2-3:2.2,sw=Math.max(1.6,fs*.2),w=Math.max(12,[...it.name].length*fs);
+ const tx=`<text font-size="${fs}" text-anchor="middle" y="${y}" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="${sw}">${it.name}</text>`;
+ return `<g transform="rotate(${-it.a})"><g transform="translate(${ox} ${oy})">`+(on?`<g data-h="olb" style="cursor:move"><rect x="${-w/2}" y="${y-fs}" width="${w}" height="${fs*1.3}" fill="transparent"/>${tx}</g><rect data-h="olz" x="${w/2+1}" y="${y-fs*.5-4}" width="8" height="8" fill="#fff" stroke="#f59e0b" stroke-width="1.2" style="cursor:nwse-resize"/>`:tx)+`</g></g>`}
+function objLabDrag(it,d,p){if(!d.o)d.o={x:it.lox||0,y:it.loy||0,fs:it.lfs||8};
+ if(d.h=='olb'){it.lox=d.o.x+p.x-d.p0.x;it.loy=d.o.y+p.y-d.p0.y;return}
+ const cx=it.x+d.o.x,cy=it.y+d.o.y,r0=Math.hypot(d.p0.x-cx,d.p0.y-cy)||1,r1=Math.hypot(p.x-cx,p.y-cy);
+ it.lfs=Math.round(Math.min(80,Math.max(3,d.o.fs*r1/r0))*2)/2;const i=$('#olfs');if(i)i.value=it.lfs}
 let _raf=0;const drawRaf=()=>{if(_raf)return;_raf=requestAnimationFrame(()=>{_raf=0;draw()})};
-sv.addEventListener('pointermove',e=>{if(S.wfr){flowFreeMove(e);return}if(S.mode=='meas'&&S.mp){S.hv=ortho(pt(e),e.shiftKey?S.mp:null);draw()}if(S.mode=='fence'&&S.fp&&S.fp.pts.length){const a=S.fp.pts[S.fp.pts.length-1];S.fv=ortho(pt(e),e.shiftKey?a:null);drawRaf();fenceInfo()}if(S.mode=='flow'&&!flowFreeOn()&&S.wp&&S.wp.pts.length){const a=S.wp.pts[S.wp.pts.length-1];S.wv=ortho(pt(e),e.shiftKey?a:null);drawRaf();flowInfo()}if(S.mode=='cone'&&S.cl){const a=conePos(S.cl.ids[S.cl.ids.length-1]);S.cv=ortho(pt(e),e.shiftKey&&a?a:null);draw();coneInfo()}const d=S.drag;if(!d)return;if(e.pointerType=='mouse'&&e.buttons==0){S.drag=null;return}const p=pt(e);if(d.sg){coneSegMove(d,p);return}const it=d.it;if(it.k=='f'&&d.h&&/^f[vl]\d/.test(d.h)){fenceDrag(it,d,p);drawRaf();return}if(it.k=='w'&&d.h&&/^w[vl]\d/.test(d.h)){flowDrag(it,d,p);drawRaf();return}
+sv.addEventListener('pointermove',e=>{if(S.wfr){flowFreeMove(e);return}if(S.mode=='meas'&&S.mp){S.hv=ortho(pt(e),e.shiftKey?S.mp:null);draw()}if(S.mode=='fence'&&S.fp&&S.fp.pts.length){const a=S.fp.pts[S.fp.pts.length-1];S.fv=ortho(pt(e),e.shiftKey?a:null);drawRaf();fenceInfo()}if(S.mode=='flow'&&!flowFreeOn()&&S.wp&&S.wp.pts.length){const a=S.wp.pts[S.wp.pts.length-1];S.wv=ortho(pt(e),e.shiftKey?a:null);drawRaf();flowInfo()}if(S.mode=='cone'&&S.cl){const a=conePos(S.cl.ids[S.cl.ids.length-1]);S.cv=ortho(pt(e),e.shiftKey&&a?a:null);draw();coneInfo()}const d=S.drag;if(!d)return;if(e.pointerType=='mouse'&&e.buttons==0){S.drag=null;return}const p=pt(e);if(d.sg){coneSegMove(d,p);return}const it=d.it;if(it.k=='f'&&d.h&&/^f[vlz]\d/.test(d.h)){fenceDrag(it,d,p);drawRaf();return}if(it.k=='w'&&d.h&&/^w[vlz]\d/.test(d.h)){flowDrag(it,d,p);drawRaf();return}
+if(d.h=='olb'||d.h=='olz'){objLabDrag(it,d,p);drawRaf();return}
 if(d.h=='rot'){let a=Math.atan2(p.y-it.y,p.x-it.x)*180/Math.PI+90;a=((a%360)+360)%360;if(e.shiftKey)a=Math.round(a/15)*15%360;else{const q=Math.round(a/90)*90;if(Math.abs(a-q)<3)a=q%360}it.a=Math.round(a*10)/10;const ai=document.querySelector('#props input[data-k=a]');if(ai)ai.value=it.a}else if(d.h&&d.h.startsWith('an:'))annDrag(it,d,p,e);else if(d.h=='new')annNew(d,p,e);else if(d.h=='p')it.pv=toLoc(it,p);
 else if(d.h&&d.h.startsWith('tp')){it.tr.pts[+d.h.slice(2)]=toLoc(it,p).map(v=>Math.round(v*10)/10)}
 else if(d.h&&d.h.startsWith('sz'))imgResize(it,d,p,e.shiftKey);
@@ -502,7 +510,7 @@ function fenceSvg(it,on){const G=fGeo(it),c=it.c,r=it.ds,lw=it.lw,N=p=>p.x.toFix
  else{s+=`<path d="${pd(G.P)}" fill="none" stroke="${c}" stroke-width="${lw}" stroke-dasharray="${FT[it.ft].ds}" stroke-linejoin="round"/>`+dot(G.D)}
  if(it.id)s+=`<path d="${pd(it.pts)}" fill="none" stroke="transparent" stroke-width="${hw}" stroke-linejoin="round" pointer-events="stroke"/>`;
  if(it.lbOn!==false&&it.lb)it.lb.forEach((l,k)=>{const q=fLabPos(it,l);if(!q)return;const fs=it.lbFs,w=it.name.length*fs+4,h=fs+3;
-  s+=`<g data-h="fl${k}" transform="translate(${q.x.toFixed(2)} ${q.y.toFixed(2)}) rotate(${(q.a*180/Math.PI).toFixed(2)})" style="cursor:move"><rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" fill="transparent"/><text text-anchor="middle" y="${(fs*.35).toFixed(2)}" font-size="${fs}" font-weight="bold" fill="${c}" paint-order="stroke" stroke="#fff" stroke-width="2.2" stroke-linejoin="round">${it.name}</text></g>`});
+  s+=`<g data-h="fl${k}" transform="translate(${q.x.toFixed(2)} ${q.y.toFixed(2)}) rotate(${(q.a*180/Math.PI).toFixed(2)})" style="cursor:move"><rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" fill="transparent"/><text text-anchor="middle" y="${(fs*.35).toFixed(2)}" font-size="${fs}" font-weight="bold" fill="${c}" paint-order="stroke" stroke="#fff" stroke-width="2.2" stroke-linejoin="round">${it.name}</text></g>`+`${on?`<g transform="translate(${q.x.toFixed(2)} ${q.y.toFixed(2)}) rotate(${(q.a*180/Math.PI).toFixed(2)})"><rect data-h="fz${k}" x="${w/2+2}" y="-4" width="8" height="8" fill="#fff" stroke="#f59e0b" stroke-width="1.2" style="cursor:nwse-resize"/></g>`:''}`});
  return `<g class="it" data-id="${it.id}" transform="translate(${it.x} ${it.y})">${s}</g>`}
 function fenceHdl(it){return `<g data-id="${it.id}" transform="translate(${it.x} ${it.y})">`+it.pts.map((p,i)=>`<g data-h="fv${i}" style="cursor:move"><circle cx="${p.x}" cy="${p.y}" r="10" fill="transparent"/><circle cx="${p.x}" cy="${p.y}" r="4.2" fill="#fff" stroke="#f59e0b" stroke-width="1.6"/></g>`).join('')+`</g>`}
 function fencePrev(sel){const F=S.fp;if(!F||!sel||S.mode!='fence'||!F.pts.length)return'';
@@ -530,6 +538,7 @@ function fencePt(e,p){const F=S.fp||(S.fp={ft:S.ft||'orange',pts:[]}),L=F.pts[F.
  if(L&&Math.hypot(p.x-L.x,p.y-L.y)<4/(S.zoom||1))return;
  F.pts.push({x:p.x,y:p.y});S.la=Date.now();S.fv=null;draw();fenceInfo()}
 function fenceDrag(it,d,p){const q={x:p.x-it.x,y:p.y-it.y},k=+d.h.slice(2);
+ if(d.h[1]=='z'){const l=it.lb[k],c=l&&fLabPos(it,l);if(!c)return;if(d.fs0==null)d.fs0=it.lbFs;const r0=Math.hypot(d.p0.x-it.x-c.x,d.p0.y-it.y-c.y)||1;it.lbFs=Math.round(Math.min(80,Math.max(3,d.fs0*Math.hypot(q.x-c.x,q.y-c.y)/r0))*2)/2;const i=document.querySelector('[data-fk=lbFs]');if(i)i.value=it.lbFs;return}
  if(d.h[1]=='v'){if(it.pts[k]){it.pts[k]={x:q.x,y:q.y}}}
  else{const l=it.lb[k];if(!l)return;const n=fNear(it,q);if(!n)return;l.u=n.u;l.ox=0;l.oy=0;const c=fLabPos(it,l);if(c){l.ox=q.x-c.x;l.oy=q.y-c.y}}
  fenceCnt(it)}
@@ -597,7 +606,7 @@ function flowSvg(it,on){const c=it.c,sw=it.sw,N=p=>p.x.toFixed(2)+' '+p.y.toFixe
   s+=flowArrows(it).map(a=>`<polyline points="${a.map(p=>p.x.toFixed(2)+','+p.y.toFixed(2)).join(' ')}" fill="none" stroke="${c}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`).join('');
   if(it.id)s+=`<path d="${pd}" fill="none" stroke="transparent" stroke-width="${Math.max(10,sw+8)}" stroke-linejoin="round" pointer-events="stroke"/>`;
   if(it.lbOn!==false&&it.txt&&it.lb)it.lb.forEach((l,k)=>{const q=flLabPos(it,l);if(!q)return;const fs=it.fs,w=Math.max(20,it.txt.length*fs*1.05+6),h=fs+4;
-   s+=`<g data-h="wl${k}" transform="translate(${q.x.toFixed(2)} ${q.y.toFixed(2)}) rotate(${(q.a*180/Math.PI).toFixed(2)})" style="cursor:move"><rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" fill="transparent"/><text text-anchor="middle" y="${(fs*.35).toFixed(2)}" font-size="${fs}" font-family="${FF}" font-weight="700" fill="${c}" paint-order="stroke" stroke="#fff" stroke-width="2.4" stroke-linejoin="round">${esc(it.txt)}</text></g>`})}
+   s+=`<g data-h="wl${k}" transform="translate(${q.x.toFixed(2)} ${q.y.toFixed(2)}) rotate(${(q.a*180/Math.PI).toFixed(2)})" style="cursor:move"><rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" fill="transparent"/><text text-anchor="middle" y="${(fs*.35).toFixed(2)}" font-size="${fs}" font-family="${FF}" font-weight="700" fill="${c}" paint-order="stroke" stroke="#fff" stroke-width="2.4" stroke-linejoin="round">${esc(it.txt)}</text></g>`+`${on?`<g transform="translate(${q.x.toFixed(2)} ${q.y.toFixed(2)}) rotate(${(q.a*180/Math.PI).toFixed(2)})"><rect data-h="wz${k}" x="${w/2+2}" y="-4" width="8" height="8" fill="#fff" stroke="#f59e0b" stroke-width="1.2" style="cursor:nwse-resize"/></g>`:''}`})}
  return `<g class="it" data-id="${it.id}" transform="translate(${it.x} ${it.y})">${s}</g>`}
 function flowHdl(it){return `<g data-id="${it.id}" transform="translate(${it.x} ${it.y})">`+it.pts.map((p,i)=>`<g data-h="wv${i}" style="cursor:move"><circle cx="${p.x}" cy="${p.y}" r="10" fill="transparent"/><circle cx="${p.x}" cy="${p.y}" r="4.2" fill="#fff" stroke="#f59e0b" stroke-width="1.6"/></g>`).join('')+`</g>`}
 function flowPrev(sel){const F=S.wp;if(!F||!sel||S.mode!='flow'||!F.pts.length)return'';
@@ -617,14 +626,14 @@ function flowMode(){const on=S.mode=='flow';
  document.querySelectorAll('#flowBox [data-wb]').forEach(b=>b.classList.toggle('on',on&&b.dataset.wb==S.fw));flowInfo()}
 function flowFreeOn(){const m=$('#flowMd');return !m||m.value!='poly'}
 function flowFreeDown(e,p){const ft=S.fw||'ped';S.wp={ft,pts:[{x:p.x,y:p.y}]};S.wv=null;S.wfr=1;S.wfid=e.pointerId;try{sv.setPointerCapture(e.pointerId)}catch(_){}draw();flowInfo()}
-function flowFreeMove(e){const F=S.wp;if(!F||e.pointerId!=S.wfid)return;const th=1.2/(S.zoom||1),ev=(e.getCoalescedEvents&&e.getCoalescedEvents())||[];const a=ev.length?ev:[e];
+function flowFreeMove(e){const F=S.wp;if(!F||e.pointerId!=S.wfid)return;const th=.8/(S.zoom||1),ev=(e.getCoalescedEvents&&e.getCoalescedEvents())||[];const a=ev.length?ev:[e];
  a.forEach(q=>{const p=pt(q),L=F.pts[F.pts.length-1];if(!L||Math.hypot(p.x-L.x,p.y-L.y)>=th)F.pts.push({x:p.x,y:p.y})});drawRaf();flowInfo()}
 function flowSimp(P,tol){if(P.length<3)return P;const keep=new Array(P.length).fill(false);keep[0]=keep[P.length-1]=true;const st=[[0,P.length-1]];
  while(st.length){const[i,j]=st.pop();let m=-1,d=0;const A=P[i],B=P[j],dx=B.x-A.x,dy=B.y-A.y,l=Math.hypot(dx,dy)||1e-9;
   for(let k=i+1;k<j;k++){const t=Math.abs((P[k].x-A.x)*dy-(P[k].y-A.y)*dx)/l;if(t>d){d=t;m=k}}
   if(d>tol&&m>0){keep[m]=true;st.push([i,m],[m,j])}}return P.filter((_,i)=>keep[i])}
 function flowSmooth(P){if(P.length<4)return P;return P.map((p,i)=>{if(i==0||i==P.length-1)return p;const a=P[i-1],b=P[i+1];return{x:(a.x+2*p.x+b.x)/4,y:(a.y+2*p.y+b.y)/4}})}
-function flowFreeUp(e){const F=S.wp;S.wfr=0;if(!F)return;const z=S.zoom||1;let P=flowSimp(flowSmooth(flowSmooth(F.pts)),1.4/z);
+function flowFreeUp(e){const F=S.wp;S.wfr=0;if(!F)return;const z=S.zoom||1;let P=flowSimp(flowSmooth(flowSmooth(F.pts)),.3/z);
  S.wp={ft:F.ft,pts:[]};S.wv=null;
  if(P.length>=2&&Math.hypot(P[P.length-1].x-P[0].x,P[P.length-1].y-P[0].y)+P.length>3&&flowLen({pts:P})>0){flowCommit({ft:F.ft,pts:P});props()}
  draw();flowInfo()}
@@ -635,6 +644,7 @@ function flowPt(e,p){const F=S.wp||(S.wp={ft:S.fw||'ped',pts:[]}),L=F.pts[F.pts.
  if(L&&Math.hypot(p.x-L.x,p.y-L.y)<4/(S.zoom||1))return;
  F.pts.push({x:p.x,y:p.y});S.la=Date.now();S.wv=null;draw();flowInfo()}
 function flowDrag(it,d,p){const q={x:p.x-it.x,y:p.y-it.y},k=+d.h.slice(2);
+ if(d.h[1]=='z'){const l=it.lb[k],c=l&&flLabPos(it,l);if(!c)return;if(d.fs0==null)d.fs0=it.fs;const r0=Math.hypot(d.p0.x-it.x-c.x,d.p0.y-it.y-c.y)||1;it.fs=Math.round(Math.min(80,Math.max(3,d.fs0*Math.hypot(q.x-c.x,q.y-c.y)/r0))*2)/2;const i=document.querySelector('[data-wk=fs]');if(i)i.value=it.fs;return}
  if(d.h[1]=='v'){if(it.pts[k])it.pts[k]={x:q.x,y:q.y}}
  else{const l=it.lb[k];if(!l)return;const n=fNear(it,q);if(!n)return;l.u=n.u;l.ox=0;l.oy=0;const c=flLabPos(it,l);if(c){l.ox=q.x-c.x;l.oy=q.y-c.y}}
  flowCnt(it)}
@@ -683,6 +693,9 @@ P.innerHTML=`<b>${it.name}</b><div class="row">`+(it.k=='s'?inp('gap','離隔','
 P.querySelectorAll('input').forEach(i=>i.onchange=()=>{let v=+i.value;if(it.pv&&(i.dataset.k=='l'||i.dataset.k=='w')&&it[i.dataset.k]>0&&v>0){it.pv[i.dataset.k=='l'?0:1]*=v/it[i.dataset.k]}if(i.dataset.k=='rad'&&RMAX[it.t]&&v>RMAX[it.t]){v=RMAX[it.t];i.value=v}it[i.dataset.k]=v;draw()});
 trkProps(it,P);$('#b90').onclick=()=>{if(it.k=='o'&&it.t!='cone'){it.a=(it.a+90)%360;draw();props()}};$('#bdel').onclick=del;if($('#bline'))$('#bline').onclick=coneDelLine;if($('#bpv'))$('#bpv').onclick=()=>{S.mode='piv';mode()};if($('#pvedit'))$('#pvedit').onchange=e=>{it.pvEdit=e.target.checked;draw();props()};
 $('#bdup').onclick=()=>{const c=JSON.parse(JSON.stringify(it));c.id=S.uid++;c.x+=15;c.y+=15;S.items.push(c);S.sel=c.id;draw();props()}}
+(function(){const _p=props;props=function(){_p();const it=S.items.find(i=>i.id==S.sel),P=$('#props');if(!it||it.k!='o'||it.t=='cone'||!P)return;
+ const d=document.createElement('div');d.className='row';d.innerHTML='文字サイズ<input type="number" id="olfs" step="0.5" min="3" max="80" style="width:56px" value="'+(it.lfs||8)+'"><button id="olre">文字位置リセット</button>';P.appendChild(d);
+ $('#olfs').onchange=e=>{it.lfs=Math.min(80,Math.max(3,+e.target.value||8));draw()};$('#olre').onclick=()=>{delete it.lox;delete it.loy;it.lfs=8;draw();props()}}})();
 function del(){S.items=S.items.filter(i=>i.id!=S.sel);S.sel=null;draw();props()}
 function sumup(){const c={};let h='';S.items.forEach(i=>{if(i.k=='o')c[i.name]=(c[i.name]||0)+1});
 h='<table>'+Object.entries(c).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('')+'</table>';
@@ -1111,7 +1124,7 @@ const dupAny=()=>{const it=S.items.find(i=>i.id==S.sel);if(!it)return;if(it.k=='
 const Q={sel:()=>document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true})),
  meas:()=>g('measBtn').click(),cal:()=>g('calBtn').click(),scaf:()=>{document.querySelector('details[data-k=scaf]').open=true;g('scafBtn').click()},
  cone:()=>{const ci=T.findIndex(t=>t[1]=='cone'),b=document.querySelector('#pal button[data-t="'+ci+'"]');b&&b.click()},
- fence:()=>{document.querySelector('details[data-k=pal]').open=true;fenceStart(S.ft||'orange')},'flow-ped':()=>{document.querySelector('details[data-k=pal]').open=true;flowStart('ped')},'flow-veh':()=>{document.querySelector('details[data-k=pal]').open=true;flowStart('veh')},'a-text':()=>annTool('text'),'a-arrow':()=>annTool('arrow'),'a-call':()=>annTool('call'),'a-cloud':()=>annTool('cloud'),
+ fence:()=>{document.querySelector('details[data-k=pal]').open=true;fenceStart(S.ft||'orange')},'flow-ped':()=>{const m=$('#flowMd');if(m)m.value='free';document.querySelector('details[data-k=pal]').open=true;flowStart('ped')},'flow-veh':()=>{const m=$('#flowMd');if(m)m.value='free';document.querySelector('details[data-k=pal]').open=true;flowStart('veh')},'a-text':()=>annTool('text'),'a-arrow':()=>annTool('arrow'),'a-call':()=>annTool('call'),'a-cloud':()=>annTool('cloud'),
  rot:()=>{if(S.sel!=null)document.dispatchEvent(new KeyboardEvent('keydown',{key:'r',bubbles:true}))},
  dup:dupAny,del:()=>{if(S.sel!=null)del()},
  zo:()=>zc(S.zoom/1.25),zi:()=>zc(S.zoom*1.25),z1:()=>zc(1),
