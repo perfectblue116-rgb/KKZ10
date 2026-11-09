@@ -136,7 +136,6 @@ setInterval(chk,300000);document.addEventListener('visibilitychange',()=>{if(!do
 <details class="sec" data-k="road" open><summary>道路使用許可 図面(地理院地図)</summary><div class="sb">
 <div class="row"><button id="rdOpenP" style="width:100%;font-weight:700">📍 位置図(付近見取図)を作成</button></div>
 <div class="row"><button id="rdOpen" style="width:100%;font-weight:700">🗺 道路使用図(規制図)の下図を作成</button></div>
-<div class="row"><button id="rdSelf" style="width:100%;font-weight:700" title="白紙A3に、自分で道路線を引いて規制図を作ります">✏ 規制図を自作する(線を引いて作図)</button></div>
 <div id="rdInfo" class="small"></div>
 <details class="hp"><summary>使い方・説明</summary><div class="small"><b>位置図(付近見取図)</b>:地図を合わせ、「区間を指定」(2点クリック)または「申請地」スタンプで場所を示し、タイトル・住所・期間などを入れて「位置図を作成」。広域図+詳細図のA4図面をJPG/PDFで出力します。<br><b>道路使用図(規制図)</b>:「PDF出力範囲指定」で範囲を囲むと道路・建物の線画(A3横)ができ、「作図画面に反映」で背景になります。以降は仮設物・重機・コーンなどを配置してください(縮尺は自動設定)。<br>※線画は同じ範囲のOpenStreetMapデータから作成します。道路幅員は参考値です。</div></details>
 </div></details>
@@ -184,7 +183,7 @@ setInterval(chk,300000);document.addEventListener('visibilitychange',()=>{if(!do
 <details class="hp"><summary>使い方・説明</summary><div class="small">選択すると上部にオレンジの回転ハンドル(ドラッグで回転、Shiftで15°刻み、0/90°付近は吸着) / キー: R=90°回転 / Delete=削除 / 矢印=微調整 / Esc=取消</div></details>
 </div></details>
 </aside>
-<div id="main"><div id="qbar"><div class="tg"><span class="tl">操作</span><div class="tb"><button data-q="sel" title="選択モード(Esc)">↖ 選択</button></div></div><div class="tg"><span class="tl">測る・作る</span><div class="tb"><button data-q="meas" title="2点間の距離を測定">📏 測定</button><button data-q="cal" title="図面寸法から縮尺を校正">🎯 校正</button><button data-q="scaf" title="外部足場を自動レイアウト">🏗 足場</button><button data-q="cone" title="カラーコーンを線上に自動配置">🔺 コーン</button><button data-q="fence" title="仮囲い(オレンジネット/単管メッシュ/プラゲート)を描く">🚧 仮囲い</button></div></div><div class="tg"><span class="tl">線・矢印</span><div class="tb"><button data-w="pen:free" title="ペン(ドラッグで自由に描く)">✏ ペン</button><button data-w="pen:line" title="直線(ドラッグまたは2点クリック。Shiftで45°)">／ 直線</button><button data-w="ped" title="歩行者専用通路(緑の矢印線。なぞって描く)">🚶 歩行者専用通路</button><button data-w="veh" title="工事車輛動線(矢印線。なぞって描く)">🚚 工事車輛動線</button><button data-w="dbl" title="両端矢印">↔ 両端矢印</button><button data-w="arw" title="矢印線(連続矢印)">➜ 矢印線</button></div></div><div class="tg"><span class="tl">注釈</span><div class="tb"><button data-q="a-text" title="文字を入れる"><svg viewBox="0 0 20 20"><path d="M4 5V3.5h12V5M10 3.5V16M7 16h6"/></svg>文字</button><button data-q="a-arrow" title="矢印を描く"><svg viewBox="0 0 20 20"><path d="M3.5 16.5L16 4M9 4h7v7"/></svg>矢印</button><button data-q="a-call" title="引出線の上に文字を入れる"><svg viewBox="0 0 20 20"><path d="M3.5 16.5L8 9h8.5M10 5.5h5"/></svg>引出線</button><button data-q="a-cloud" title="雲形で囲む"><svg viewBox="0 0 20 20"><path d="M6 15.5a3.3 3.3 0 0 1-.4-6.5 4.4 4.4 0 0 1 8.3-1.2 3.4 3.4 0 0 1 .3 7.7z"/></svg>雲形</button></div></div><div class="tg"><span class="tl">図形</span><div class="tb"><button data-g="rect" title="四角形(ドラッグ)">▭ 四角形</button><button data-g="poly" title="多角形(クリックで頂点→始点クリック/ダブルクリック/Enterで確定)">⬠ 多角形</button><button data-g="sig" title="信号機(クリックで配置)">🚦 信号</button><button data-g="era" title="線が交わった部分を手書きの丸で囲むと、囲んだ範囲の線が切れます">⭕ 囲んで消す</button></div></div><div class="tg"><span class="tl">規制図</span><div class="tb"><button data-g="road" title="道路(中心線を引き、幅員を指定して二重線に)">🛣 道路</button><button data-g="cross" title="横断歩道(渡る向きにドラッグ)">🚸 横断歩道</button><button data-g="dim" title="寸法線(長さを自動表示)">📏 寸法線</button><button data-g="sign" title="選んだ標識・看板を配置">🪧 標識</button><select id="gsk" title="標識の種類"><option value="cons">工事中看板</option><option value="barr">バリケード</option><option value="arR">矢印板(右)</option><option value="arL">矢印板(左)</option><option value="noent">進入禁止</option><option value="stop">一時停止</option><option value="nopk">駐車禁止</option><option value="north">方位(北)</option></select></div></div><div class="tg"><span class="tl">編集</span><div class="tb"><button data-gc="copy" title="選択物をコピー(Ctrl+C)">📋 コピー</button><button data-gc="paste" title="貼り付け(Ctrl+V)">📥 貼付</button><button data-q="rot" title="選択物を90°回転(R)">⟳ 90°</button><button data-q="dup" title="選択物を複製">⧉ 複製</button><button data-q="del" class="dg" title="選択物を削除(Delete)">🗑 削除</button></div></div><div class="tg"><span class="tl">表示</span><div class="tb"><button data-q="zo" title="縮小">－</button><button data-q="z1" title="等倍">100%</button><button data-q="zi" title="拡大">＋</button><button data-q="fit" title="用紙全体を表示">全体</button></div></div><div class="tg"><span class="tl">図面作成</span><div class="tb"><button id="rdOpenQ" title="位置図(付近見取図)/道路使用図(規制図)の下図を地図から作る">🗺 道路使用許可図面作成</button></div></div><div class="tg"><span class="tl">出力</span><div class="tb"><button data-q="png">🖼 画像</button><button data-q="prt">🖨 印刷/PDF</button></div></div><span id="qsite" class="small"></span></div><div id="wbar"><span id="wtag" class="atag"></span><div class="ag"><span class="agl">色</span><span id="wsw" style="display:flex;gap:5px"></span><input type="color" id="wcol" value="#00a000" title="好きな色を選ぶ"></div><div class="ag"><span class="agl">線</span><input id="wlw" type="range" min="0.5" max="12" step="0.5" style="width:90px;vertical-align:middle"><span id="wlwv" style="min-width:26px;font-size:11px;display:inline-block">2.4</span><button class="chip" data-wt="dash" title="破線にする">破線</button></div><div class="ag"><span class="agl">矢じり</span><select id="wm"><option value="rep">連続(▷▷▷)</option><option value="end">終点のみ</option><option value="both">両端</option><option value="none">なし</option></select></div><div class="ag" data-wf="size"><span class="agl">大きさ</span><input id="whs" type="number" min="3" max="60" step="1" style="width:56px"></div><div class="ag" data-wf="pitch"><span class="agl">ピッチ</span><input id="wpi" type="number" min="0.5" max="500" step="0.5" style="width:66px"><span class="agl">m</span></div><div class="ag" data-wf="pen"><span class="agl">方式</span><select id="wps"><option value="free">自由線</option><option value="line">直線</option></select></div><div class="ag"><span class="agl">文字</span><input id="wtxt" type="text" placeholder="例:歩行者専用通路" style="width:150px"><input id="wfs" type="number" min="4" max="80" step="1" style="width:52px" title="文字サイズ"><select id="wdir" title="文字の向き"><option value="h">横書き</option><option value="v">縦書き</option><option value="a">線に沿う</option></select><button class="chip" data-wt="bo" title="太字"><b>B</b></button></div><div class="ag"><button class="chip" data-wt="lock" title="描いたあとも同じツールのまま続けて作図">連続作図</button></div><div class="ag" data-wf="sel"><button data-wa="flip" title="矢印の向きを逆にする">⇄ 向き反転</button><button data-wa="lreset" title="文字を線の中央に戻す">文字位置リセット</button><button data-wa="dup">⧉ 複製</button><button data-wa="del" class="dg">🗑 削除</button></div><span id="whint" class="small"></span></div><div id="abar"><span id="atype" class="atag"></span><div class="ag"><span class="agl">色</span><button class="cs" data-c="#e11d1d" style="--c:#e11d1d" title="赤"></button><button class="cs" data-c="#1d4ed8" style="--c:#1d4ed8" title="青"></button><button class="cs" data-c="#16a34a" style="--c:#16a34a" title="緑"></button><button class="cs" data-c="#facc15" style="--c:#facc15" title="黄"></button><button class="cs" data-c="#ffffff" style="--c:#ffffff" title="白"></button><input type="color" id="acol" value="#e11d1d" title="好きな色を選ぶ"></div><div class="ag"><span class="agl">線</span><input id="asw" type="range" min="0.5" max="20" step="0.5" style="width:90px;vertical-align:middle"><span id="aswv" style="min-width:26px;font-size:11px;display:inline-block">3.5</span><button class="chip" data-tg="ds" title="破線にする">破線</button></div><div class="ag" data-for="text call cloud"><span class="agl">文字</span><input id="afs" type="number" min="4" max="300" step="1" style="width:56px"><button class="chip" data-tg="bo" title="太字"><b>B</b></button><button class="chip" data-tg="af" data-sel title="枠の大きさに文字サイズを自動で合わせる">自動調整</button></div><div class="ag" data-for="arrow call" data-sel><span class="agl">矢じり</span><select id="ahd"></select></div><div class="ag" data-for="text call cloud" data-sel><button class="chip" data-tg="bd">枠線</button><button class="chip" data-tg="fl">塗り</button></div><div class="ag"><button class="chip" data-tg="lock" title="描いたあとも同じツールのまま続けて作図">連続作図</button></div><div class="ag" data-for="text call cloud" data-sel><span class="agl">角度</span><input id="arot" type="number" step="5" style="width:56px">°</div><div class="ag"><button data-a="edit" data-for="text call cloud" data-sel>✎ 文字入力</button><button data-a="rot90" data-sel title="選択物を90°回転(R)">⟳ 90°</button><button data-a="straight" data-sel id="astr">直線に戻す</button><button data-a="dup" data-sel>⧉ 複製</button><button data-a="del" data-sel class="dg">🗑 削除</button></div><span id="ahint"></span></div>
+<div id="main"><div id="qbar"><div class="tg"><span class="tl">操作</span><div class="tb"><button data-q="sel" title="選択モード(Esc)">↖ 選択</button></div></div><div class="tg"><span class="tl">測る・作る</span><div class="tb"><button data-q="meas" title="2点間の距離を測定">📏 測定</button><button data-q="cal" title="図面寸法から縮尺を校正">🎯 校正</button><button data-q="scaf" title="外部足場を自動レイアウト">🏗 足場</button><button data-q="cone" title="カラーコーンを線上に自動配置">🔺 コーン</button><button data-q="fence" title="仮囲い(オレンジネット/単管メッシュ/プラゲート)を描く">🚧 仮囲い</button></div></div><div class="tg"><span class="tl">線・矢印</span><div class="tb"><button data-w="pen:free" title="ペン(ドラッグで自由に描く)">✏ ペン</button><button data-w="pen:line" title="直線(ドラッグまたは2点クリック。Shiftで45°)">／ 直線</button><button data-w="ped" title="歩行者専用通路(緑の矢印線。なぞって描く)">🚶 歩行者専用通路</button><button data-w="veh" title="工事車輛動線(矢印線。なぞって描く)">🚚 工事車輛動線</button><button data-w="dbl" title="両端矢印">↔ 両端矢印</button><button data-w="arw" title="矢印線(連続矢印)">➜ 矢印線</button></div></div><div class="tg"><span class="tl">注釈</span><div class="tb"><button data-q="a-text" title="文字を入れる"><svg viewBox="0 0 20 20"><path d="M4 5V3.5h12V5M10 3.5V16M7 16h6"/></svg>文字</button><button data-q="a-arrow" title="矢印を描く"><svg viewBox="0 0 20 20"><path d="M3.5 16.5L16 4M9 4h7v7"/></svg>矢印</button><button data-q="a-call" title="引出線の上に文字を入れる"><svg viewBox="0 0 20 20"><path d="M3.5 16.5L8 9h8.5M10 5.5h5"/></svg>引出線</button><button data-q="a-cloud" title="雲形で囲む"><svg viewBox="0 0 20 20"><path d="M6 15.5a3.3 3.3 0 0 1-.4-6.5 4.4 4.4 0 0 1 8.3-1.2 3.4 3.4 0 0 1 .3 7.7z"/></svg>雲形</button></div></div><div class="tg"><span class="tl">図形</span><div class="tb"><button data-g="rect" title="四角形(ドラッグ)">▭ 四角形</button><button data-g="poly" title="多角形(クリックで頂点→始点クリック/ダブルクリック/Enterで確定)">⬠ 多角形</button><button data-g="sig" title="信号機(クリックで配置)">🚦 信号</button><button data-g="era" title="線が交わった部分を手書きの丸で囲むと、囲んだ範囲の線が切れます">⭕ 囲んで消す</button></div></div><div class="tg"><span class="tl">編集</span><div class="tb"><button data-gc="copy" title="選択物をコピー(Ctrl+C)">📋 コピー</button><button data-gc="paste" title="貼り付け(Ctrl+V)">📥 貼付</button><button data-q="rot" title="選択物を90°回転(R)">⟳ 90°</button><button data-q="dup" title="選択物を複製">⧉ 複製</button><button data-q="del" class="dg" title="選択物を削除(Delete)">🗑 削除</button></div></div><div class="tg"><span class="tl">表示</span><div class="tb"><button data-q="zo" title="縮小">－</button><button data-q="z1" title="等倍">100%</button><button data-q="zi" title="拡大">＋</button><button data-q="fit" title="用紙全体を表示">全体</button></div></div><div class="tg"><span class="tl">図面作成</span><div class="tb"><button id="rdOpenQ" title="位置図(付近見取図)/道路使用図(規制図)の下図を地図から作る">🗺 道路使用許可図面作成</button></div></div><div class="tg"><span class="tl">出力</span><div class="tb"><button data-q="png">🖼 画像</button><button data-q="prt">🖨 印刷/PDF</button></div></div><span id="qsite" class="small"></span></div><div id="wbar"><span id="wtag" class="atag"></span><div class="ag"><span class="agl">色</span><span id="wsw" style="display:flex;gap:5px"></span><input type="color" id="wcol" value="#00a000" title="好きな色を選ぶ"></div><div class="ag"><span class="agl">線</span><input id="wlw" type="range" min="0.5" max="12" step="0.5" style="width:90px;vertical-align:middle"><span id="wlwv" style="min-width:26px;font-size:11px;display:inline-block">2.4</span><button class="chip" data-wt="dash" title="破線にする">破線</button></div><div class="ag"><span class="agl">矢じり</span><select id="wm"><option value="rep">連続(▷▷▷)</option><option value="end">終点のみ</option><option value="both">両端</option><option value="none">なし</option></select></div><div class="ag" data-wf="size"><span class="agl">大きさ</span><input id="whs" type="number" min="3" max="60" step="1" style="width:56px"></div><div class="ag" data-wf="pitch"><span class="agl">ピッチ</span><input id="wpi" type="number" min="0.5" max="500" step="0.5" style="width:66px"><span class="agl">m</span></div><div class="ag" data-wf="pen"><span class="agl">方式</span><select id="wps"><option value="free">自由線</option><option value="line">直線</option></select></div><div class="ag"><span class="agl">文字</span><input id="wtxt" type="text" placeholder="例:歩行者専用通路" style="width:150px"><input id="wfs" type="number" min="4" max="80" step="1" style="width:52px" title="文字サイズ"><select id="wdir" title="文字の向き"><option value="h">横書き</option><option value="v">縦書き</option><option value="a">線に沿う</option></select><button class="chip" data-wt="bo" title="太字"><b>B</b></button></div><div class="ag"><button class="chip" data-wt="lock" title="描いたあとも同じツールのまま続けて作図">連続作図</button></div><div class="ag" data-wf="sel"><button data-wa="flip" title="矢印の向きを逆にする">⇄ 向き反転</button><button data-wa="lreset" title="文字を線の中央に戻す">文字位置リセット</button><button data-wa="dup">⧉ 複製</button><button data-wa="del" class="dg">🗑 削除</button></div><span id="whint" class="small"></span></div><div id="abar"><span id="atype" class="atag"></span><div class="ag"><span class="agl">色</span><button class="cs" data-c="#e11d1d" style="--c:#e11d1d" title="赤"></button><button class="cs" data-c="#1d4ed8" style="--c:#1d4ed8" title="青"></button><button class="cs" data-c="#16a34a" style="--c:#16a34a" title="緑"></button><button class="cs" data-c="#facc15" style="--c:#facc15" title="黄"></button><button class="cs" data-c="#ffffff" style="--c:#ffffff" title="白"></button><input type="color" id="acol" value="#e11d1d" title="好きな色を選ぶ"></div><div class="ag"><span class="agl">線</span><input id="asw" type="range" min="0.5" max="20" step="0.5" style="width:90px;vertical-align:middle"><span id="aswv" style="min-width:26px;font-size:11px;display:inline-block">3.5</span><button class="chip" data-tg="ds" title="破線にする">破線</button></div><div class="ag" data-for="text call cloud"><span class="agl">文字</span><input id="afs" type="number" min="4" max="300" step="1" style="width:56px"><button class="chip" data-tg="bo" title="太字"><b>B</b></button><button class="chip" data-tg="af" data-sel title="枠の大きさに文字サイズを自動で合わせる">自動調整</button></div><div class="ag" data-for="arrow call" data-sel><span class="agl">矢じり</span><select id="ahd"></select></div><div class="ag" data-for="text call cloud" data-sel><button class="chip" data-tg="bd">枠線</button><button class="chip" data-tg="fl">塗り</button></div><div class="ag"><button class="chip" data-tg="lock" title="描いたあとも同じツールのまま続けて作図">連続作図</button></div><div class="ag" data-for="text call cloud" data-sel><span class="agl">角度</span><input id="arot" type="number" step="5" style="width:56px">°</div><div class="ag"><button data-a="edit" data-for="text call cloud" data-sel>✎ 文字入力</button><button data-a="rot90" data-sel title="選択物を90°回転(R)">⟳ 90°</button><button data-a="straight" data-sel id="astr">直線に戻す</button><button data-a="dup" data-sel>⧉ 複製</button><button data-a="del" data-sel class="dg">🗑 削除</button></div><span id="ahint"></span></div>
 <div id="wrap"><div id="stage"><canvas id="cv"></canvas><svg id="sv" xmlns="http://www.w3.org/2000/svg"></svg></div></div></div>
 </div>
 <div id="crm"><div id="crctl"></div><div id="crmain"><div class="row"><b>ラフター揚程図検討(側方吊り・断面)</b><button id="crClose" style="margin-left:auto">閉じる</button></div><svg id="crsv" xmlns="http://www.w3.org/2000/svg"></svg><div id="crout"></div></div></div>
@@ -370,7 +369,7 @@ if(S.mode=='cal')h+=S.cal.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="3" fill="#e
 h+=ht+measSvg();sv.innerHTML=h;sumup()}
 function mode(){sv.classList.toggle('cross',S.mode!='sel');$('#scafBtn').classList.toggle('on',S.mode=='scaf');$('#calBtn').classList.toggle('on',S.mode=='cal');$('#measBtn').classList.toggle('on',S.mode=='meas');coneMode();fenceMode();window.wMode&&window.wMode();draw()}
 const pt=e=>{const r=sv.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*S.W,y:(e.clientY-r.top)/r.height*S.H}};
-sv.addEventListener('pointerdown',e=>{const p=pt(e);if(e.pointerType=='touch'&&e.isPrimary)S.ts.clear();if(e.pointerType=='touch'){if(S.ts.size){S.ts.add(e.pointerId);S.drag=null;S.lpOn=0;clearTimeout(S.lpT);if((S.mode=='wl'||S.mode=='pen')&&window.wTouchAbort)window.wTouchAbort();if(S.mode=='scaf'&&Date.now()-(S.la||0)<700){S.pts.pop();draw()}if(S.mode=='cone'&&Date.now()-(S.la||0)<700)coneUndo();if(S.mode=='fence'&&Date.now()-(S.la||0)<700)fenceUndo();return}S.ts.add(e.pointerId)}
+sv.addEventListener('pointerdown',e=>{const p=pt(e);if(e.pointerType=='touch'&&e.isPrimary)S.ts.clear();if(e.pointerType=='touch'){if(S.ts.size){S.ts.add(e.pointerId);S.drag=null;if(S.mode=='scaf'&&Date.now()-(S.la||0)<700){S.pts.pop();draw()}if(S.mode=='cone'&&Date.now()-(S.la||0)<700)coneUndo();if(S.mode=='fence'&&Date.now()-(S.la||0)<700)fenceUndo();return}S.ts.add(e.pointerId)}
 if(S.mode=='scaf'){if(S.pts.length>=3&&Math.hypot(p.x-S.pts[0].x,p.y-S.pts[0].y)<9){fin();return}S.pts.push(p);S.la=Date.now();draw();return}
 if(S.mode=='fence'){if(e.pointerType=='mouse'&&e.button!=0)return;fencePt(e,p);if(e.pointerType!='mouse'){clearTimeout(S.lpT);S.lpOn=1;S.lp0={x:e.clientX,y:e.clientY};S.lpT=setTimeout(()=>{if(S.lpOn&&S.mode=='fence'){S.lpOn=0;if(navigator.vibrate)navigator.vibrate(20);fenceEnd()}},650)}return}
 if(S.mode=='cone'){if(e.pointerType=='mouse'&&e.button==2)return;if(e.pointerType=='mouse'&&e.button!=0)return;conePt(e,p);if(e.pointerType!='mouse'){clearTimeout(S.lpT);S.lpOn=1;S.lp0={x:e.clientX,y:e.clientY};S.lpT=setTimeout(()=>{if(S.lpOn&&S.mode=='cone'){S.lpOn=0;if(navigator.vibrate)navigator.vibrate(20);coneEnd()}},650)}return}if(S.mode=='meas'){if(e.shiftKey)ortho(p,S.mp);if(!S.mp)S.mp=p;else{S.meas.push({a:S.mp,b:p});S.mp=null;S.hv=null}draw();return}
@@ -384,12 +383,6 @@ else if(d.h&&d.h.startsWith('tp')){it.tr.pts[+d.h.slice(2)]=toLoc(it,p).map(v=>M
 else if(d.h&&d.h.startsWith('sz'))imgResize(it,d,p,e.shiftKey);
 else if(d.h=='r'){const a=it.a*Math.PI/180,c=Math.cos(a),n=Math.sin(a),px=it.pv[0]/S.mpp,py=it.pv[1]/S.mpp,wx=it.x+px*c-py*n,wy=it.y+px*n+py*c;it.rad=Math.min(RMAX[it.t]||999,Math.max(1,Math.round(Math.hypot(p.x-wx,p.y-wy)*S.mpp*2)/2));const r=$('#rad');if(r)r.value=it.rad}
 else{it.x=p.x-d.dx;it.y=p.y-d.dy;if(it.t=='cone')coneBend(it)}drawRaf()});
-/* パームリジェクション: ペン使用中/使用後は、描画モードで指(touch)の入力を無視(ピンチ・パンは wrap の touch イベントで別処理) */
-(function(){const PM={fence:1,wl:1,pen:1,cone:1};
-const blk=e=>e.pointerType=='touch'&&PM[S.mode]&&S.penSeen;
-sv.addEventListener('pointerdown',e=>{if(e.pointerType=='pen')S.penSeen=1;if(blk(e)){e.stopImmediatePropagation()}},true);
-sv.addEventListener('pointermove',e=>{if(e.pointerType=='pen')S.penSeen=1;if(blk(e)){e.stopImmediatePropagation()}},true);
-window.addEventListener('pointerdown',e=>{if(e.pointerType=='pen')S.penSeen=1},true)})();
 ['pointerup','pointercancel'].forEach(t=>window.addEventListener(t,e=>{if(t=='pointerup'){annUp(e);if(S.drag&&S.drag.it&&S.drag.it.k=='n')annUI()}S.drag=null;S.ts.delete(e.pointerId)}));
 sv.addEventListener('lostpointercapture',e=>{S.ts.delete(e.pointerId)});
 ['touchend','touchcancel'].forEach(t=>document.addEventListener(t,e=>{if(!e.touches.length)S.ts.clear()},{passive:true}));
@@ -1120,17 +1113,17 @@ window.wPrev=function(sel){if(!A||!sel)return'';let P=A.pts.slice();if(!A.free&&
 const last=()=>A&&A.pts[A.pts.length-1];
 function addFree(p){const L=last();if(!L||Math.hypot(p.x-L.x,p.y-L.y)*zm()>2)A.pts.push({x:p.x,y:p.y})}
 function commit(){if(!A)return;const a=A;A=null;hv=null;let P=[];a.pts.forEach(p=>{const l=P[P.length-1];if(!l||Math.hypot(p.x-l.x,p.y-l.y)>.8)P.push({x:p.x,y:p.y})});
- if(a.free&&P.length>2){P=rdp(P,(a.ty=='pen'?1.1:4.5)/zm());if(a.ty!='pen'){for(let i=1;i<P.length;i++){const dx=P[i].x-P[i-1].x,dy=P[i].y-P[i-1].y;if(Math.hypot(dx,dy)<1)continue;const an=Math.abs(Math.atan2(dy,dx))*180/Math.PI;if(an<4||an>176)P[i].y=P[i-1].y;else if(Math.abs(an-90)<4)P[i].x=P[i-1].x}}}
+ if(a.free&&P.length>2)P=rdp(P,(a.ty=='pen'?1.1:1.6)/zm());
  let len=0;for(let i=1;i<P.length;i++)len+=Math.hypot(P[i].x-P[i-1].x,P[i].y-P[i-1].y);
  if(P.length<2||len<3){draw();return null}
- const it=mk(a.ty,P);it.id=S.uid++;it.sm=!!a.free&&a.ty=='pen';if(a.ty!='pen')it.sm=false;S.items.push(it);S.sel=it.id;
+ const it=mk(a.ty,P);it.id=S.uid++;it.sm=!!a.free&&a.ty=='pen';if(a.ty!='pen'&&a.free)it.sm=true;S.items.push(it);S.sel=it.id;
  if(!lock)S.mode='sel';mode();draw();props();return it}
 function cancel(){A=null;hv=null;draw()}
 window.wDown=function(e,p){if(S.mode!='wl'&&S.mode!='pen')return false;if(e.pointerType=='mouse'&&e.button!=0)return true;try{sv.setPointerCapture(e.pointerId)}catch(_){}
  const ty=S.wty,z=zm();
  if(S.mode=='pen'&&S.wps=='line'){if(!A)A={ty,line:true,pts:[{x:p.x,y:p.y},{x:p.x,y:p.y}],down:true,moved:false,sx:p.x,sy:p.y};else{const e2=e.shiftKey?snap45(p,A.pts[0]):p;A.pts[1]={x:e2.x,y:e2.y};commit();return true}}
- else if(S.mode=='pen'){A={ty,free:true,pts:[{x:p.x,y:p.y}],dragging:true,sx:p.x,sy:p.y,t0:Date.now()}}
- else{if(!A)A={ty,free:true,dragging:false,pts:[{x:p.x,y:p.y}],sx:p.x,sy:p.y,t0:Date.now()};
+ else if(S.mode=='pen'){A={ty,free:true,pts:[{x:p.x,y:p.y}],dragging:true,sx:p.x,sy:p.y}}
+ else{if(!A)A={ty,free:true,dragging:false,pts:[{x:p.x,y:p.y}],sx:p.x,sy:p.y};
   else{const L=last();if(e.shiftKey)ortho(p,L);if(Math.hypot(p.x-L.x,p.y-L.y)*z<4)return true;A.pts.push({x:p.x,y:p.y});S.la=Date.now()}
   if(e.pointerType!='mouse'){clearTimeout(S.lpT);S.lpOn=1;S.lp0={x:e.clientX,y:e.clientY};S.lpT=setTimeout(()=>{if(S.lpOn&&S.mode=='wl'){S.lpOn=0;if(navigator.vibrate)navigator.vibrate(20);window.wEnd()}},650)}}
  drawRaf();return true};
@@ -1141,7 +1134,6 @@ window.wMove=function(e){if(S.mode!='wl'&&S.mode!='pen')return;if(!A){hv=null;re
 window.addEventListener('pointerup',()=>{if(!A||(S.mode!='wl'&&S.mode!='pen'))return;
  if(A.line){if(A.down){A.down=false;if(A.moved)commit()}}
  else if(A.free){if(A.dragging)commit();else if(S.mode=='pen')cancel();else A.free=false}});
-window.wTouchAbort=function(){if(!A)return;const n=Date.now();if(A.pts.length<=1&&n-(A.t0||n)<1500){cancel();return}if(A.line&&A.down&&!A.moved){cancel();return}if(S.mode=='pen'&&A.free&&A.dragging&&n-(A.t0||n)<1500){cancel();return}if(S.mode=='wl'&&A.pts.length>1&&n-(S.la||0)<700){A.pts.pop();hv=null;draw()}};
 window.wEnd=function(){if(A&&A.pts.length>=2)commit();else cancel();if(S.mode=='wl'||S.mode=='pen'){S.mode='sel';mode();props()}};
 window.wCtx=function(){window.wEnd()};
 window.wKey=function(e){if(e.key=='Enter'){window.wEnd();e.preventDefault();return true}if(e.key=='Backspace'){if(A){A.pts.pop();if(!A.pts.length)A=null;hv=null;draw()}e.preventDefault();return true}return false};
@@ -1237,7 +1229,7 @@ function wSet(k,v){const c=cur();if(!c.ty)return;c.o[k]=v;if(c.it){draw();}windo
    <button id="rdstmB" title="申請地を示す★を地図上に置きます">「申請地」スタンプを配置</button>
    <button id="rdclrB">指定を消す</button>
    <label>広域図<select id="rdwm"><option value="5">5倍</option><option value="8" selected>8倍</option><option value="12">12倍</option></select></label>
-   <button id="rdfixB" title="作成済みの●・★をドラッグして位置を直します">位置修正</button><button id="rdpchk" title="作成した位置図をもう一度表示します">位置図確認</button><button id="rdpos" class="pri">位置図を作成</button>
+   <button id="rdpos" class="pri">位置図を作成</button>
   </span>
   <span class="rdg" id="rdv1">
    <button id="rdsel" class="pri" title="地図上をドラッグして、PDF(A3横)に出力する範囲を囲みます">PDF出力範囲指定</button>
@@ -1255,7 +1247,7 @@ function wSet(k,v){const c=cur();if(!c.ty)return;c.o[k]=v;if(c.it){draw();}windo
    <button id="rdok" class="pri">作図画面に反映</button>
   </span>
   <span class="rdg" id="rdp2" hidden>
-   <button id="rdpback">戻って編集</button><button id="rdpfix" title="●・★をドラッグして位置を直します">位置修正</button><button id="rdjpg">JPGで出力</button><button id="rdpdf" class="pri">PDFで出力</button>
+   <button id="rdpback">戻って編集</button><button id="rdjpg">JPGで出力</button><button id="rdpdf" class="pri">PDFで出力</button>
   </span>
   <button id="rdclose" style="margin-left:auto">閉じる</button>
  </div>
@@ -1309,7 +1301,7 @@ function guideBox(){const b=q('#rdbody'),W=b.clientWidth,H=b.clientHeight;let w=
 function ui(){const R_=md==='R',P_=md==='P';
  q('#rdtabP').classList.toggle('on',P_);q('#rdtabR').classList.toggle('on',R_);
  q('#rdsrch').hidden=stg!=1;q('#rdv1').hidden=!(R_&&stg==1);q('#rdp1').hidden=!(P_&&stg==1);q('#rdv2').hidden=!(R_&&stg==2);q('#rdp2').hidden=!(P_&&stg==2);
- q('#rdform').hidden=!P_;q('#rdpv').hidden=stg!=2;q('#rdmap').style.visibility=stg==1?'visible':'hidden';
+ q('#rdform').hidden=!(P_&&stg==1);q('#rdpv').hidden=stg!=2;q('#rdmap').style.visibility=stg==1?'visible':'hidden';
  const g=guideBox(),e=q('#rdguide');Object.assign(e.style,{left:g.x+'px',top:g.y+'px',width:g.w+'px',height:g.h+'px',display:(P_&&stg==1)?'block':'none'})}
 function view(n){stg=n;ui()}
 function setMode(m){if(map&&m!==md){stopSel();stopP()}md=m;stg=1;try{localStorage.setItem('kasetsu.rdmode',m)}catch(e){}ui();
@@ -1347,18 +1339,17 @@ async function confirmSel(){
  try{osm=await fetchOsm(geo)}catch(err){busy=false;st('道路・建物データを取得できませんでした('+(err&&err.message||err)+')。時間をおいてもう一度お試しください。','err');return}
  busy=false;view(2);renderPreview()}
 // ---- 道路・建物データ取得(OpenStreetMap / Overpass)
-const OC=new Map();
 async function fetchOsm(g,wide){
  const hw=(g.mw||g.N*PW)/2,hh=hw*(g.asp||RAT),pad=1.06,k=1/(R*Math.cos(rad(g.lat0))),cy=myU(g.lat0);
  const s=latU(cy-hh*pad*k),n=latU(cy+hh*pad*k),dl=deg(hw*pad*k),w=g.lon0-dl,e=g.lon0+dl;
  const bb=[s,w,n,e].map(v=>v.toFixed(6)).join(',');
  const nd=['amenity','shop','tourism','office','leisure'].map(t=>`node["name"]["${t}"](${bb});`).join('');
- const qq=wide?`[out:json][timeout:60];(way["highway"~"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|motorway_link|trunk_link|primary_link|secondary_link)$"](${bb});way["railway"~"^(rail|light_rail|subway|narrow_gauge)$"](${bb});way["waterway"~"^(river|canal|riverbank)$"](${bb});way["natural"="water"](${bb});relation["natural"="water"]["type"="multipolygon"](${bb});node["place"~"^(city|town|village|suburb|neighbourhood|quarter|hamlet)$"]["name"](${bb});node["railway"="station"]["name"](${bb}););out geom;`:`[out:json][timeout:40];(way["building"](${bb});way["highway"](${bb});way["railway"~"^(rail|light_rail|tram|subway|narrow_gauge)$"](${bb});way["waterway"](${bb});way["natural"="water"](${bb});relation["building"]["type"="multipolygon"](${bb});relation["natural"="water"]["type"="multipolygon"](${bb});relation["waterway"="riverbank"](${bb});${nd});out geom;`;
- if(OC.has(qq))return OC.get(qq);
- const ac=EP.map(()=>new AbortController()),one=(u,i)=>new Promise(r=>setTimeout(r,i*2500)).then(()=>{if(ac[i].signal.aborted)throw new Error('中断');return fetch(u,{method:'POST',body:'data='+encodeURIComponent(qq),headers:{'Content-Type':'application/x-www-form-urlencoded'},signal:ac[i].signal})}).then(async r=>{if(!r.ok)throw new Error('HTTP '+r.status);const j=await r.json();if(!j.elements)throw new Error('データなし');return j.elements}),
-  tm=setTimeout(()=>ac.forEach(x=>x.abort()),45000);
- try{const el=await Promise.any(EP.map(one));ac.forEach(x=>x.abort());if(OC.size>=8)OC.delete(OC.keys().next().value);OC.set(qq,el);return el}
- catch(er){throw (er.errors&&er.errors[0])||er}finally{clearTimeout(tm)}}
+ const qq=wide?`[out:json][timeout:60];(way["highway"~"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|motorway_link|trunk_link|primary_link|secondary_link)$"](${bb});way["railway"~"^(rail|light_rail|subway|narrow_gauge)$"](${bb});way["waterway"~"^(river|canal|riverbank)$"](${bb});way["natural"="water"](${bb});relation["natural"="water"]["type"="multipolygon"](${bb}););out geom;`:`[out:json][timeout:40];(way["building"](${bb});way["highway"](${bb});way["railway"~"^(rail|light_rail|tram|subway|narrow_gauge)$"](${bb});way["waterway"](${bb});way["natural"="water"](${bb});relation["building"]["type"="multipolygon"](${bb});relation["natural"="water"]["type"="multipolygon"](${bb});relation["waterway"="riverbank"](${bb});${nd});out geom;`;
+ let err=null;
+ for(const u of EP){try{const ac=new AbortController(),t=setTimeout(()=>ac.abort(),45000);
+  const r=await fetch(u,{method:'POST',body:'data='+encodeURIComponent(qq),headers:{'Content-Type':'application/x-www-form-urlencoded'},signal:ac.signal});clearTimeout(t);
+  if(!r.ok)throw new Error('HTTP '+r.status);const j=await r.json();if(!j.elements)throw new Error('データなし');return j.elements}catch(e2){err=e2}}
+ throw err||new Error('不明なエラー')}
 function buildRings(rel){
  const key=p=>p[0].toFixed(7)+','+p[1].toFixed(7),pool=[];
  for(const m of rel.members||[]){if(m.type==='way'&&m.geometry&&(m.role==='outer'||m.role==='inner'||!m.role)){const pts=m.geometry.filter(p=>p&&p.lat!=null).map(p=>[p.lat,p.lon]);if(pts.length>1)pool.push(pts)}}
@@ -1380,7 +1371,7 @@ function waterW(t){const w=parseFloat(t.width);if(w>0)return Math.min(w,80);retu
 const POIX=new Set(['parking','parking_space','bench','shelter','bicycle_parking','vending_machine','waste_basket','atm','post_box','toilets','recycling']);
 // ---- 線画描画(用紙A3横 1190.55×841.89pt 基準)
 function render(ctx,Wpx,els,g,o){
- const A3W=o.pw||1190.55,A3H=o.ph||841.89,k=Wpx/A3W;ctx.setTransform(k,0,0,k,0,0);ctx.fillStyle=o.color?'#f3f1ea':'#fff';ctx.fillRect(0,0,A3W,A3H);
+ const A3W=o.pw||1190.55,A3H=o.ph||841.89,k=Wpx/A3W;ctx.setTransform(k,0,0,k,0,0);ctx.fillStyle='#fff';ctx.fillRect(0,0,A3W,A3H);
  const mt=R*Math.cos(rad(g.lat0)),ppm=A3W/(g.mw||g.N*PW),cx=rad(g.lon0),cy=myU(g.lat0);
  const P=(la,lo)=>[A3W/2+(rad(lo)-cx)*mt*ppm,A3H/2-(myU(la)-cy)*mt*ppm];
  const bl=[],rd=[],fp=[],rw=[],wl=[],wp=[],pn=[];
@@ -1391,7 +1382,7 @@ function render(ctx,Wpx,els,g,o){
    if(t.waterway==='riverbank'||t.natural==='water'){wp.push({rings:[pts]});continue}
    if(t.highway){if(t.area==='yes'||(t.tunnel&&t.tunnel!=='no'&&t.tunnel!=='building_passage'))continue;
     if(THIN.has(t.highway)){fp.push(pts);continue}if(t.highway==='footway')continue;
-    const w=roadW(t);if(w>0){rd.push({pts,w,h:t.highway});if(o.color&&t.ref&&/^(motorway|trunk|primary|secondary)$/.test(t.highway))pn.push({p:pts[pts.length>>1],n:t.ref.split(';')[0]})}continue}
+    const w=roadW(t);if(w>0)rd.push({pts,w});continue}
    if(t.railway){rw.push(pts);continue}
    if(t.waterway&&!(t.tunnel&&t.tunnel!=='no'))wl.push({pts,w:waterW(t)});continue}
   if(e.type==='relation'){const rings=buildRings(e).map(r=>r.map(p=>P(p[0],p[1])));if(!rings.length)continue;
@@ -1399,15 +1390,7 @@ function render(ctx,Wpx,els,g,o){
  ctx.save();ctx.beginPath();ctx.rect(0,0,A3W,A3H);ctx.clip();ctx.lineJoin='round';ctx.lineCap='butt';ctx.setLineDash([]);
  const pl=pts=>{ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]))};
  const poly=rings=>{ctx.beginPath();for(const r of rings){r.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath()}};
-  if(o.road&&o.color){
-   for(const w of wp){poly(w.rings);ctx.fillStyle='#a9d3f2';ctx.fill('evenodd')}
-   ctx.lineCap='round';for(const c of wl){ctx.strokeStyle='#a9d3f2';ctx.lineWidth=Math.max(1.2,c.w*ppm);pl(c.pts);ctx.stroke()}
-   const CL={motorway:['#d9822b','#f7b267'],trunk:['#d9822b','#f7b267'],primary:['#c9922a','#fde08a'],secondary:['#a89f6a','#fff3b0']},cr=rd.slice().sort((a,b)=>a.w-b.w),cc=c=>CL[(c.h||'').replace('_link','')]||['#9a9a9a','#fff'],cw=c=>Math.max(1.4,c.w*ppm*1.5);
-   for(const c of cr){ctx.strokeStyle=cc(c)[0];ctx.lineWidth=cw(c)+1.2;pl(c.pts);ctx.stroke()}
-   for(const c of cr){ctx.strokeStyle=cc(c)[1];ctx.lineWidth=cw(c);pl(c.pts);ctx.stroke()}
-   ctx.lineCap='butt';ctx.strokeStyle='#555';ctx.lineWidth=1.8;for(const p of rw){pl(p);ctx.stroke()}
-   ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.setLineDash([5,5]);for(const p of rw){pl(p);ctx.stroke()}ctx.setLineDash([])}
-  else if(o.road){
+ if(o.road){
   for(const w of wp){poly(w.rings);ctx.fillStyle='#fff';ctx.fill('evenodd');ctx.strokeStyle='#444';ctx.lineWidth=.7;ctx.stroke()}
   const cor=rd.concat(wl).filter(c=>c.w*ppm>=1.6),thin=rd.concat(wl).filter(c=>c.w*ppm<1.6);
   ctx.strokeStyle='#3a3a3a';for(const c of cor){ctx.lineWidth=c.w*ppm+1;pl(c.pts);ctx.stroke()}
@@ -1459,8 +1442,7 @@ window.rdRestore=src=>new Promise(res=>{const im=new Image();im.onload=()=>{cv.w
 function stopP(){pmode=null;q('#rdsecB').classList.remove('on');q('#rdstmB').classList.remove('on');if(!selecting)lay.style.display='none'}
 function startP(m){if(!map){st('先に地図を表示してください。','err');return}if(pmode===m){stopP();return}stopSel();stopP();pmode=m;lay.style.display='block';q(m==='sec'?'#rdsecB':'#rdstmB').classList.add('on');
  st(m==='sec'?'地図上で、使用区間の始点をクリックしてください(Escで中止)。':'「申請地」スタンプを置く場所をクリックしてください(Escで中止)。')}
-const dot=(pt,fill,stroke,r)=>{const s=r*2+6,m=L.marker([pt.lat,pt.lng],{draggable:true,keyboard:false,icon:L.divIcon({className:'',iconSize:[s,s],iconAnchor:[s/2,s/2],html:`<div style="width:${s}px;height:${s}px;border-radius:50%;box-sizing:border-box;background:${fill};border:3px solid ${stroke};cursor:grab"></div>`})}).addTo(map);
- m.on('drag',()=>{const ll=m.getLatLng();pt.lat=ll.lat;pt.lng=ll.lng;if(secLn&&secMk.includes(m))secLn.setLatLngs(secPts.map(v=>[v.lat,v.lng]))});return m};
+const dot=(pt,fill,stroke,r)=>L.circleMarker([pt.lat,pt.lng],{radius:r,color:stroke,weight:3,fillColor:fill,fillOpacity:1}).addTo(map);
 function clearSec(){secPts=[];secMk.forEach(k=>k.remove());secMk=[];if(secLn){secLn.remove();secLn=null}}
 function clearAll(){clearSec();stampPt=null;if(stampMk){stampMk.remove();stampMk=null}stopP();st('指定を消しました。')}
 function placeP(p){const c=px2u(p.x,p.y),pt={lat:latU(c.my),lng:deg(c.mx)};
@@ -1485,9 +1467,9 @@ async function makePos(){
  let mult=+q('#rdwm').value||8;if(mw*mult>8000)mult=Math.max(2,Math.floor(8000/mw));
  const dg={lat0,lon0,mw,asp:FHD/FW},wg={lat0,lon0,mw:mw*mult,asp:FHW/FW};
  busy=true;st('詳細図のデータを取得中です…');
- try{st('詳細図・広域図のデータを同時に取得中です…');const[d,w]=await Promise.all([fetchOsm(dg,false),fetchOsm(wg,true)]);posD=d;posW=w}
+ try{const d=await fetchOsm(dg,false);st('広域図のデータを取得中です…');const w=await fetchOsm(wg,true);posD=d;posW=w}
  catch(err){busy=false;st('地図データを取得できませんでした('+(err&&err.message||err)+')。時間をおいてもう一度お試しください。','err');return}
- busy=false;posGeo={dg,wg,mult,sec:secPts.map(p=>({...p})),stamp:stampPt?{...stampPt}:null};stg=2;ui();drawSheetPreview();saveSheet()}
+ busy=false;posGeo={dg,wg,mult,sec:secPts.slice(),stamp:stampPt};stg=2;ui();drawSheetPreview()}
 function sheetCanvas(K){
  const SW=595.28,SH=841.89,c=document.createElement('canvas');c.width=Math.round(SW*K);c.height=Math.round(SH*K);
  const x=c.getContext('2d'),FF='"Yu Gothic","Hiragino Sans",Meiryo,sans-serif',G=posGeo;
@@ -1504,9 +1486,7 @@ function sheetCanvas(K){
  x.font='bold 13px '+FF;x.fillText('広域図',FX,y0);x.fillText('詳細図',FX,yDl);
  const sub=(els,g,o,fh,yy)=>{const mc=document.createElement('canvas');mc.width=Math.round(FW*K);mc.height=Math.round(fh*K);o.pw=FW;o.ph=fh;render(mc.getContext('2d'),mc.width,els,g,o);
   x.setTransform(K,0,0,K,0,0);x.drawImage(mc,FX,yy,FW,fh);x.strokeStyle='#444';x.lineWidth=.8;x.strokeRect(FX,yy,FW,fh)};
- sub(posW,G.wg,{name:true,color:true,north:false,fill:true,scale:true,road:true,bld:true,attr:true,after:(cx,P)=>{
-  if(G.sec.length){const pts=G.sec.map(s=>P(s.lat,s.lng));cx.lineCap='round';cx.strokeStyle='#e11d1d';cx.lineWidth=3;if(pts.length>1){cx.beginPath();cx.moveTo(pts[0][0],pts[0][1]);cx.lineTo(pts[1][0],pts[1][1]);cx.stroke()}pts.forEach(p=>{cx.fillStyle='#fff';cx.strokeStyle='#e11d1d';cx.lineWidth=1.6;cx.beginPath();cx.arc(p[0],p[1],3,0,7);cx.fill();cx.stroke()})}
-  if(G.stamp){const p=P(G.stamp.lat,G.stamp.lng);cx.save();cx.translate(p[0],p[1]);cx.beginPath();for(let i=0;i<10;i++){const r=i%2?4.5:11,a=-Math.PI/2+i*Math.PI/5;cx.lineTo(r*Math.cos(a),r*Math.sin(a))}cx.closePath();cx.fillStyle='#e11d1d';cx.strokeStyle='#fff';cx.lineWidth=1.6;cx.fill();cx.stroke();cx.restore()}}},FHW,yW);
+ sub(posW,G.wg,{name:false,north:false,fill:true,scale:true,road:true,bld:true,attr:true},FHW,yW);
  const mark=(cx,p)=>{cx.fillStyle='#fff';cx.strokeStyle='#e11d1d';cx.lineWidth=1.8;cx.beginPath();cx.arc(p[0],p[1],3.6,0,7);cx.fill();cx.stroke()};
  sub(posD,G.dg,{name:true,north:true,fill:true,scale:true,road:true,bld:true,attr:true,after:(cx,P)=>{
   if(G.sec.length){const pts=G.sec.map(s=>P(s.lat,s.lng));cx.lineCap='round';cx.lineJoin='round';
@@ -1518,16 +1498,6 @@ function sheetCanvas(K){
  x.strokeStyle='#e11d1d';x.lineWidth=1.3;x.strokeRect(rx,ry,rw,rh);x.beginPath();x.moveTo(rx,ry+rh);x.lineTo(FX,yD);x.moveTo(rx+rw,ry+rh);x.lineTo(FX+FW,yD);x.stroke();
  const d=new Date();x.fillStyle='#555';x.font='9px '+FF;x.textAlign='right';x.fillText('作成日:'+d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日',SW-FX,SH-24);
  x.setTransform(1,0,0,1,0,0);return c}
-let savedCv=null;
-function getSheet(K){if(posGeo)return sheetCanvas(K);if(savedCv){const c=document.createElement('canvas');c.width=Math.round(595.28*K);c.height=Math.round(841.89*K);c.getContext('2d').drawImage(savedCv,0,0,c.width,c.height);return c}return null}
-function saveSheet(){try{localStorage.setItem('kasetsu.rdposimg',sheetCanvas(1.5).toDataURL('image/jpeg',.8))}catch(e){}}
-function fixPos(){if(!map||(!secPts.length&&!stampPt)){st('修正できる位置がありません。「区間を指定」または「申請地」スタンプで指定してください。','err');return}
- stopSel();stopP();stg=1;ui();initMap();const b=L.latLngBounds(secPts.concat(stampPt?[stampPt]:[]).map(p=>[p.lat,p.lng]));map.panTo(b.getCenter());
- st('位置修正:地図上の●・★をドラッグして位置を直せます。地図を動かすと詳細図の範囲(青い点線枠)も動きます。直したら「位置図を作成」を押してください。')}
-function chkPos(){if(posGeo){stg=2;ui();drawSheetPreview();return}let u=null;try{u=localStorage.getItem('kasetsu.rdposimg')}catch(e){}
- if(!u){st('作成済みの位置図がありません。先に「位置図を作成」を押してください。','err');return}
- const im=new Image();im.onload=()=>{const c=q('#rdcv');c.width=im.naturalWidth;c.height=im.naturalHeight;c.getContext('2d').drawImage(im,0,0);savedCv=document.createElement('canvas');savedCv.width=im.naturalWidth;savedCv.height=im.naturalHeight;savedCv.getContext('2d').drawImage(im,0,0);stg=2;ui();
-  st('前回作成した位置図を表示しています(住所などの文字は再作成すると変更できます)。JPG/PDFで出力できます。','ok')};im.src=u}
 function drawSheetPreview(){if(!posGeo)return;const c=q('#rdcv'),s=sheetCanvas(2);c.width=s.width;c.height=s.height;c.getContext('2d').drawImage(s,0,0);
  st('位置図ができました(広域図 '+posGeo.mult+'倍)。内容を確認して、JPGまたはPDFで出力してください。','ok')}
 const ymd=()=>{const d=new Date();return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')};
@@ -1541,19 +1511,19 @@ function jpegToPdf(jpg,w,h){const enc=s=>new TextEncoder().encode(s),parts=[],of
  const xr=len;let t='xref\n0 6\n0000000000 65535 f \n';for(let i=1;i<=5;i++)t+=String(offs[i]).padStart(10,'0')+' 00000 n \n';
  push(enc(t+'trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n'+xr+'\n%%EOF'));
  const out=new Uint8Array(len);let p=0;for(const b of parts){out.set(b,p);p+=b.length}return out}
-function outJpg(){const c=getSheet(3);if(!c)return;c.toBlob(b=>dl(b,'位置図_'+ymd()+'.jpg'),'image/jpeg',.93)}
-function outPdf(){const c=getSheet(3);if(!c)return;c.toBlob(async b=>{const u=new Uint8Array(await b.arrayBuffer());dl(new Blob([jpegToPdf(u,c.width,c.height)],{type:'application/pdf'}),'位置図_'+ymd()+'.pdf')},'image/jpeg',.93)}
+function outJpg(){const c=sheetCanvas(3);c.toBlob(b=>dl(b,'位置図_'+ymd()+'.jpg'),'image/jpeg',.93)}
+function outPdf(){const c=sheetCanvas(3);c.toBlob(async b=>{const u=new Uint8Array(await b.arrayBuffer());dl(new Blob([jpegToPdf(u,c.width,c.height)],{type:'application/pdf'}),'位置図_'+ymd()+'.pdf')},'image/jpeg',.93)}
 // ---- イベント
 q('#rdOpen').onclick=()=>openDlg('R');q('#rdOpenP').onclick=()=>openDlg('P');q('#rdOpenQ').onclick=()=>openDlg();
 q('#rdtabP').onclick=()=>setMode('P');q('#rdtabR').onclick=()=>setMode('R');
 q('#rdsecB').onclick=()=>startP('sec');q('#rdstmB').onclick=()=>startP('stamp');q('#rdclrB').onclick=clearAll;q('#rdpos').onclick=makePos;
-q('#rdfixB').onclick=fixPos;q('#rdpfix').onclick=fixPos;q('#rdpchk').onclick=chkPos;FIDS.forEach(i=>q('#'+i).addEventListener('input',()=>{if(stg==2&&posGeo)drawSheetPreview()}));q('#rdpback').onclick=()=>{stg=1;ui();initMap()};q('#rdjpg').onclick=outJpg;q('#rdpdf').onclick=outPdf;
+q('#rdpback').onclick=()=>{stg=1;ui();initMap()};q('#rdjpg').onclick=outJpg;q('#rdpdf').onclick=outPdf;
 q('#rdclose').onclick=closeDlg;q('#rdsel').onclick=()=>selecting?(stopSel(),st('範囲指定を中止しました。')):startSel();
 q('#rdsc').onchange=()=>{if(selecting)startSel()};
 q('#rdgo').onclick=async()=>{const t=q('#rdq').value.trim();if(!t||!map)return;
  try{const r=await fetch('https://msearch.gsi.go.jp/address-search/AddressSearch?q='+encodeURIComponent(t)),j=await r.json();
   if(!j.length){st('場所が見つかりません。住所や地名を変えて試してください。','err');return}
-  const c=j[0].geometry.coordinates;map.setView([c[1],c[0]],18);{const a=q('#rfAv');if(!a.value.trim()||a.dataset.auto===a.value){a.value=t;a.dataset.auto=t;q('#rfA').checked=true;saveForm()}}st('「'+((j[0].properties&&j[0].properties.title)||t)+'」付近を表示しました。')}
+  const c=j[0].geometry.coordinates;map.setView([c[1],c[0]],18);st('「'+((j[0].properties&&j[0].properties.title)||t)+'」付近を表示しました。')}
  catch(e){st('住所検索に失敗しました。ネットワーク接続を確認してください。','err')}};
 q('#rdq').onkeydown=e=>{if(e.key==='Enter')q('#rdgo').click()};
 ['rdoName','rdoNorth','rdoFill','rdoScale','rdoRoad','rdoBld','rdoAttr'].forEach(i=>q('#'+i).onchange=renderPreview);
@@ -1571,67 +1541,32 @@ const G={tool:null,cur:null,pm:null,clip:null,po:0,mp:null},z=()=>S.zoom||1,N=v=
 const GD={fill:true,fc:'#3b82f6',fo:.35,bd:true,sc:'#1d4ed8',lw:2};
 const sel=()=>{const i=S.items.find(i=>i.id==S.sel);return i&&i.k=='g'?i:null};
 const toast=t=>{let h=document.getElementById('ghint');if(!h){h=document.createElement('div');h.id='ghint';h.style.cssText='position:fixed;left:50%;transform:translateX(-50%);top:calc(70px + env(safe-area-inset-top,0px));z-index:8;background:#000b;color:#fff;padding:5px 12px;border-radius:999px;font-size:12px;pointer-events:none';document.body.appendChild(h)}h.textContent=t||'';h.style.display=t?'':'none'};
-const HT={rect:'ドラッグで四角形を描く',poly:'クリックで頂点を追加。始点クリック/ダブルクリック/Enterで確定(Backspaceで1点戻る)',sig:'クリックで信号を配置',era:'消したい線の交差部分を、手書きのように丸で囲む',road:'クリックで道路の中心線を引く(幅員は右上で設定)。ダブルクリック/Enterで確定',cross:'道路を横切る向き(渡る向き)にドラッグ',dim:'ドラッグで寸法線(長さを自動表示)',sign:'クリックで標識を配置'};
+const HT={rect:'ドラッグで四角形を描く',poly:'クリックで頂点を追加。始点クリック/ダブルクリック/Enterで確定(Backspaceで1点戻る)',sig:'クリックで信号を配置',era:'消したい線の交差部分を、手書きのように丸で囲む'};
 function ui(){document.querySelectorAll('#qbar [data-g]').forEach(b=>b.classList.toggle('on',b.dataset.g==G.tool));toast(G.tool?HT[G.tool]:G.pm?(G.pm=='add'?'線上をクリックでポイント追加':'ポイントをクリックで削除'):'')}
 function stop(){G.tool=null;G.cur=null;G.pm=null;pv();ui()}
 function start(t){const same=G.tool==t;stop();if(same)return;S.mode='sel';mode();S.sel=null;draw();props();G.tool=t;sv.classList.add('cross');ui()}
 // ---- 描画
 const sigSvg=(it,on)=>{const s=it.w/846;return`<g class="it" data-id="${it.id}" transform="translate(${it.x} ${it.y}) rotate(${it.a||0}) scale(${N(s)}) translate(-480 -484)"><rect x="57" y="327" width="846" height="314" rx="157" fill="#ccc"/><circle cx="220" cy="484" r="115" fill="#00d000"/><circle cx="482" cy="484" r="115" fill="#ffe500"/><circle cx="743" cy="484" r="115" fill="#f00"/>${on?`<rect x="40" y="310" width="880" height="348" rx="170" fill="none" stroke="#f59e0b" stroke-width="${N(2/s/z())}" stroke-dasharray="${N(6/s/z())}"/>`:''}</g>`};
-const mn=it=>it.ty=='road'?2:3,mpp=()=>S.mpp||.07,dst=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y),pj=A=>A.map(p=>N(p.x)+' '+N(p.y)).join('L');
-const SGS={cons:()=>`<rect x="2" y="18" width="96" height="64" rx="6" fill="#ffd400" stroke="#222" stroke-width="4"/><text x="50" y="60" font-size="26" font-weight="700" text-anchor="middle" fill="#111" font-family="${FF}">工事中</text>`,
- barr:id=>`<defs><pattern id="gb${id}" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="12" height="24" fill="#e11d1d"/><rect x="12" width="12" height="24" fill="#fff"/></pattern></defs><rect x="2" y="32" width="96" height="36" fill="url(#gb${id})" stroke="#222" stroke-width="4"/>`,
- arR:()=>`<rect x="2" y="20" width="96" height="60" fill="#222"/><path d="M12 40H58V26L88 50L58 74V60H12Z" fill="#ffd400"/>`,
- arL:()=>`<g transform="translate(100 0) scale(-1 1)">${SGS.arR()}</g>`,
- noent:()=>`<circle cx="50" cy="50" r="46" fill="#d00"/><rect x="16" y="42" width="68" height="16" fill="#fff"/>`,
- stop:()=>`<path d="M6 12H94L50 90Z" fill="#fff" stroke="#d00" stroke-width="9" stroke-linejoin="round"/><text x="50" y="42" font-size="17" font-weight="700" text-anchor="middle" fill="#d00" font-family="${FF}">止まれ</text>`,
- nopk:()=>`<circle cx="50" cy="50" r="42" fill="#1d4ed8" stroke="#d00" stroke-width="9"/><path d="M22 78L78 22" stroke="#d00" stroke-width="9"/>`,
- north:()=>`<circle cx="50" cy="56" r="38" fill="#fff" stroke="#111" stroke-width="3"/><path d="M50 24L38 82L50 70Z" fill="#111"/><path d="M50 24L62 82L50 70Z" fill="#fff" stroke="#111" stroke-width="2"/><text x="50" y="16" font-size="20" font-weight="700" text-anchor="middle" fill="#111" font-family="Arial,sans-serif">N</text>`};
-const signSvg=(it,on)=>{const s=it.w/100,f=SGS[it.sk]||SGS.cons;return`<g class="it" data-id="${it.id}" transform="translate(${it.x} ${it.y}) rotate(${it.a||0}) scale(${N(s)}) translate(-50 -50)"><rect width="100" height="100" fill="transparent"/>${f(it.id)}${on?`<rect x="-2" y="-2" width="104" height="104" fill="none" stroke="#f59e0b" stroke-width="${N(2/s/z())}" stroke-dasharray="${N(6/s/z())}"/>`:''}</g>`};
-function offs(P,d){const nm=(u,v)=>{const dx=v.x-u.x,dy=v.y-u.y,L=Math.hypot(dx,dy)||1;return{x:dy/L,y:-dx/L}};return P.map((p,i)=>{let n;if(i==0)n=nm(p,P[1]);else if(i==P.length-1)n=nm(P[i-1],p);else{const a=nm(P[i-1],p),b=nm(p,P[i+1]),mx=a.x+b.x,my=a.y+b.y,L=Math.hypot(mx,my);if(L<1e-6)n=a;else{const m={x:mx/L,y:my/L},c=Math.max(.35,m.x*a.x+m.y*a.y);return{x:p.x+m.x*d/c,y:p.y+m.y*d/c}}}return{x:p.x+n.x*d,y:p.y+n.y*d}})}
-const mkRoad=pts=>({id:S.uid++,k:'g',ty:'road',name:'道路',x:0,y:0,pts:pts.map(p=>({x:p.x,y:p.y})),wm:6,cl:true,fill:false,fc:'#d1d5db',fo:.5,bd:true,sc:'#222222',lw:1.5});
-const mkCross=(a,b)=>({id:S.uid++,k:'g',ty:'cross',name:'横断歩道',x:0,y:0,pts:[{x:a.x,y:a.y},{x:b.x,y:b.y}],dm:3,fill:true,fc:'#ffffff',fo:1,bd:true,sc:'#333333',lw:1});
-const mkDim=(a,b)=>({id:S.uid++,k:'g',ty:'dim',name:'寸法線',x:0,y:0,pts:[{x:a.x,y:a.y},{x:b.x,y:b.y}],txt:'',fs:11,sc:'#111111',lw:1});
-window.gSvg=function(it,on){if(it.ty=='sig')return sigSvg(it,on);if(it.ty=='sign')return signSvg(it,on);if(!it.pts||it.pts.length<2)return'';
- const P=it.pts,hd=`<g class="it" data-id="${it.id}" transform="translate(${it.x} ${it.y})">`,glow=d=>on?`<path d="${d}" fill="none" stroke="#f59e0b" stroke-width="${it.lw+6}" stroke-opacity=".3" stroke-linejoin="round" pointer-events="none"/>`:'',hit=(d,w)=>`<path d="${d}" fill="none" stroke="transparent" stroke-width="${w||10}" pointer-events="stroke"/>`;
- if(it.ty=='road'){const w=(it.wm||6)/mpp()/2,Lp=offs(P,w),Rp=offs(P,-w),dL='M'+pj(Lp),dR='M'+pj(Rp),dC='M'+pj(P),ed=d=>`<path d="${d}" fill="none" stroke="${it.sc}" stroke-width="${it.lw}" stroke-linejoin="miter" pointer-events="none"/>`;
-  return hd+glow(dC)+(it.fill?`<path d="M${pj(Lp.concat(Rp.slice().reverse()))}Z" fill="${it.fc}" fill-opacity="${it.fo}" pointer-events="none"/>`:'')+(it.bd?ed(dL)+ed(dR):'')+(it.cl?`<path d="${dC}" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="7 5" pointer-events="none"/>`:'')+hit(dL)+hit(dR)+hit(dC)+'</g>'}
- if(it.ty=='cross'){const a=P[0],b=P[1],L=dst(a,b)||1,u={x:(b.x-a.x)/L,y:(b.y-a.y)/L},n={x:-u.y,y:u.x},dp=(it.dm||3)/mpp(),sw=.45/mpp(),pc=sw*2,cnt=Math.max(1,Math.floor((L+sw)/pc)),s0=(L-(cnt*pc-sw))/2,h=dp/2;let st='';
-  for(let k=0;k<cnt;k++){const c={x:a.x+u.x*(s0+k*pc),y:a.y+u.y*(s0+k*pc)},c1={x:c.x+u.x*sw,y:c.y+u.y*sw},pp=[[c,-h],[c1,-h],[c1,h],[c,h]].map(([q,o])=>N(q.x+n.x*o)+','+N(q.y+n.y*o)).join(' ');
-   st+=`<polygon points="${pp}" fill="${it.fill?it.fc:'none'}" fill-opacity="${it.fo}" stroke="${it.bd?it.sc:'none'}" stroke-width="${it.lw}" pointer-events="none"/>`}
-  return hd+(on?`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#f59e0b" stroke-dasharray="4 3" pointer-events="none"/>`:'')+st+`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="transparent" stroke-width="${dp}" pointer-events="stroke"/></g>`}
- if(it.ty=='dim'){const a=P[0],b=P[1],L=dst(a,b)||1,u={x:(b.x-a.x)/L,y:(b.y-a.y)/L},n={x:-u.y,y:u.x},tk=5,hs=6,c=it.sc,fs=it.fs||11,txt=it.txt||(+(L*mpp()).toFixed(1))+'m';let ang=Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI;if(ang>90)ang-=180;if(ang<=-90)ang+=180;
-  const ah=(p,sg)=>{const bx=p.x+u.x*sg*hs,by=p.y+u.y*sg*hs;return`<path d="M${N(bx+n.x*hs*.35)} ${N(by+n.y*hs*.35)}L${N(p.x)} ${N(p.y)}L${N(bx-n.x*hs*.35)} ${N(by-n.y*hs*.35)}Z" fill="${c}"/>`},tick=p=>`<line x1="${N(p.x+n.x*tk)}" y1="${N(p.y+n.y*tk)}" x2="${N(p.x-n.x*tk)}" y2="${N(p.y-n.y*tk)}" stroke="${c}" stroke-width="${it.lw}"/>`;
-  return hd+glow(`M${pj(P)}`)+hit(`M${pj(P)}`,12)+`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${c}" stroke-width="${it.lw}" pointer-events="none"/>`+tick(a)+tick(b)+ah(a,1)+ah(b,-1)+`<g transform="translate(${N((a.x+b.x)/2)} ${N((a.y+b.y)/2)}) rotate(${N(ang)})" pointer-events="none"><text y="-3" font-size="${fs}" text-anchor="middle" fill="${c}" font-family="${FF}" stroke="#fff" stroke-width="3" paint-order="stroke">${esc(txt)}</text></g></g>`}
- const d='M'+pj(P)+'Z',f=it.fill,pat=it.ha?`<defs><pattern id="gh${it.id}" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="${it.fc}" stroke-opacity="${it.fo}" stroke-width="1.6"/></pattern></defs>`:'';
- return hd+pat+(on?`<path d="${d}" fill="none" stroke="#f59e0b" stroke-width="${it.lw+6}" stroke-opacity=".3" stroke-linejoin="round" pointer-events="none"/>`:'')+(f?`<path d="${d}" fill="${it.ha?`url(#gh${it.id})`:it.fc}" fill-opacity="${it.ha?1:it.fo}" stroke="none"/>`:'')+`<path d="${d}" fill="${f?'transparent':'none'}" stroke="transparent" stroke-width="${Math.max(10,it.lw+8)}" pointer-events="${f?'all':'stroke'}"/>`+(it.bd?`<path d="${d}" fill="none" stroke="${it.sc}" stroke-width="${it.lw}" stroke-linejoin="round" pointer-events="none"/>`:'')+'</g>'};
-window.gHdl=function(it){if(!/^(poly|road|cross|dim)$/.test(it.ty))return'';return`<g data-id="${it.id}" transform="translate(${it.x} ${it.y})">`+it.pts.map((p,i)=>`<g data-h="gv${i}" style="cursor:move"><circle cx="${p.x}" cy="${p.y}" r="${(matchMedia('(pointer:coarse)').matches?14:9)/z()}" fill="transparent"/><circle cx="${p.x}" cy="${p.y}" r="${4/z()}" fill="#fff" stroke="#f59e0b" stroke-width="${1.6/z()}"/></g>`).join('')+'</g>'};
+window.gSvg=function(it,on){if(it.ty=='sig')return sigSvg(it,on);if(!it.pts||it.pts.length<2)return'';const d='M'+it.pts.map(p=>N(p.x)+' '+N(p.y)).join('L')+'Z',f=it.fill;
+ return`<g class="it" data-id="${it.id}" transform="translate(${it.x} ${it.y})">`+(on?`<path d="${d}" fill="none" stroke="#f59e0b" stroke-width="${it.lw+6}" stroke-opacity=".3" stroke-linejoin="round" pointer-events="none"/>`:'')+(f?`<path d="${d}" fill="${it.fc}" fill-opacity="${it.fo}" stroke="none"/>`:'')+`<path d="${d}" fill="${f?'transparent':'none'}" stroke="transparent" stroke-width="${Math.max(10,it.lw+8)}" pointer-events="${f?'all':'stroke'}"/>`+(it.bd?`<path d="${d}" fill="none" stroke="${it.sc}" stroke-width="${it.lw}" stroke-linejoin="round" pointer-events="none"/>`:'')+'</g>'};
+window.gHdl=function(it){if(it.ty!='poly')return'';return`<g data-id="${it.id}" transform="translate(${it.x} ${it.y})">`+it.pts.map((p,i)=>`<g data-h="gv${i}" style="cursor:move"><circle cx="${p.x}" cy="${p.y}" r="${(matchMedia('(pointer:coarse)').matches?14:9)/z()}" fill="transparent"/><circle cx="${p.x}" cy="${p.y}" r="${4/z()}" fill="#fff" stroke="#f59e0b" stroke-width="${1.6/z()}"/></g>`).join('')+'</g>'};
 window.gDrag=function(it,d,p){const i=+d.h.slice(2);if(it.pts[i])it.pts[i]={x:p.x-it.x,y:p.y-it.y}};
-window.gProps=function(it,P){const q=s=>P.querySelector(s),ty=it.ty,bind=(id,ev,fn)=>{const e=q(id);if(e)e[ev]=fn},dupb='<div class="row"><button id="g_dup">複製</button><button id="g_del">削除</button></div>';
- if(ty=='sig'||ty=='sign'){P.innerHTML=`<b>${it.name}</b><div class="row">大きさ(幅)<input id="g_w" type="number" min="8" step="2" value="${Math.round(it.w)}"><button id="g_r">⟳90°</button></div>`+dupb;bind('#g_w','onchange',e=>{it.w=Math.max(8,+e.target.value||it.w);draw()});bind('#g_r','onclick',()=>{it.a=((it.a||0)+90)%360;draw()})}
- else{let h=`<b>${it.name}</b>`;
-  if(ty=='road')h+=`<div class="row">幅員<input id="g_wm" type="number" min="1" step="0.5" value="${it.wm}" style="width:56px">m<label><input type="checkbox" id="g_cl" ${it.cl?'checked':''}>中心線</label></div>`;
-  if(ty=='cross')h+=`<div class="row">縞の長さ<input id="g_dm" type="number" min="1" step="0.5" value="${it.dm}" style="width:56px">m</div>`;
-  if(ty=='dim')h+=`<div class="row">文字<input id="g_txt" value="${esc(it.txt||'').replace(/\u00a0/g,' ')}" placeholder="空欄=長さを自動" style="width:130px">大きさ<input id="g_fs" type="number" min="6" max="60" value="${it.fs}" style="width:48px"></div><div class="row">色<input type="color" id="g_sc" value="${it.sc}">太さ<input id="g_lw" type="number" min="0.5" max="20" step="0.5" value="${it.lw}" style="width:52px"></div>`;
-  else h+=`<div class="row"><label><input type="checkbox" id="g_fill" ${it.fill?'checked':''}>${ty=='road'?'路面を塗る':'塗りつぶし'}</label><input type="color" id="g_fc" value="${it.fc}">${ty=='poly'?`<label><input type="checkbox" id="g_ha" ${it.ha?'checked':''}>斜線</label>`:''}</div><div class="row">透過<input id="g_tr" type="range" min="0" max="100" value="${Math.round((1-it.fo)*100)}" style="width:110px"><span id="g_trv" class="small">${Math.round((1-it.fo)*100)}%</span></div><div class="row"><label><input type="checkbox" id="g_bd" ${it.bd?'checked':''}>${ty=='road'?'縁線':'枠線'}</label><input type="color" id="g_sc" value="${it.sc}">太さ<input id="g_lw" type="number" min="0.5" max="20" step="0.5" value="${it.lw}" style="width:52px"></div>`;
-  if(ty=='poly'||ty=='road')h+=`<div class="row"><button id="g_add" class="${G.pm=='add'?'on':''}">＋ポイント追加</button><button id="g_dp" class="${G.pm=='del'?'on':''}">－ポイント削除</button></div>`;
-  h+='<div class="small">頂点●ドラッグで変形/本体ドラッグで移動'+(ty=='poly'||ty=='road'?'/辺上・頂点のダブルクリックでも追加・削除':'')+'</div>';P.innerHTML=h+dupb;
-  const set=(k,v)=>{it[k]=v;if(ty=='poly')GD[k]=v;draw()};
-  bind('#g_fill','onchange',e=>set('fill',e.target.checked));bind('#g_fc','oninput',e=>set('fc',e.target.value));bind('#g_ha','onchange',e=>set('ha',e.target.checked));bind('#g_tr','oninput',e=>{q('#g_trv').textContent=e.target.value+'%';set('fo',1-e.target.value/100)});
-  bind('#g_bd','onchange',e=>set('bd',e.target.checked));bind('#g_sc','oninput',e=>set('sc',e.target.value));bind('#g_lw','onchange',e=>set('lw',Math.max(.5,+e.target.value||1)));
-  bind('#g_wm','onchange',e=>set('wm',Math.max(1,+e.target.value||6)));bind('#g_cl','onchange',e=>set('cl',e.target.checked));bind('#g_dm','onchange',e=>set('dm',Math.max(1,+e.target.value||3)));
-  bind('#g_txt','oninput',e=>set('txt',e.target.value));bind('#g_fs','onchange',e=>set('fs',Math.max(6,+e.target.value||11)));
-  bind('#g_add','onclick',()=>{G.pm=G.pm=='add'?null:'add';G.tool=null;ui();props()});bind('#g_dp','onclick',()=>{G.pm=G.pm=='del'?null:'del';G.tool=null;ui();props()})}
+// ---- プロパティ
+window.gProps=function(it,P){const q=s=>P.querySelector(s),dupb='<div class="row"><button id="g_dup">複製</button><button id="g_del">削除</button></div>';
+ if(it.ty=='sig'){P.innerHTML=`<b>信号</b><div class="row">大きさ(幅)<input id="g_w" type="number" min="8" step="2" value="${Math.round(it.w)}"><button id="g_r">⟳90°</button></div>`+dupb;q('#g_w').onchange=e=>{it.w=Math.max(8,+e.target.value||it.w);draw()};q('#g_r').onclick=()=>{it.a=((it.a||0)+90)%360;draw()}}
+ else{P.innerHTML=`<b>${it.name}</b><div class="row"><label><input type="checkbox" id="g_fill" ${it.fill?'checked':''}>塗りつぶし</label><input type="color" id="g_fc" value="${it.fc}"></div><div class="row">透過<input id="g_tr" type="range" min="0" max="100" value="${Math.round((1-it.fo)*100)}" style="width:110px"><span id="g_trv" class="small">${Math.round((1-it.fo)*100)}%</span></div><div class="row"><label><input type="checkbox" id="g_bd" ${it.bd?'checked':''}>枠線</label><input type="color" id="g_sc" value="${it.sc}">太さ<input id="g_lw" type="number" min="0.5" max="20" step="0.5" value="${it.lw}" style="width:52px"></div><div class="row"><button id="g_add" class="${G.pm=='add'?'on':''}">＋ポイント追加</button><button id="g_dp" class="${G.pm=='del'?'on':''}">－ポイント削除</button></div><div class="small">頂点●ドラッグで変形/辺上・頂点をダブルクリックでも追加・削除/本体ドラッグで移動</div>`+dupb;
+  const set=(k,v)=>{it[k]=v;GD[k]=v;draw()};q('#g_fill').onchange=e=>set('fill',e.target.checked);q('#g_fc').oninput=e=>set('fc',e.target.value);q('#g_tr').oninput=e=>{q('#g_trv').textContent=e.target.value+'%';set('fo',1-e.target.value/100)};q('#g_bd').onchange=e=>set('bd',e.target.checked);q('#g_sc').oninput=e=>set('sc',e.target.value);q('#g_lw').onchange=e=>set('lw',Math.max(.5,+e.target.value||2));
+  q('#g_add').onclick=()=>{G.pm=G.pm=='add'?null:'add';G.tool=null;ui();props()};q('#g_dp').onclick=()=>{G.pm=G.pm=='del'?null:'del';G.tool=null;ui();props()}}
  q('#g_dup').onclick=()=>paste(it);q('#g_del').onclick=del};
 // ---- 作図
 const mkPoly=(pts,name)=>({id:S.uid++,k:'g',ty:'poly',name:name||'多角形',x:0,y:0,pts:pts.map(p=>({x:p.x,y:p.y})),...GD});
 function add(it){S.items.push(it);S.sel=it.id;stop();draw();props()}
 function pv(){const o=document.getElementById('gpv');if(o)o.remove();const c=G.cur;if(!c)return;const k=z(),w=1.6/k;let h='';
- if(c.t=='poly'||c.t=='road'){const P=c.pts.concat(G.mp?[G.mp]:[]);h=`<path d="M${P.map(p=>p.x+' '+p.y).join('L')}${c.t=='poly'&&P.length>2?'Z':''}" fill="${GD.fc}" fill-opacity="${GD.fo*.6}" stroke="${GD.sc}" stroke-width="${w}" stroke-dasharray="${5*w} ${3*w}"/>`+c.pts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="${(i?3:5)/k}" fill="#fff" stroke="#f59e0b" stroke-width="${w}"/>`).join('')}
+ if(c.t=='poly'){const P=c.pts.concat(G.mp?[G.mp]:[]);h=`<path d="M${P.map(p=>p.x+' '+p.y).join('L')}${P.length>2?'Z':''}" fill="${GD.fc}" fill-opacity="${GD.fo*.6}" stroke="${GD.sc}" stroke-width="${w}" stroke-dasharray="${5*w} ${3*w}"/>`+c.pts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="${(i?3:5)/k}" fill="#fff" stroke="#f59e0b" stroke-width="${w}"/>`).join('')}
  else if(c.t=='rect'){h=`<rect x="${Math.min(c.p0.x,c.p1.x)}" y="${Math.min(c.p0.y,c.p1.y)}" width="${Math.abs(c.p1.x-c.p0.x)}" height="${Math.abs(c.p1.y-c.p0.y)}" fill="${GD.fc}" fill-opacity="${GD.fo*.6}" stroke="${GD.sc}" stroke-width="${w}" stroke-dasharray="${5*w} ${3*w}"/>`}
- else if(c.t=='two'){h=`<line x1="${c.p0.x}" y1="${c.p0.y}" x2="${c.p1.x}" y2="${c.p1.y}" stroke="#1d4ed8" stroke-width="${1.6/k}" stroke-dasharray="${5*w} ${3*w}"/>`}
  else if(c.t=='era'){h=`<path d="M${c.pts.map(p=>p.x+' '+p.y).join('L')}Z" fill="#e11d1d" fill-opacity=".08" stroke="#e11d1d" stroke-width="${1.4/k}"/>`}
  sv.insertAdjacentHTML('beforeend',`<g id="gpv" pointer-events="none">${h}</g>`)}
-function finPoly(){const c=G.cur;if(!c||(c.t!='poly'&&c.t!='road'))return;const P=c.pts;G.cur=null;if(c.t=='road'){if(P.length>=2)add(mkRoad(P));else pv()}else if(P.length>=3)add(mkPoly(P));else{pv()}}
+function finPoly(){const c=G.cur;if(!c||c.t!='poly')return;const P=c.pts;G.cur=null;if(P.length>=3)add(mkPoly(P));else{pv()}}
 const pip=(p,Z)=>{let r=false;for(let i=0,j=Z.length-1;i<Z.length;j=i++){const a=Z[i],b=Z[j];if((a.y>p.y)!=(b.y>p.y)&&p.x<(b.x-a.x)*(p.y-a.y)/(b.y-a.y)+a.x)r=!r}return r};
 function segT(a,b,c,d){const r={x:b.x-a.x,y:b.y-a.y},s={x:d.x-c.x,y:d.y-c.y},den=r.x*s.y-r.y*s.x;if(Math.abs(den)<1e-9)return null;const t=((c.x-a.x)*s.y-(c.y-a.y)*s.x)/den,u=((c.x-a.x)*r.y-(c.y-a.y)*r.x)/den;return t>0&&t<1&&u>=0&&u<=1?t:null}
 function cutLine(P,Z){const out=[];let cu=[],cut=false;const lp=(a,b,t)=>({x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t}),push=p=>{const l=cu[cu.length-1];if(!l||Math.hypot(l.x-p.x,l.y-p.y)>.01)cu.push(p)};
@@ -1644,37 +1579,28 @@ function erase(Z){if(Z.length<4)return;let n=0;const res=[];
  S.items=res;if(!S.items.some(i=>i.id==S.sel))S.sel=null;draw();props();toast(n?'線を切りました('+n+'本)':'囲んだ範囲に線がありません');setTimeout(ui,1400)}
 // ---- イベント
 sv.addEventListener('pointerdown',e=>{if(e.pointerType=='mouse'&&e.button!=0)return;if(e.pointerType=='touch'&&!e.isPrimary)return;const p=pt(e),k=z(),it=sel();
- if(G.pm&&it&&(it.ty=='poly'||it.ty=='road')){const q={x:p.x-it.x,y:p.y-it.y};e.stopImmediatePropagation();
-  if(G.pm=='del'){const i=it.pts.findIndex(v=>Math.hypot(v.x-q.x,v.y-q.y)<14/k);if(i>=0&&it.pts.length>mn(it)){it.pts.splice(i,1);draw()}}else addPt(it,q,14/k);return}
+ if(G.pm&&it&&it.ty=='poly'){const q={x:p.x-it.x,y:p.y-it.y};e.stopImmediatePropagation();
+  if(G.pm=='del'){const i=it.pts.findIndex(v=>Math.hypot(v.x-q.x,v.y-q.y)<14/k);if(i>=0&&it.pts.length>3){it.pts.splice(i,1);draw()}}else addPt(it,q,14/k);return}
  if(!G.tool)return;e.stopImmediatePropagation();e.preventDefault();try{sv.setPointerCapture(e.pointerId)}catch(_){}
- if(G.tool=='sign'){const o=document.getElementById('gsk'),k=o.value;add({id:S.uid++,k:'g',ty:'sign',sk:k,name:o.selectedOptions[0].textContent,x:p.x,y:p.y,w:k=='north'?50:40,a:0,pts:[]});return}
  if(G.tool=='sig'){add({id:S.uid++,k:'g',ty:'sig',name:'信号',x:p.x,y:p.y,w:48,a:0,pts:[]});return}
- if(G.tool=='cross'||G.tool=='dim')G.cur={t:'two',k:G.tool,p0:p,p1:p};
- else if(G.tool=='rect')G.cur={t:'rect',p0:p,p1:p};
+ if(G.tool=='rect')G.cur={t:'rect',p0:p,p1:p};
  else if(G.tool=='era')G.cur={t:'era',pts:[p]};
- else{if(!G.cur)G.cur={t:G.tool,pts:[p]};else{const P=G.cur.pts,l=P[P.length-1];if(G.tool=='poly'&&P.length>=3&&Math.hypot(p.x-P[0].x,p.y-P[0].y)<10/k){finPoly();return}if(Math.hypot(p.x-l.x,p.y-l.y)>4/k)P.push(p)}}
+ else{if(!G.cur)G.cur={t:'poly',pts:[p]};else{const P=G.cur.pts,l=P[P.length-1];if(P.length>=3&&Math.hypot(p.x-P[0].x,p.y-P[0].y)<10/k){finPoly();return}if(Math.hypot(p.x-l.x,p.y-l.y)>4/k)P.push(p)}}
  G.mp=p;pv()},true);
-function addPt(it,q,tol){let b=null;const P=it.pts;for(let i=0;i<(it.ty=='road'?P.length-1:P.length);i++){const a=P[i],c=P[(i+1)%P.length],dx=c.x-a.x,dy=c.y-a.y,L=dx*dx+dy*dy||1,t=Math.max(0,Math.min(1,((q.x-a.x)*dx+(q.y-a.y)*dy)/L)),x=a.x+dx*t,y=a.y+dy*t,d=Math.hypot(q.x-x,q.y-y);if(!b||d<b.d)b={d,i,x,y}}if(b&&b.d<tol){P.splice(b.i+1,0,{x:b.x,y:b.y});draw();return true}return false}
-sv.addEventListener('pointermove',e=>{if(!G.tool)return;const p=pt(e),c=G.cur;G.mp=p;if(c){if(c.t=='rect'||c.t=='two')c.p1=p;else if(c.t=='era'){const l=c.pts[c.pts.length-1];if(Math.hypot(p.x-l.x,p.y-l.y)*z()>2)c.pts.push(p)}}if(c)pv()});
-window.addEventListener('pointerup',e=>{const c=G.cur;if(!c)return;if(c.t=='two'){G.cur=null;const a=c.p0,b=c.p1;if(Math.hypot(a.x-b.x,a.y-b.y)*z()>6)add(c.k=='cross'?mkCross(a,b):mkDim(a,b));else pv();return}if(c.t=='rect'){G.cur=null;const a=c.p0,b=c.p1;if(Math.abs(a.x-b.x)*z()>4&&Math.abs(a.y-b.y)*z()>4)add(mkPoly([a,{x:b.x,y:a.y},b,{x:a.x,y:b.y}],'四角形'));else pv()}else if(c.t=='era'){G.cur=null;pv();erase(c.pts)}});
-sv.addEventListener('dblclick',e=>{if((G.tool=='poly'||G.tool=='road')&&G.cur){e.stopImmediatePropagation();finPoly();return}const it=sel();if(!it||!/^(poly|road)$/.test(it.ty)||S.mode!='sel')return;const p=pt(e),q={x:p.x-it.x,y:p.y-it.y},tol=8/z(),i=it.pts.findIndex(v=>Math.hypot(v.x-q.x,v.y-q.y)<tol);if(i>=0){if(it.pts.length>mn(it)){it.pts.splice(i,1);draw()}e.stopImmediatePropagation();return}if(addPt(it,q,tol))e.stopImmediatePropagation()},true);
-sv.addEventListener('contextmenu',e=>{if((G.tool=='poly'||G.tool=='road')&&G.cur){e.preventDefault();finPoly()}});
+function addPt(it,q,tol){let b=null;const P=it.pts;for(let i=0;i<P.length;i++){const a=P[i],c=P[(i+1)%P.length],dx=c.x-a.x,dy=c.y-a.y,L=dx*dx+dy*dy||1,t=Math.max(0,Math.min(1,((q.x-a.x)*dx+(q.y-a.y)*dy)/L)),x=a.x+dx*t,y=a.y+dy*t,d=Math.hypot(q.x-x,q.y-y);if(!b||d<b.d)b={d,i,x,y}}if(b&&b.d<tol){P.splice(b.i+1,0,{x:b.x,y:b.y});draw();return true}return false}
+sv.addEventListener('pointermove',e=>{if(!G.tool)return;const p=pt(e),c=G.cur;G.mp=p;if(c){if(c.t=='rect')c.p1=p;else if(c.t=='era'){const l=c.pts[c.pts.length-1];if(Math.hypot(p.x-l.x,p.y-l.y)*z()>2)c.pts.push(p)}}if(c)pv()});
+window.addEventListener('pointerup',e=>{const c=G.cur;if(!c)return;if(c.t=='rect'){G.cur=null;const a=c.p0,b=c.p1;if(Math.abs(a.x-b.x)*z()>4&&Math.abs(a.y-b.y)*z()>4)add(mkPoly([a,{x:b.x,y:a.y},b,{x:a.x,y:b.y}],'四角形'));else pv()}else if(c.t=='era'){G.cur=null;pv();erase(c.pts)}});
+sv.addEventListener('dblclick',e=>{if(G.tool=='poly'&&G.cur){e.stopImmediatePropagation();finPoly();return}const it=sel();if(!it||it.ty!='poly'||S.mode!='sel')return;const p=pt(e),q={x:p.x-it.x,y:p.y-it.y},tol=8/z(),i=it.pts.findIndex(v=>Math.hypot(v.x-q.x,v.y-q.y)<tol);if(i>=0){if(it.pts.length>3){it.pts.splice(i,1);draw()}e.stopImmediatePropagation();return}if(addPt(it,q,tol))e.stopImmediatePropagation()},true);
+sv.addEventListener('contextmenu',e=>{if(G.tool=='poly'&&G.cur){e.preventDefault();finPoly()}});
 // ---- コピー&貼付
 function copy(){const it=S.items.find(i=>i.id==S.sel);if(!it||!/^[wgn]$/.test(it.k))return false;G.clip=JSON.stringify(it);G.po=0;toast('コピーしました');setTimeout(ui,900);return true}
 function paste(src){const c=src?JSON.parse(JSON.stringify(src)):G.clip&&JSON.parse(G.clip);if(!c)return;G.po+=18;c.id=S.uid++;if(src)G.po=18;if(c.k=='n')annMove(c,G.po,G.po);else{c.x=(c.x||0)+G.po;c.y=(c.y||0)+G.po}if(c.k=='w')c.tp=c.tp?{x:c.tp.x+G.po,y:c.tp.y+G.po}:null;S.items.push(c);S.sel=c.id;draw();props()}
 const typing=e=>/^(INPUT|TEXTAREA|SELECT)$/.test((e.target||{}).tagName||'');
 document.addEventListener('keydown',e=>{if(e.key=='Escape'&&(G.tool||G.pm)){stop();return}
- if((G.tool=='poly'||G.tool=='road')&&G.cur){if(e.key=='Enter'){e.preventDefault();e.stopImmediatePropagation();finPoly()}else if(e.key=='Backspace'){e.preventDefault();e.stopImmediatePropagation();G.cur.pts.pop();if(!G.cur.pts.length)G.cur=null;pv()}return}
+ if(G.tool=='poly'&&G.cur){if(e.key=='Enter'){e.preventDefault();e.stopImmediatePropagation();finPoly()}else if(e.key=='Backspace'){e.preventDefault();e.stopImmediatePropagation();G.cur.pts.pop();if(!G.cur.pts.length)G.cur=null;pv()}return}
  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()=='c'&&!typing(e)&&!(getSelection()+'')){copy()}},true);
 document.addEventListener('paste',e=>{if(typing(e)||!G.clip)return;const its=[...(e.clipboardData&&e.clipboardData.items||[])];if(its.some(i=>i.type.startsWith('image')))return;paste()});
 document.getElementById('qbar').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.g){start(b.dataset.g);return}if(b.dataset.gc){if(b.dataset.gc=='copy'){if(!copy())toast('コピーする線・図形を選択してください')}else paste();return}stop()},true);
-document.getElementById('rdSelf').onclick=()=>{
- if((S.items.length||S.mapBg||S.pdfBytes)&&!confirm('背景を白紙A3に置き換えて、規制図を自作します。配置済みの物は残ります。よろしいですか?'))return;
- document.getElementById('blank').click();
- const d=document.querySelector('details[data-k=pal]');if(d)d.open=true;
- const b=document.querySelector('#qbar [data-w="pen:line"]');if(b&&!b.classList.contains('on'))b.click();
- const k=document.querySelector('#wbar [data-wt=lock]');if(k&&!k.classList.contains('on'))k.click();
- toast('規制図の自作:ドラッグで道路線を引けます(連続作図ON)。図形・仮設物・コーン・矢印線もそのまま追加できます。Escで線の作図を終了');setTimeout(ui,6000)};
 })();
 </script>
 </body></html>
