@@ -476,12 +476,12 @@ function fNear(it,q){const g=fSegs(it);let best=null;
   if(!best||d<best.d)best={d,x,y,u:g.total?(sg.s0+t)/g.total:0,i:sg.vi}}
  return best}
 function fGeo(it){const mp=S.mpp,L=fSegs(it).total;let pu=Math.max(1,(it.pitch||2000)/1000/mp);if(L/pu>4000)pu=L/4000;const mg=it.ds*2.4,o={len:L*mp};
- if(it.pts.length<2){o.D=it.pts.slice(0,1);o.P=[];o.A=o.D;o.B=[];o.PA=[];o.PB=[];o.n=o.D.length;o.d=0;return o}
- if(it.ft=='tube'){o.d=0;o.PA=[];o.PB=it.pts;o.A=[];o.B=fDots(it.pts,it.closed,pu,mg);o.n=o.B.length}
+ if(it.pts.length<2){o.D=it.pts.slice(0,1);o.P=[];o.B=[];o.PB=[];o.n=o.D.length;o.d=0;return o}
+ if(it.ft=='tube'){o.d=0;o.PB=it.pts;o.B=fDots(it.pts,it.closed,pu,mg);o.n=o.B.length}
  else{o.d=0;o.P=it.pts;o.D=fDots(it.pts,it.closed,pu,mg);o.n=o.D.length}
  return o}
 function fenceMk(ft,pts){const D=FT[ft],pe=document.getElementById('fp_'+ft),ce=document.getElementById('fc_'+ft);
- return{id:null,k:'f',ft,name:D.n,x:0,y:0,pts,closed:false,c:(ce&&ce.value)||D.c,pitch:Math.max(100,+(pe&&pe.value)||D.p),ds:1.6,lw:1.1,gap:500,sn:1,lbOn:true,lbSp:10,lbFs:7,lb:[]}}
+ return{id:null,k:'f',ft,name:D.n,x:0,y:0,pts,closed:false,c:(ce&&ce.value)||D.c,pitch:Math.max(100,+(pe&&pe.value)||D.p),ds:1.6,lw:1.1,lbOn:true,lbSp:10,lbFs:7,lb:[]}}
 function fenceLabels(it){const L=fSegs(it).total*S.mpp;if(L<=0){it.lb=[];return}const n=Math.max(1,Math.round(L/Math.max(1,it.lbSp||10)));it.lb=Array.from({length:n},(_,i)=>({u:(i+.5)/n,ox:0,oy:0}))}
 // 種別ラベルの中心位置(線の少し上・文字が読める向き)
 function fLabPos(it,l){const b=fAt(it,l.u);if(!b)return null;let a=b.ang;if(a>Math.PI/2)a-=Math.PI;else if(a<-Math.PI/2)a+=Math.PI;
@@ -536,7 +536,7 @@ function fenceDbl(e){const it=S.items.find(i=>i.id==S.sel);if(!it||it.k!='f')ret
 function fenceCnt(it){const el=$('#fcnt');if(!el)return;const g=fGeo(it);
  el.innerHTML=`延長 <b>${g.len.toFixed(2)}</b> m ／ ● <b>${g.n}</b> 個`+`<br>頂点(端部・折れ点) ${it.pts.length}点 ／ ラベル ${it.lbOn!==false?it.lb.length:0}か所`}
 function fenceSum(){const F=S.items.filter(i=>i.k=='f');if(!F.length)return'';const A={};
- F.forEach(it=>{const g=fGeo(it),a=A[it.ft]||(A[it.ft]={n:0,len:0,dots:0,a:0,b:0});a.n++;a.len+=g.len;a.dots+=g.n;if(it.ft=='tube'){a.a+=g.A.length;a.b+=g.B.length}});
+ F.forEach(it=>{const g=fGeo(it),a=A[it.ft]||(A[it.ft]={n:0,len:0,dots:0,a:0,b:0});a.n++;a.len+=g.len;a.dots+=g.n;if(it.ft=='tube'){a.b+=g.B.length}});
  let h='<div style="margin-top:6px"><b>仮囲い</b></div><table>';
  Object.keys(FT).forEach(k=>{const a=A[k];if(!a)return;h+=`<tr><td>${FT[k].n}</td><td>${a.n}列 ${a.len.toFixed(1)}m</td><td>●${a.dots}個</td></tr>`});
  return h+'</table>'}
@@ -552,7 +552,7 @@ function propsFence(it,P){const tube=it.ft=='tube',f=(k,l,st,mn,mx)=>`${l}<input
  +`<div id="fcnt" class="small" style="color:var(--ac)"></div>`
  +`<div class="small">頂点●をドラッグで移動／線上ダブルクリックで頂点追加／頂点ダブルクリックで削除／種別ラベルはドラッグで自由に移動／線をドラッグで全体移動。</div>`
  +`<div class="row"><button id="fall">同種の仮囲いに反映</button><button id="bdup">複製</button><button id="bdel">削除</button></div>`;
- P.querySelectorAll('input[data-fk]').forEach(i=>i.onchange=()=>{const k=i.dataset.fk;let v=+i.value;const mn=+i.min;if(!isFinite(v)||v<mn){v=Math.max(mn,it[k]);i.value=v}it[k]=v;if(k=='lbSp')fenceLabels(it);if(k=='lbFs'||k=='lbSp'||k=='pitch'||k=='ds'||k=='gap'||k=='lw'){}draw();fenceCnt(it)});
+ P.querySelectorAll('input[data-fk]').forEach(i=>i.onchange=()=>{const k=i.dataset.fk;let v=+i.value;const mn=+i.min;if(!isFinite(v)||v<mn){v=Math.max(mn,it[k]);i.value=v}it[k]=v;if(k=='lbSp')fenceLabels(it);if(k=='lbFs'||k=='lbSp'||k=='pitch'||k=='ds'||k=='lw'){}draw();fenceCnt(it)});
  $('#fcc').oninput=e=>{it.c=e.target.value;draw()};
  
  $('#flo').onchange=e=>{it.lbOn=e.target.checked;if(it.lbOn&&!it.lb.length)fenceLabels(it);draw();fenceCnt(it)};
