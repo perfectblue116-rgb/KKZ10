@@ -363,7 +363,7 @@ if(S.mode=='cal')h+=S.cal.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="3" fill="#e
 h+=ht+measSvg();sv.innerHTML=h;sumup()}
 function mode(){sv.classList.toggle('cross',S.mode!='sel');$('#scafBtn').classList.toggle('on',S.mode=='scaf');$('#calBtn').classList.toggle('on',S.mode=='cal');$('#measBtn').classList.toggle('on',S.mode=='meas');coneMode();fenceMode();draw()}
 const pt=e=>{const r=sv.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*S.W,y:(e.clientY-r.top)/r.height*S.H}};
-sv.addEventListener('pointerdown',e=>{const p=pt(e);if(e.pointerType=='touch'&&e.isPrimary)S.ts.clear();if(e.pointerType=='touch'){if(S.ts.size){S.ts.add(e.pointerId);S.drag=null;if(S.mode=='scaf'&&Date.now()-(S.la||0)<700){S.pts.pop();draw()}if(S.mode=='cone'&&Date.now()-(S.la||0)<700)coneUndo();if(S.mode=='fence'&&Date.now()-(S.la||0)<700)fenceUndo();return}S.ts.add(e.pointerId)}
+sv.addEventListener('pointerdown',e=>{const p=pt(e);if(e.pointerType=='touch'&&e.isPrimary)S.ts.clear();if(e.pointerType=='touch'){if(S.ts.size){S.ts.add(e.pointerId);S.drag=null;S.lpOn=0;clearTimeout(S.lpT);if(S.mode=='scaf'&&Date.now()-(S.la||0)<700){S.pts.pop();draw()}if(S.mode=='cone'&&Date.now()-(S.la||0)<700)coneUndo();if(S.mode=='fence'&&Date.now()-(S.la||0)<700)fenceUndo();return}S.ts.add(e.pointerId)}
 if(S.mode=='scaf'){if(S.pts.length>=3&&Math.hypot(p.x-S.pts[0].x,p.y-S.pts[0].y)<9){fin();return}S.pts.push(p);S.la=Date.now();draw();return}
 if(S.mode=='fence'){if(e.pointerType=='mouse'&&e.button!=0)return;fencePt(e,p);if(e.pointerType!='mouse'){clearTimeout(S.lpT);S.lpOn=1;S.lp0={x:e.clientX,y:e.clientY};S.lpT=setTimeout(()=>{if(S.lpOn&&S.mode=='fence'){S.lpOn=0;if(navigator.vibrate)navigator.vibrate(20);fenceEnd()}},650)}return}
 if(S.mode=='cone'){if(e.pointerType=='mouse'&&e.button==2)return;if(e.pointerType=='mouse'&&e.button!=0)return;conePt(e,p);if(e.pointerType!='mouse'){clearTimeout(S.lpT);S.lpOn=1;S.lp0={x:e.clientX,y:e.clientY};S.lpT=setTimeout(()=>{if(S.lpOn&&S.mode=='cone'){S.lpOn=0;if(navigator.vibrate)navigator.vibrate(20);coneEnd()}},650)}return}if(S.mode=='meas'){if(e.shiftKey)ortho(p,S.mp);if(!S.mp)S.mp=p;else{S.meas.push({a:S.mp,b:p});S.mp=null;S.hv=null}draw();return}
@@ -377,6 +377,11 @@ else if(d.h&&d.h.startsWith('tp')){it.tr.pts[+d.h.slice(2)]=toLoc(it,p).map(v=>M
 else if(d.h&&d.h.startsWith('sz'))imgResize(it,d,p,e.shiftKey);
 else if(d.h=='r'){const a=it.a*Math.PI/180,c=Math.cos(a),n=Math.sin(a),px=it.pv[0]/S.mpp,py=it.pv[1]/S.mpp,wx=it.x+px*c-py*n,wy=it.y+px*n+py*c;it.rad=Math.min(RMAX[it.t]||999,Math.max(1,Math.round(Math.hypot(p.x-wx,p.y-wy)*S.mpp*2)/2));const r=$('#rad');if(r)r.value=it.rad}
 else{it.x=p.x-d.dx;it.y=p.y-d.dy;if(it.t=='cone')coneBend(it)}drawRaf()});
+(function(){const PM={fence:1,cone:1};
+const blk=e=>e.pointerType=='touch'&&PM[S.mode]&&S.penSeen;
+sv.addEventListener('pointerdown',e=>{if(e.pointerType=='pen')S.penSeen=1;if(blk(e))e.stopImmediatePropagation()},true);
+sv.addEventListener('pointermove',e=>{if(e.pointerType=='pen')S.penSeen=1;if(blk(e))e.stopImmediatePropagation()},true);
+window.addEventListener('pointerdown',e=>{if(e.pointerType=='pen')S.penSeen=1},true)})();
 ['pointerup','pointercancel'].forEach(t=>window.addEventListener(t,e=>{if(t=='pointerup'){annUp(e);if(S.drag&&S.drag.it&&S.drag.it.k=='n')annUI()}S.drag=null;S.ts.delete(e.pointerId)}));
 sv.addEventListener('lostpointercapture',e=>{S.ts.delete(e.pointerId)});
 ['touchend','touchcancel'].forEach(t=>document.addEventListener(t,e=>{if(!e.touches.length)S.ts.clear()},{passive:true}));
