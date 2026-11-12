@@ -93,6 +93,37 @@ details.hp{margin:4px 0}details.hp>summary{cursor:pointer;color:var(--mu);font-s
 input[type=color]{width:38px;height:24px;padding:1px;cursor:pointer}
 #fenceBox .row input[type=number]{width:62px}
 #fenceBox button.on{background:var(--ac);color:#fff}
+
+/* ===== コンパクトUI ===== */
+#app{grid-template-columns:272px 1fr}
+#app.noside{grid-template-columns:1fr;grid-template-rows:1fr}#app.noside aside{display:none}
+#main{position:relative}
+aside{padding:8px;font-size:12px}
+aside h1{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:14px;margin:-8px -8px 6px;padding:8px 10px;top:-8px}
+aside h2{font-size:11px;margin:8px 0 3px}
+aside button{padding:2px 7px;font-size:12px;border-radius:6px}
+aside .row{gap:4px;margin:2px 0}
+details.sec{margin:5px 0;border-radius:8px}
+details.sec>summary{padding:5px 9px;font-size:12px;border-radius:8px}
+.sb{padding:3px 8px 7px}
+.ib{width:26px;height:26px;padding:0!important;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;font-size:13px;line-height:1;flex:none}
+#qbar{gap:2px 0;padding:3px 8px;align-items:center;background:linear-gradient(var(--pn),var(--pn))}
+#qbar .tl{display:none}
+#qbar .tg{flex-direction:row;align-items:center;padding:0 5px;gap:0}
+#qbar .tb{gap:2px}
+#qbar .tb button,#qbar .ib{height:26px;padding:0 8px;font-size:12px;border:1px solid transparent;background:transparent;border-radius:6px;gap:4px}
+#qbar .ib{padding:0;width:26px;border-color:var(--bd)}
+#qbar .tb button:hover,#qbar .ib:hover{background:var(--ac2)}
+#qbar .tb button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+#qbar .tb button svg{width:14px;height:14px}
+#qbar.qhide{display:none}
+#hud{display:none;position:absolute;left:8px;top:6px;z-index:7;gap:4px;background:var(--pn);border:1px solid var(--bd);border-radius:8px;padding:3px;box-shadow:0 2px 8px #0003}
+#hud.on{display:flex}
+#wbar,#abar{padding:4px 10px;gap:4px 12px}
+#wbar button,#abar button{height:26px}
+#wbar input[type=number],#wbar input[type=text],#wbar select,#abar input[type=number],#abar select{height:26px}
+@media(max-width:760px){#app{grid-template-rows:42% 1fr}#app.noside{grid-template-rows:1fr}#qbar{flex-wrap:nowrap;overflow-x:auto}#qbar .tg{flex:none}}
+@media print{#hud{display:none!important}}
 </style></head><body>
 <div id="authGate" style="position:fixed;inset:0;z-index:99999;background:#eef2f6;display:flex;align-items:center;justify-content:center;font-family:system-ui,-apple-system,'Hiragino Sans','Yu Gothic',sans-serif">
 <div style="background:#fff;border-radius:12px;box-shadow:0 4px 24px #0002;padding:28px 24px;width:min(360px,92vw)">
@@ -131,7 +162,7 @@ setInterval(chk,300000);document.addEventListener('visibilitychange',()=>{if(!do
 
 <div id="app">
 <aside>
-<h1>仮設計画図作成ツール</h1>
+<h1><span>仮設計画図作成ツール</span><button class="ib" data-tg="side" title="このパネルを隠す">«</button></h1>
 <div id="siteBox"><div class="row"><b>現場</b><select id="siteSel" style="flex:1;min-width:0"></select></div><div class="row"><button id="siteNew" title="新しい現場を登録">＋新規</button><button id="siteSave" title="今の内容を保存">💾保存</button><button id="siteRen">名前変更</button><button id="siteDup">複製</button><button id="siteDel">削除</button></div><div class="row"><button id="siteExp" title="現場データをファイルに書き出し">書出</button><button id="siteImp" title="書き出したファイルを読込">読込</button><input type="file" id="siteImpF" accept=".json,application/json" hidden><span id="siteSt" class="small" style="margin-left:auto"></span></div></div>
 <details class="sec" data-k="pdf" open><summary>① 配置図PDF・縮尺</summary><div class="sb">
 <div class="row"><input type="file" id="pdf" accept="application/pdf" style="width:100%"></div>
@@ -177,7 +208,7 @@ setInterval(chk,300000);document.addEventListener('visibilitychange',()=>{if(!do
 <details class="hp"><summary>使い方・説明</summary><div class="small">選択すると上部にオレンジの回転ハンドル(ドラッグで回転、Shiftで15°刻み、0/90°付近は吸着) / キー: R=90°回転 / Delete=削除 / 矢印=微調整 / Esc=取消</div></details>
 </div></details>
 </aside>
-<div id="main"><div id="qbar"><div class="tg"><span class="tl">操作</span><div class="tb"><button data-q="sel" title="選択モード(Esc)">↖ 選択</button></div></div><div class="tg"><span class="tl">測る・作る</span><div class="tb"><button data-q="meas" title="2点間の距離を測定">📏 測定</button><button data-q="cal" title="図面寸法から縮尺を校正">🎯 校正</button><button data-q="scaf" title="外部足場を自動レイアウト">🏗 足場</button><button data-q="cone" title="カラーコーンを線上に自動配置">🔺 コーン</button><button data-q="fence" title="仮囲い(オレンジネット/単管メッシュ/プラゲート)を描く">🚧 仮囲い</button></div></div><div class="tg"><span class="tl">動線</span><div class="tb"><button data-w="ped" title="歩行者専用通路(緑の矢印線。なぞって描く)">🚶 歩行者専用通路</button><button data-w="veh" title="工事車輛動線(矢印線。なぞって描く)">🚚 工事車輛動線</button></div></div><div class="tg"><span class="tl">注釈</span><div class="tb"><button data-q="a-text" title="文字を入れる"><svg viewBox="0 0 20 20"><path d="M4 5V3.5h12V5M10 3.5V16M7 16h6"/></svg>文字</button><button data-q="a-arrow" title="矢印を描く"><svg viewBox="0 0 20 20"><path d="M3.5 16.5L16 4M9 4h7v7"/></svg>矢印</button><button data-q="a-call" title="引出線の上に文字を入れる"><svg viewBox="0 0 20 20"><path d="M3.5 16.5L8 9h8.5M10 5.5h5"/></svg>引出線</button><button data-q="a-cloud" title="雲形で囲む"><svg viewBox="0 0 20 20"><path d="M6 15.5a3.3 3.3 0 0 1-.4-6.5 4.4 4.4 0 0 1 8.3-1.2 3.4 3.4 0 0 1 .3 7.7z"/></svg>雲形</button></div></div><div class="tg"><span class="tl">編集</span><div class="tb"><button data-q="rot" title="選択物を90°回転(R)">⟳ 90°</button><button data-q="dup" title="選択物を複製">⧉ 複製</button><button data-q="del" class="dg" title="選択物を削除(Delete)">🗑 削除</button></div></div><div class="tg"><span class="tl">表示</span><div class="tb"><button data-q="zo" title="縮小">－</button><button data-q="z1" title="等倍">100%</button><button data-q="zi" title="拡大">＋</button><button data-q="fit" title="用紙全体を表示">全体</button></div></div><div class="tg"><span class="tl">出力</span><div class="tb"><button data-q="png">🖼 画像</button><button data-q="prt">🖨 印刷/PDF</button></div></div><span id="qsite" class="small"></span></div><div id="wbar"><span id="wtag" class="atag"></span><div class="ag"><span class="agl">色</span><span id="wsw" style="display:flex;gap:5px"></span><input type="color" id="wcol" value="#00a000" title="好きな色を選ぶ"></div><div class="ag"><span class="agl">線</span><input id="wlw" type="range" min="0.5" max="12" step="0.5" style="width:90px;vertical-align:middle"><span id="wlwv" style="min-width:26px;font-size:11px;display:inline-block">2.4</span><button class="chip" data-wt="dash" title="破線にする">破線</button></div><div class="ag"><span class="agl">矢じり</span><select id="wm"><option value="rep">連続(▷▷▷)</option><option value="end">終点のみ</option><option value="both">両端</option><option value="none">なし</option></select></div><div class="ag" data-wf="size"><span class="agl">大きさ</span><input id="whs" type="number" min="3" max="60" step="1" style="width:56px"></div><div class="ag" data-wf="pitch"><span class="agl">ピッチ</span><input id="wpi" type="number" min="0.5" max="500" step="0.5" style="width:66px"><span class="agl">m</span></div><div class="ag" data-wf="wl"><span class="agl">線の引き方</span><select id="wom" title="自由線=なぞって描く／クリックで折れ線、水平・垂直=クリックした点を結ぶ線が自動で水平か垂直になります"><option value="free">自由線</option><option value="ortho">水平・垂直</option></select></div><div class="ag" data-wf="pen"><span class="agl">方式</span><select id="wps"><option value="free">自由線</option><option value="line">直線</option></select></div><div class="ag"><span class="agl">文字</span><input id="wtxt" type="text" placeholder="例:歩行者専用通路" style="width:150px"><input id="wfs" type="number" min="4" max="80" step="1" style="width:52px" title="文字サイズ"><select id="wdir" title="文字の向き"><option value="h">横書き</option><option value="v">縦書き</option><option value="a">線に沿う</option></select><button class="chip" data-wt="bo" title="太字"><b>B</b></button></div><div class="ag"><button class="chip" data-wt="lock" title="描いたあとも同じツールのまま続けて作図">連続作図</button></div><div class="ag" data-wf="sel"><button data-wa="flip" title="矢印の向きを逆にする">⇄ 向き反転</button><button data-wa="lreset" title="文字を線の中央に戻す">文字位置リセット</button><button data-wa="dup">⧉ 複製</button><button data-wa="del" class="dg">🗑 削除</button></div><span id="whint" class="small"></span></div><div id="abar"><span id="atype" class="atag"></span><div class="ag"><span class="agl">色</span><button class="cs" data-c="#e11d1d" style="--c:#e11d1d" title="赤"></button><button class="cs" data-c="#1d4ed8" style="--c:#1d4ed8" title="青"></button><button class="cs" data-c="#16a34a" style="--c:#16a34a" title="緑"></button><button class="cs" data-c="#facc15" style="--c:#facc15" title="黄"></button><button class="cs" data-c="#ffffff" style="--c:#ffffff" title="白"></button><input type="color" id="acol" value="#e11d1d" title="好きな色を選ぶ"></div><div class="ag"><span class="agl">線</span><input id="asw" type="range" min="0.5" max="20" step="0.5" style="width:90px;vertical-align:middle"><span id="aswv" style="min-width:26px;font-size:11px;display:inline-block">3.5</span><button class="chip" data-tg="ds" title="破線にする">破線</button></div><div class="ag" data-for="text call cloud"><span class="agl">文字</span><input id="afs" type="number" min="4" max="300" step="1" style="width:56px"><button class="chip" data-tg="bo" title="太字"><b>B</b></button><button class="chip" data-tg="af" data-sel title="枠の大きさに文字サイズを自動で合わせる">自動調整</button></div><div class="ag" data-for="arrow call" data-sel><span class="agl">矢じり</span><select id="ahd"></select></div><div class="ag" data-for="text call cloud" data-sel><button class="chip" data-tg="bd">枠線</button><button class="chip" data-tg="fl">塗り</button></div><div class="ag"><button class="chip" data-tg="lock" title="描いたあとも同じツールのまま続けて作図">連続作図</button></div><div class="ag" data-for="text call cloud" data-sel><span class="agl">角度</span><input id="arot" type="number" step="5" style="width:56px">°</div><div class="ag"><button data-a="edit" data-for="text call cloud" data-sel>✎ 文字入力</button><button data-a="rot90" data-sel title="選択物を90°回転(R)">⟳ 90°</button><button data-a="straight" data-sel id="astr">直線に戻す</button><button data-a="dup" data-sel>⧉ 複製</button><button data-a="del" data-sel class="dg">🗑 削除</button></div><span id="ahint"></span></div>
+<div id="main"><div id="hud"><button class="ib" data-tg="side" title="左パネルの表示/非表示">◧</button><button class="ib" data-tg="bar" title="ツールバーを表示">▼</button></div><div id="qbar"><div class="tg"><button class="ib" data-tg="side" title="左パネルの表示/非表示">◧</button><button class="ib" data-tg="bar" title="ツールバーを隠す">▲</button></div><div class="tg"><span class="tl">操作</span><div class="tb"><button data-q="sel" title="選択モード(Esc)">↖ 選択</button></div></div><div class="tg"><span class="tl">測る・作る</span><div class="tb"><button data-q="meas" title="2点間の距離を測定">📏 測定</button><button data-q="cal" title="図面寸法から縮尺を校正">🎯 校正</button><button data-q="scaf" title="外部足場を自動レイアウト">🏗 足場</button><button data-q="cone" title="カラーコーンを線上に自動配置">🔺 コーン</button><button data-q="fence" title="仮囲い(オレンジネット/単管メッシュ/プラゲート)を描く">🚧 仮囲い</button></div></div><div class="tg"><span class="tl">動線</span><div class="tb"><button data-w="ped" title="歩行者専用通路(緑の矢印線。なぞって描く)">🚶 歩行者専用通路</button><button data-w="veh" title="工事車輛通路(矢印線。なぞって描く)">🚚 工事車輛通路</button></div></div><div class="tg"><span class="tl">注釈</span><div class="tb"><button data-q="a-text" title="文字を入れる"><svg viewBox="0 0 20 20"><path d="M4 5V3.5h12V5M10 3.5V16M7 16h6"/></svg>文字</button><button data-q="a-arrow" title="矢印を描く"><svg viewBox="0 0 20 20"><path d="M3.5 16.5L16 4M9 4h7v7"/></svg>矢印</button><button data-q="a-call" title="引出線の上に文字を入れる"><svg viewBox="0 0 20 20"><path d="M3.5 16.5L8 9h8.5M10 5.5h5"/></svg>引出線</button><button data-q="a-cloud" title="雲形で囲む"><svg viewBox="0 0 20 20"><path d="M6 15.5a3.3 3.3 0 0 1-.4-6.5 4.4 4.4 0 0 1 8.3-1.2 3.4 3.4 0 0 1 .3 7.7z"/></svg>雲形</button></div></div><div class="tg"><span class="tl">編集</span><div class="tb"><button data-q="rot" title="選択物を90°回転(R)">⟳ 90°</button><button data-q="dup" title="選択物を複製">⧉ 複製</button><button data-q="del" class="dg" title="選択物を削除(Delete)">🗑 削除</button></div></div><div class="tg"><span class="tl">表示</span><div class="tb"><button data-q="zo" title="縮小">－</button><button data-q="z1" title="等倍">100%</button><button data-q="zi" title="拡大">＋</button><button data-q="fit" title="用紙全体を表示">全体</button></div></div><div class="tg"><span class="tl">出力</span><div class="tb"><button data-q="png">🖼 画像</button><button data-q="prt">🖨 印刷/PDF</button></div></div><span id="qsite" class="small"></span></div><div id="wbar"><span id="wtag" class="atag"></span><div class="ag"><span class="agl">色</span><span id="wsw" style="display:flex;gap:5px"></span><input type="color" id="wcol" value="#00a000" title="好きな色を選ぶ"></div><div class="ag"><span class="agl">線</span><input id="wlw" type="range" min="0.5" max="12" step="0.5" style="width:90px;vertical-align:middle"><span id="wlwv" style="min-width:26px;font-size:11px;display:inline-block">2.4</span><button class="chip" data-wt="dash" title="破線にする">破線</button></div><div class="ag"><span class="agl">矢じり</span><select id="wm"><option value="rep">連続(▷▷▷)</option><option value="end">終点のみ</option><option value="both">両端</option><option value="none">なし</option></select></div><div class="ag" data-wf="size"><span class="agl">大きさ</span><input id="whs" type="number" min="3" max="60" step="1" style="width:56px"></div><div class="ag" data-wf="pitch"><span class="agl">ピッチ</span><input id="wpi" type="number" min="0.5" max="500" step="0.5" style="width:66px"><span class="agl">m</span></div><div class="ag" data-wf="wo"><button class="chip" data-wt="dg" title="ONの間は角度自由の斜め線を引けます(PCはAltを押しながらクリックでも可。Shiftで水平・垂直に戻る)">斜め線</button></div><div class="ag" data-wf="wl"><span class="agl">線の引き方</span><select id="wom" title="自由線=なぞって描く／クリックで折れ線、水平・垂直=クリックした点を結ぶ線が自動で水平か垂直になります"><option value="free">自由線</option><option value="ortho">水平・垂直</option></select></div><div class="ag" data-wf="pen"><span class="agl">方式</span><select id="wps"><option value="free">自由線</option><option value="line">直線</option></select></div><div class="ag"><span class="agl">文字</span><input id="wtxt" type="text" placeholder="例:歩行者専用通路" style="width:150px"><input id="wfs" type="number" min="4" max="80" step="1" style="width:52px" title="文字サイズ"><select id="wdir" title="文字の向き"><option value="h">横書き</option><option value="v">縦書き</option><option value="a">線に沿う</option></select><button class="chip" data-wt="bo" title="太字"><b>B</b></button></div><div class="ag"><button class="chip" data-wt="lock" title="描いたあとも同じツールのまま続けて作図">連続作図</button></div><div class="ag" data-wf="sel"><button data-wa="flip" title="矢印の向きを逆にする">⇄ 向き反転</button><button data-wa="lreset" title="文字を線の中央に戻す">文字位置リセット</button><button data-wa="dup">⧉ 複製</button><button data-wa="del" class="dg">🗑 削除</button></div><span id="whint" class="small"></span></div><div id="abar"><span id="atype" class="atag"></span><div class="ag"><span class="agl">色</span><button class="cs" data-c="#e11d1d" style="--c:#e11d1d" title="赤"></button><button class="cs" data-c="#1d4ed8" style="--c:#1d4ed8" title="青"></button><button class="cs" data-c="#16a34a" style="--c:#16a34a" title="緑"></button><button class="cs" data-c="#facc15" style="--c:#facc15" title="黄"></button><button class="cs" data-c="#ffffff" style="--c:#ffffff" title="白"></button><input type="color" id="acol" value="#e11d1d" title="好きな色を選ぶ"></div><div class="ag"><span class="agl">線</span><input id="asw" type="range" min="0.5" max="20" step="0.5" style="width:90px;vertical-align:middle"><span id="aswv" style="min-width:26px;font-size:11px;display:inline-block">3.5</span><button class="chip" data-tg="ds" title="破線にする">破線</button></div><div class="ag" data-for="text call cloud"><span class="agl">文字</span><input id="afs" type="number" min="4" max="300" step="1" style="width:56px"><button class="chip" data-tg="bo" title="太字"><b>B</b></button><button class="chip" data-tg="af" data-sel title="枠の大きさに文字サイズを自動で合わせる">自動調整</button></div><div class="ag" data-for="arrow call" data-sel><span class="agl">矢じり</span><select id="ahd"></select></div><div class="ag" data-for="text call cloud" data-sel><button class="chip" data-tg="bd">枠線</button><button class="chip" data-tg="fl">塗り</button></div><div class="ag"><button class="chip" data-tg="lock" title="描いたあとも同じツールのまま続けて作図">連続作図</button></div><div class="ag" data-for="text call cloud" data-sel><span class="agl">角度</span><input id="arot" type="number" step="5" style="width:56px">°</div><div class="ag"><button data-a="edit" data-for="text call cloud" data-sel>✎ 文字入力</button><button data-a="rot90" data-sel title="選択物を90°回転(R)">⟳ 90°</button><button data-a="straight" data-sel id="astr">直線に戻す</button><button data-a="dup" data-sel>⧉ 複製</button><button data-a="del" data-sel class="dg">🗑 削除</button></div><span id="ahint"></span></div>
 <div id="wrap"><div id="stage"><canvas id="cv"></canvas><svg id="sv" xmlns="http://www.w3.org/2000/svg"></svg></div></div></div>
 </div>
 <div id="crm"><div id="crctl"></div><div id="crmain"><div class="row"><b>ラフター揚程図検討(側方吊り・断面)</b><button id="crClose" style="margin-left:auto">閉じる</button></div><svg id="crsv" xmlns="http://www.w3.org/2000/svg"></svg><div id="crout"></div></div></div>
@@ -1077,20 +1108,23 @@ mode();
 @media print{#wbar{display:none!important}}
 </style>
 <script>
-// ===== ペン・矢印線(歩行者専用通路/工事車輛動線/両端矢印)・線沿いの文字 =====
+// ===== ペン・矢印線(歩行者専用通路/工事車輛通路/両端矢印)・線沿いの文字 =====
 (function(){
 const q=s=>document.querySelector(s);
 const PRE={
  ped:{n:'歩行者専用通路',c:'#00a000',m:'rep',txt:'歩行者専用通路',lw:2.4,hs:12},
- veh:{n:'工事車輛動線',c:'#dc2626',m:'rep',txt:'工事車輛動線',lw:2.4,hs:12},
+ veh:{n:'工事車輛通路',c:'#dc2626',m:'rep',txt:'工事車輛通路',lw:2.4,hs:12},
  dbl:{n:'両端矢印',c:'#111111',m:'both',txt:'',lw:2.2,hs:12},
  arw:{n:'矢印線',c:'#1d4ed8',m:'rep',txt:'',lw:2.4,hs:12},
  pen:{n:'ペン',c:'#111111',m:'none',txt:'',lw:2,hs:10}};
 const SW=[['#00a000','緑'],['#dc2626','赤'],['#1d4ed8','青'],['#f97316','橙'],['#111111','黒']];
 let A=null,hv=null,lock=false;
 S.wty=S.wty||'ped';S.wps=S.wps||'free';try{S.wom=S.wom||localStorage.getItem('kasetsu.wom')||'free'}catch(e){S.wom=S.wom||'free'}if(S.wom!='ortho')S.wom='free';
+try{S.wdg=S.wdg!=null?S.wdg:localStorage.getItem('kasetsu.wdg')=='1'}catch(e){S.wdg=!!S.wdg}
 const isOrtho=()=>S.mode=='wl'&&S.wom=='ortho';
+const snapHV=e=>(isOrtho()&&!S.wdg&&!e.altKey)||e.shiftKey;
 let SET={};try{SET=JSON.parse(localStorage.getItem('kasetsu.wset')||'{}')}catch(e){}
+if(SET.veh&&SET.veh.txt=='工事車輛動線')SET.veh.txt='工事車輛通路';
 const saveSet=()=>{try{localStorage.setItem('kasetsu.wset',JSON.stringify(SET))}catch(e){}};
 const defPitch=()=>Math.max(.5,Math.round(60*(S.mpp||.07)*2)/2);
 const dv=(ty,k)=>{const d=SET[ty]||{};if(d[k]!=null)return d[k];const P=PRE[ty];return k=='pitch'?defPitch():k=='tfs'?12:k=='tdir'?'h':k=='dash'?false:k=='bo'?true:P[k]};
@@ -1150,13 +1184,13 @@ window.wDown=function(e,p){if(S.mode!='wl'&&S.mode!='pen')return false;if(e.poin
  if(S.mode=='pen'&&S.wps=='line'){if(!A)A={ty,line:true,pts:[{x:p.x,y:p.y},{x:p.x,y:p.y}],down:true,moved:false,sx:p.x,sy:p.y};else{const e2=e.shiftKey?snap45(p,A.pts[0]):p;A.pts[1]={x:e2.x,y:e2.y};commit();return true}}
  else if(S.mode=='pen'){A={ty,free:true,pts:[{x:p.x,y:p.y}],dragging:true,sx:p.x,sy:p.y}}
  else{if(!A)A={ty,free:!isOrtho(),dragging:false,pts:[{x:p.x,y:p.y}],sx:p.x,sy:p.y};
-  else{const L=last();if(isOrtho()||e.shiftKey)ortho(p,L);if(Math.hypot(p.x-L.x,p.y-L.y)*z<4)return true;A.pts.push({x:p.x,y:p.y});S.la=Date.now()}
+  else{const L=last();if(snapHV(e))ortho(p,L);if(Math.hypot(p.x-L.x,p.y-L.y)*z<4)return true;A.pts.push({x:p.x,y:p.y});S.la=Date.now()}
   if(e.pointerType!='mouse'){clearTimeout(S.lpT);S.lpOn=1;S.lp0={x:e.clientX,y:e.clientY};S.lpT=setTimeout(()=>{if(S.lpOn&&S.mode=='wl'){S.lpOn=0;if(navigator.vibrate)navigator.vibrate(20);window.wEnd()}},650)}}
  drawRaf();return true};
 window.wMove=function(e){if(S.mode!='wl'&&S.mode!='pen')return;if(!A){hv=null;return}const p=pt(e),z=zm();
  if(A.line){if(A.down&&!A.moved&&Math.hypot(p.x-A.sx,p.y-A.sy)*z>4)A.moved=true;const e2=e.shiftKey?snap45(p,A.pts[0]):p;A.pts[1]={x:e2.x,y:e2.y};drawRaf();return}
  if(A.free){if(!A.dragging&&Math.hypot(p.x-A.sx,p.y-A.sy)*z>6)A.dragging=true;if(A.dragging)addFree(p);drawRaf();return}
- if(A.pts.length){hv=ortho({x:p.x,y:p.y},(isOrtho()||e.shiftKey)?last():null);drawRaf()}};
+ if(A.pts.length){hv=ortho({x:p.x,y:p.y},snapHV(e)?last():null);drawRaf()}};
 window.addEventListener('pointerup',()=>{if(!A||(S.mode!='wl'&&S.mode!='pen'))return;
  if(A.line){if(A.down){A.down=false;if(A.moved)commit()}}
  else if(A.free){if(A.dragging)commit();else if(S.mode=='pen')cancel();else A.free=false}});
@@ -1189,15 +1223,15 @@ window.wUI=function(){const bar=q('#wbar');if(!bar)return;const c=cur();if(!c.ty
  q('#wtag').textContent=(it?'選択中:':'作図:')+PRE[c.ty].n+(!it&&c.ty=='pen'?(S.wps=='line'?'(直線)':'(自由線)'):'');
  bar.querySelectorAll('.cs').forEach(b=>b.classList.toggle('on',b.dataset.c==String(o.c).toLowerCase()));q('#wcol').value=o.c;
  q('#wlw').value=o.lw;q('#wlwv').textContent=o.lw;q('#wm').value=o.m;q('#whs').value=o.hs;q('#wpi').value=o.pitch;q('#wtxt').value=o.txt||'';q('#wfs').value=o.tfs;q('#wdir').value=o.tdir;q('#wps').value=S.wps;q('#wom').value=S.wom;
- bar.querySelectorAll('[data-wt]').forEach(b=>b.classList.toggle('on',b.dataset.wt=='dash'?!!o.dash:b.dataset.wt=='bo'?!!o.bo:lock));
- bar.querySelectorAll('[data-wf]').forEach(el=>{const f=el.dataset.wf;el.style.display=(f=='sel'?!!it:f=='pen'?(!it&&c.ty=='pen'):f=='wl'?(!it&&c.ty!='pen'):f=='size'?o.m!='none':f=='pitch'?o.m=='rep':true)?'':'none'});
- q('#whint').textContent=it?'':(S.mode=='pen'?(S.wps=='line'?'ドラッグ(またはクリック→クリック)で直線。Shiftで45°':'ドラッグで自由に描く'):(S.wom=='ortho'?'クリックした点を水平・垂直の線で結びます(ダブルクリック・Enter・右クリックで確定、Backspaceで1点戻る)':'ドラッグでなぞる／クリックで折れ線(ダブルクリック・Enter・右クリックで確定、Shiftで水平垂直)'))};
+ bar.querySelectorAll('[data-wt]').forEach(b=>b.classList.toggle('on',b.dataset.wt=='dash'?!!o.dash:b.dataset.wt=='bo'?!!o.bo:b.dataset.wt=='dg'?!!S.wdg:lock));
+ bar.querySelectorAll('[data-wf]').forEach(el=>{const f=el.dataset.wf;el.style.display=(f=='sel'?!!it:f=='pen'?(!it&&c.ty=='pen'):f=='wl'?(!it&&c.ty!='pen'):f=='wo'?(!it&&c.ty!='pen'&&S.wom=='ortho'):f=='size'?o.m!='none':f=='pitch'?o.m=='rep':true)?'':'none'});
+ q('#whint').textContent=it?'':(S.mode=='pen'?(S.wps=='line'?'ドラッグ(またはクリック→クリック)で直線。Shiftで45°':'ドラッグで自由に描く'):(S.wom=='ortho'?(S.wdg?'クリックした点を斜め(角度自由)の直線で結びます。Shiftで水平・垂直。ダブルクリック・Enter・右クリックで確定':'クリックした点を水平・垂直の線で結びます。「斜め線」ONかAlt+クリックで斜めも可。ダブルクリック・Enter・右クリックで確定、Backspaceで1点戻る'):'ドラッグでなぞる／クリックで折れ線(ダブルクリック・Enter・右クリックで確定、Shiftで水平垂直)'))};
 function wSet(k,v){const c=cur();if(!c.ty)return;c.o[k]=v;if(c.it){draw();}window.wUI()}
 (function(){const bar=q('#wbar');if(!bar)return;
  bar.querySelector('#wsw').innerHTML=SW.map(([c,t])=>`<button class="cs" data-c="${c}" style="--c:${c}" title="${t}"></button>`).join('');
  bar.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.c){wSet('c',b.dataset.c);return}
-  if(b.dataset.wt){const k=b.dataset.wt;if(k=='lock'){lock=!lock;window.wUI()}else{const c=cur();if(c.ty)wSet(k,!c.o[k])}return}
+  if(b.dataset.wt){const k=b.dataset.wt;if(k=='dg'){S.wdg=!S.wdg;try{localStorage.setItem('kasetsu.wdg',S.wdg?'1':'0')}catch(_){}window.wUI()}else if(k=='lock'){lock=!lock;window.wUI()}else{const c=cur();if(c.ty)wSet(k,!c.o[k])}return}
   const a=b.dataset.wa;if(!a)return;const it=S.items.find(i=>i.id==S.sel);if(!it||it.k!='w')return;
   if(a=='flip'){it.pts.reverse();if(it.tu!=null)it.tu=1-it.tu;draw()}
   else if(a=='lreset'){it.tp=null;it.tu=.5;draw()}
@@ -1218,8 +1252,8 @@ function wSet(k,v){const c=cur();if(!c.ty)return;c.o[k]=v;if(c.it){draw();}windo
  ['#wfs','#whs','#wpi'].forEach(s=>q(s).addEventListener('keydown',e=>e.stopPropagation()));
  q('#qbar').addEventListener('click',e=>{const b=e.target.closest('button[data-w]');if(b)wTool(b.dataset.w)})})();
 // ---- 旧データ(旧動線)の読込時変換
-window.wMig=function(it){if(!it||it.k!='w'||it.ty)return;const o=Object.assign({},it),ty=PRE[o.ft]?o.ft:'ped',P=PRE[ty];
- const oldNames=['歩行者専用動線','工事車両専用動線'];
+window.wMig=function(it){if(it&&it.k=='w'&&it.ty=='veh'){if(it.name=='工事車輛動線')it.name='工事車輛通路';if(it.txt=='工事車輛動線')it.txt='工事車輛通路'}if(!it||it.k!='w'||it.ty)return;const o=Object.assign({},it),ty=PRE[o.ft]?o.ft:'ped',P=PRE[ty];
+ const oldNames=['歩行者専用動線','工事車両専用動線','工事車輛動線'];
  it.ty=ty;it.name=P.n;it.c=o.c||P.c;it.lw=o.sw||P.lw;it.hs=o.as||P.hs;it.m=o.ad===0?'none':'rep';
  if(o.ad===-1&&it.pts)it.pts=it.pts.slice().reverse();
  it.pitch=o.asp||defPitch();it.dash=!!(o.ls&&o.ls!='solid');
@@ -1229,5 +1263,13 @@ window.wMig=function(it){if(!it||it.k!='w'||it.ty)return;const o=Object.assign({
 // ---- 2本指操作(ピンチ)開始時は描きかけの手書きを破棄
 window.wAbort=function(){if(A&&(A.free||(A.line&&A.down))){A=null;hv=null;draw()}};
 })();
+// ---- 左パネル・ツールバーの表示/非表示
+(function(){const app=document.getElementById('app'),qb=document.getElementById('qbar'),hud=document.getElementById('hud');
+ let st={};try{st=JSON.parse(localStorage.getItem('kasetsu.tb')||'{}')}catch(e){}
+ const apply=()=>{app.classList.toggle('noside',!!st.side);qb.classList.toggle('qhide',!!st.bar);hud.classList.toggle('on',!!st.bar);
+  document.querySelectorAll('[data-tg=side]').forEach(b=>{if(b.closest('h1'))b.textContent='«';else b.textContent=st.side?'▶':'◧'});
+  try{localStorage.setItem('kasetsu.tb',JSON.stringify(st))}catch(e){}};
+ document.addEventListener('click',e=>{const b=e.target.closest('[data-tg]');if(!b)return;if(b.dataset.tg=='side')st.side=!st.side;else st.bar=!st.bar;apply()});
+ apply()})();
 </script>
 </body></html>
